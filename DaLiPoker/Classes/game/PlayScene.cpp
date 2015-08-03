@@ -8,10 +8,10 @@
 
 #include "PlayScene.h"
 #include <iostream>
-#include "../model/def.h"
 #include "GameLayer.h"
 #include "PauseLayer.h"
 #include "UserChoiceLayer.h"
+#include "../model/def.h"
 
 using namespace std;
 
@@ -33,23 +33,50 @@ bool PlayScene::init(){
                             origin.y + visibleSize.height - label->getContentSize().height));
     this->addChild(label, 1);
     
+    auto closeItem = MenuItemImage::create(
+                                           "CloseNormal.png",
+                                           "CloseSelected.png",
+                                           CC_CALLBACK_1(PlayScene::menuRestart, this));
+    
+    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+                                origin.y + closeItem->getContentSize().height/2));
+    
+    auto menu = Menu::create(closeItem, NULL);
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 1);
+    
+    
     mGameLayer = GameLayer::create();
     mPauseLayer = PauseLayer::create();
     mUserChoiceLayer = UserChoiceLayer::create();
     this->addChild(mGameLayer);
     this->addChild(mPauseLayer);
     this->addChild(mUserChoiceLayer);
+    mGameLayer->setVisible(true);
     mPauseLayer->setVisible(false);
     mUserChoiceLayer->setVisible(false);
     
-    mGame = new Game();
-    mPlayer1 = new Player();
-    mPlayer2 = new Player();
-    mGame->init();
-    mGame->setPlayer(mPlayer1, mPlayer2);
-    mGame->start();
+    startGame();
     
     return true;
+}
+
+void PlayScene::startGame(){
+    delete mGame;
+    delete mPlayer1;
+    delete mPlayer2;
+    
+    mGame = new Game(GAME_MODE::SMALL);
+    mPlayer1 = new Player();
+    mPlayer1->setTag(1);
+    mPlayer2 = new Player();
+    mPlayer2->setTag(2);
+    mGame->init();
+    mGame->setPlayer(mPlayer1, mPlayer2);
+    mGame->setPlayer1ChoiceListener(this);
+    mGameLayer->setGame(mGame);
+    
+    mGame->start();
 }
 
 cocos2d::ui::Button* PlayScene::addButton(const std::string& text, const Size & size, const Vec2& position, int tag){
@@ -83,4 +110,25 @@ void PlayScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
             break;
     }
 }
+
+
+int PlayScene::makeChoice(Card* card, int availableChoice, PlayerActionCallBack* callback){
+    LOGI("UI. makeChoice  card=[%s]", card->getDisplay().c_str());
+    mGameLayer->invalidate();
+    
+    mUserChoiceLayer->setVisible(true);
+    mUserChoiceLayer->show(card, availableChoice, callback);
+    return 0;
+}
+
+void PlayScene::onFinished(){
+    LOGI("UI. onFinished");
+    mGameLayer->onFinished();
+}
+
+void PlayScene::menuRestart(Ref* pSender){
+    startGame();
+}
+
+
 

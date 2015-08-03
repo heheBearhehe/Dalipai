@@ -32,7 +32,7 @@ typedef enum mode{
 typedef enum state{
     NEW,
     INIT,
-    PLAY,
+//    PLAY,
     PAUSE,
     FINISH
 }STATE;
@@ -42,11 +42,18 @@ typedef enum state{
 //    virtual void onGameStateChanged(STATE state);
 //};
 
-
 class PlayerActionCallBack{
 public:
     virtual void onPlayerAction(Player* player, int action) = 0;
 };
+
+class PlayerChoiceListener{
+public:
+    virtual int makeChoice(Card* card, int availableChoice, PlayerActionCallBack* callback) = 0;
+    virtual void onFinished() = 0;
+};
+
+
 
 class Game : public PlayerActionCallBack{
     
@@ -72,8 +79,11 @@ public:
     int  getResetCardsCount();
     int  getOpponentCardsCount();
     int  getMyPlayerPoints();
+    int  getOpponentPoints();
     vector<Card *>* getMyPlayerCardList();
     vector<Card *>* getDiscardCardList();
+    
+    void setPlayer1ChoiceListener(PlayerChoiceListener* l);
     
     
 protected:
@@ -97,6 +107,7 @@ private:
     Player*         mNextPlayer;
     
     Recorder*       mRecorder;
+    PlayerChoiceListener* mPlayerChoiceListener;
 };
 
 

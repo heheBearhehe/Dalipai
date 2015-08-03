@@ -15,6 +15,7 @@
 
 Player::Player(){
     mKeepCardList = new vector<Card *>();
+    mChoiceListener = NULL;
 }
 
 Player::~Player(){
@@ -44,7 +45,7 @@ void Player::deal(Card* card){
     
     LOGI("%s# action=[0x%x]", this->getDumpPrefix().c_str(), action);
     
-    if(mCallback != NULL){
+    if(mCallback != NULL && action > 0){
         mCallback->onPlayerAction(this, action);
     }
 }
@@ -68,6 +69,13 @@ void Player::give(Card* card){
 
 int Player::makeChoice(Card* card, int availableChoice){
     LOGI("%s# makeChoice   availableChoice=[0x%x]", getDumpPrefix().c_str(), availableChoice);
+    int choice = 0;
+    if (mChoiceListener != NULL) {
+        choice = mChoiceListener->makeChoice(card, availableChoice, mCallback);
+        if (choice >= 0) {
+            return choice;
+        }
+    }
     if ((availableChoice & PLAYER_CHOICE_KEEP) > 0) {
         return PLAYER_CHOICE_KEEP;
     }else{
@@ -88,11 +96,14 @@ void Player::addCard(Card* card){
     mKeepCardList->push_back(card);
 }
 
-void Player::removeLastCard(){
+Card* Player::removeLastCard(){
+    Card* card = NULL;
     if (mKeepCardList->size() > 0) {
-        LOGI("%s# removeLastCard   card=[%s]", getDumpPrefix().c_str(), (*mKeepCardList->rbegin())->getDisplay().c_str());
+        card = *mKeepCardList->rbegin();
+        LOGI("%s# removeLastCard   card=[%s]", getDumpPrefix().c_str(), card->getDisplay().c_str());
         mKeepCardList->pop_back();
     }
+    return card;
 }
 
 int Player::calcPoints(){

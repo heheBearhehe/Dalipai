@@ -37,9 +37,6 @@ Game::~Game(){
     }
     delete mCardList;
     
-    for (iter = mDiscardCardList->begin(); iter != mDiscardCardList->end(); iter++){
-        delete (*iter);
-    }
     delete mDiscardCardList;
 }
 
@@ -158,6 +155,13 @@ void Game::onPlayerAction(Player* player, int action){
 //        return;
 //    }
     
+    if (player == NULL) {
+        player = mCurrentPlayer;
+        if (player == NULL) {
+            return;
+        }
+    }
+    
     LOGI("- onPlayerAction. player=[%d]  action=[%d]", player->getTag(), action);
     
     if (mRecorder != NULL) {
@@ -179,7 +183,13 @@ void Game::onPlayerAction(Player* player, int action){
             break;
             
         case Player::PLAYER_CHOICE_REMOVE:
-            mNextPlayer->removeLastCard();
+        {
+            Card* lastCard = mNextPlayer->removeLastCard();
+            if (lastCard != NULL) {
+                mDiscardCardList->push_back(lastCard);
+            }
+            mDiscardCardList->push_back(card);
+        }
             break;
             
         default:
@@ -221,6 +231,10 @@ void Game::stop(){
 }
 
 void Game::onFinished(){
+    mState = STATE::FINISH;
+    if (mPlayerChoiceListener != NULL) {
+        mPlayerChoiceListener->onFinished();
+    }
     LOGI("--------- onFinished");
     int p1Points = mPlayer1->getPoints();
     int p2Points = mPlayer2->getPoints();
@@ -258,12 +272,25 @@ int Game::getMyPlayerPoints(){
     return mPlayer1->getPoints();
 }
 
+int Game::getOpponentPoints(){
+    if (mState != STATE::FINISH) {
+        return 0;
+    }
+    
+    return mPlayer2->getPoints();
+}
+
 vector<Card *>* Game::getMyPlayerCardList(){
     return mPlayer1->getCardList();
 }
 
 vector<Card *>* Game::getDiscardCardList(){
     return this->mDiscardCardList;
+}
+
+void Game::setPlayer1ChoiceListener(PlayerChoiceListener* l) {
+    mPlayerChoiceListener = l;
+    mPlayer1->setChoiceListener(l);
 }
 
 

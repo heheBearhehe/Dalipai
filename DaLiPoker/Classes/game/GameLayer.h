@@ -24,6 +24,7 @@ public:
     void setGame(Game* game) { mGame = game;}
     void invalidate();
     virtual void update(float delta);
+    void onFinished();
     
 protected:
     void updateMyCard(std::vector<Card*>* cards);
@@ -31,6 +32,7 @@ protected:
     void updateResetCard(int count);
     void updateDiscardCards(std::vector<Card*>* cards);
     void updateGameInfo(int myPoints);
+    
     
     void drawText(const std::string& text, const cocos2d::Vec2& position, const cocos2d::Size & size);
     void drawCard(Card* card, const cocos2d::Vec2& position, const cocos2d::Size & size);

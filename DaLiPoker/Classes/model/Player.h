@@ -17,6 +17,7 @@ using std::string;
 
 class Card;
 class PlayerActionCallBack;
+class PlayerChoiceListener;
 
 class Player {
     
@@ -34,18 +35,20 @@ public:
     void setTag(int tag) { mTag = tag; };
     int getTag() { return mTag; }
     void setPlayerActionCallBack(PlayerActionCallBack* callback) { mCallback = callback; }
+    void setChoiceListener(PlayerChoiceListener* l) { mChoiceListener = l; }
     
     void deal(Card* card);
     void give(Card* card);
     
     void addCard(Card* card);
-    void removeLastCard();
+    Card* removeLastCard();
     
     Card* getLastCard();
     
     vector<Card *>* getCardList() { return mKeepCardList; }
     int             getPoints() { return calcPoints(); };
     int             calcPoints();
+    
     
 protected:
     int makeChoice(Card* card, int availableChoice);
@@ -57,6 +60,7 @@ private:
     int             mTag;
     
     PlayerActionCallBack* mCallback;
+    PlayerChoiceListener* mChoiceListener;
     
 };
 

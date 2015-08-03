@@ -20,7 +20,8 @@ bool GameLayer::init(){
         return false;
     }
     
-    test();
+//    test();
+    invalidate();
     
     return true;
 }
@@ -34,8 +35,8 @@ void GameLayer::invalidate(){
     updateMyCard(mGame->getMyPlayerCardList());
     updateOpponentCard(mGame->getOpponentCardsCount());
     updateResetCard(mGame->getResetCardsCount());
+    updateDiscardCards(mGame->getDiscardCardList());
     updateGameInfo(mGame->getMyPlayerPoints());
-    
 }
 
 void GameLayer::test(){
@@ -54,9 +55,9 @@ void GameLayer::test(){
     discardList->push_back(new Card(0, 2));
     discardList->push_back(new Card(0, 3));
     discardList->push_back(new Card(3, 0));
-    discardList->push_back(new Card(10, 2));
-    discardList->push_back(new Card(11, 1));
-    discardList->push_back(new Card(11, 1));
+    discardList->push_back(new Card(10, 1));
+    discardList->push_back(new Card(6, 1));
+    discardList->push_back(new Card(7, 1));
     discardList->push_back(new Card(3, 0));
     discardList->push_back(new Card(10, 2));
     discardList->push_back(new Card(11, 1));
@@ -99,9 +100,10 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
     int posX = origin.x + 50;
     int posY = origin.y + 50 + cardHeight;
     int visibleCardCount = 3;
+    int size = cards->size();
     
-    for(int i = 0; i < cards->size(); i++){
-        if (i < cards->size() - visibleCardCount) {
+    for(int i = 0; i < size; i++){
+        if (i < size - visibleCardCount) {
             drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
             posX += delta;
         }else{
@@ -148,6 +150,9 @@ void GameLayer::updateResetCard(int count){
     for(int i = 0; i < count; i++){
         drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
         posY -= delta;
+        if (count >= 15) {
+            break;
+        }
     }
     
     posY -= (delta + 20);
@@ -165,19 +170,20 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
     int startX = origin.x + 150;
     int posX = startX;
     int posY = origin.y + visibleSize.height / 2;
-    
-    for(int i = 0; i < cards->size(); i++){
-        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
-        
-        if (posX % 7 == 0) {
-            posY -= cardHeight - 10;
-            posX = startX;
-        }else{
-            posX += delta;
-        }
+    int start = cards->size() - 5;
+    if (start <= 0) {
+        start = 0;
+    }else{
+        drawText("...", Vec2(posX, posY), Size(cardWidth, cardHeight));
+        posX += delta;
     }
     
-    posX += delta + 20;
+    for(int i = start; i < cards->size(); i++){
+        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
+        posX += delta;
+    }
+    
+    posX += 20;
     stringstream ss;
     ss << cards->size();
     drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
@@ -200,6 +206,26 @@ void GameLayer::updateGameInfo(int myPoints){
     this->addChild(label, 1);
 }
 
+void GameLayer::onFinished(){
+    invalidate();
+    
+    int oppPts = mGame->getOpponentPoints();
+    stringstream ss;
+    ss << "对手得分: " << oppPts << "  ";
+    
+    int myPts = mGame->getMyPlayerPoints();
+    if (myPts < oppPts) {
+        ss << "您输了";
+    }else if (myPts > oppPts) {
+        ss << "您赢了";
+    }else{
+        ss << "平局";
+    }
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    this->drawText(ss.str(), Vec2(origin.x + 200, origin.y + 50), Size(200, 50));
+}
 
 
 
