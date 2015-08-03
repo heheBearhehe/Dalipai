@@ -246,5 +246,24 @@ void Game::replay(){
 }
 
 
+int Game::getResetCardsCount(){
+    return mCardList->size()- mCurrentCardIndex - 1;
+}
+
+int Game::getOpponentCardsCount(){
+    return mPlayer2->getCardList()->size();
+}
+
+int Game::getMyPlayerPoints(){
+    return mPlayer1->getPoints();
+}
+
+vector<Card *>* Game::getMyPlayerCardList(){
+    return mPlayer1->getCardList();
+}
+
+vector<Card *>* Game::getDiscardCardList(){
+    return this->mDiscardCardList;
+}
 
 

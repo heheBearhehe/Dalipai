@@ -1,4 +1,5 @@
 #include "HelloWorldScene.h"
+#include "PlayScene.h"
 #include <iostream>
 using namespace std;
 
@@ -11,6 +12,7 @@ Scene* HelloWorld::createScene()
     
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
+    layer->setTouchEnabled(false);
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -93,6 +95,9 @@ void HelloWorld::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
+            if (btn->getTag() == MAIN_BUTTONS::PLAY) {
+                Director::getInstance()->pushScene(PlayScene::create());
+            }
             break;
         case cocos2d::ui::Widget::TouchEventType::MOVED:
             break;

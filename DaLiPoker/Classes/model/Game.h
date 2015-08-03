@@ -69,6 +69,13 @@ public:
     void onFinished();
     void replay();
     
+    int  getResetCardsCount();
+    int  getOpponentCardsCount();
+    int  getMyPlayerPoints();
+    vector<Card *>* getMyPlayerCardList();
+    vector<Card *>* getDiscardCardList();
+    
+    
 protected:
     void shuffle();
     void initCards();
