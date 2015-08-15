@@ -40,7 +40,7 @@ public:
 protected:
     void test();
     
-    cocos2d::ui::Widget* createPokerFront(Card* card);
+    cocos2d::ui::Widget* createPokerFront(Card* card, float posY);
     cocos2d::ui::Widget* createPokerDisplay(Card* card, float numTextSize, float suitTextSize);
     void onAction(float dt);
     

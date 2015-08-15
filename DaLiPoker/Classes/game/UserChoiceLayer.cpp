@@ -79,10 +79,10 @@ void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callba
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    float posY = origin.y + visibleSize.height / 2 - 200;
-    createPokerFront(card);
+    float posY = origin.y + visibleSize.height / 2 - 250;
+    createPokerFront(card, posY);
     
-    posY -= 100;
+    posY -= 80;
     
     float buttonWidth = 80;
     float buttonHeight = 50;
@@ -133,7 +133,7 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
             if (mPlayerActionCallBack != NULL) {
                 this->setVisible(false);
                 mAction = btn->getTag();
-                this->scheduleOnce(schedule_selector(UserChoiceLayer::onAction), 0.5f);
+                this->scheduleOnce(schedule_selector(UserChoiceLayer::onAction), 0.01f);
             }
             
             break;
@@ -156,11 +156,10 @@ void UserChoiceLayer::onAction(float dt){
 }
 
 
-cocos2d::ui::Widget* UserChoiceLayer::createPokerFront(Card* card){
+cocos2d::ui::Widget* UserChoiceLayer::createPokerFront(Card* card, float posY){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    float posY = origin.y + visibleSize.height / 2 - 200;
     auto btnCard = addButton(card->getDisplay(), Size(100,150), Vec2(origin.x + visibleSize.width / 2, posY), 0);
     btnCard->loadTextures("poker_front_large.png", "", "", TextureResType::LOCAL);
     btnCard->setPosition(Vec2(origin.x + visibleSize.width / 2, posY + btnCard->getContentSize().height / 2));

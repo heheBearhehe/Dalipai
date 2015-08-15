@@ -98,7 +98,7 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
     float cardHeight = cardWidth * 1.5;
     float delta = cardWidth / 5;
     int posX = origin.x + 50;
-    int posY = origin.y + 50 + cardHeight;
+    int posY = origin.y + 40 + cardHeight;
     int visibleCardCount = 3;
     int size = cards->size();
     
@@ -131,17 +131,27 @@ void GameLayer::updateOpponentCard(vector<Card*>* cards){
     float cardHeight = cardWidth * 1.5;
     float delta = cardWidth / 3;
     int posX = origin.x + 50;
-    int posY = origin.y + visibleSize.height - 250;
+    int posY = origin.y + visibleSize.height - 120;
+    int visibleCardCount = 3;
     int size = cards->size();
     
     for(int i = 0; i < size; i++){
         //        drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
         
-        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
-        posX += cardWidth;
-        if (i %10 == 9) {
-            posY += cardHeight;
+//        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
+        
+        Widget* card;
+        if (i < size - visibleCardCount) {
+            card = createPokerBack(NULL);
+            delta = card->getContentSize().width / 6;
+        }else{
+            card = createPokerBack(cards->at(i));
+            delta = card->getContentSize().width / 2;
         }
+        
+        card->setPosition(Vec2(posX, posY));
+        this->addChild(card);
+        posX += delta;
     }
     
     posX += delta + 20;
@@ -156,13 +166,17 @@ void GameLayer::updateResetCard(int count){
     float cardWidth = visibleSize.width / 10;
     float cardHeight = cardWidth * 1.5;
     float delta = cardHeight / 5;
-    int posX = origin.x + 20;
+    int posX = origin.x + 50;
     int posY = origin.y + visibleSize.height - 400;
     
     for(int i = 0; i < count; i++){
-        drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
+//        drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
+        Widget* card = createPokerBack(NULL);
+        card->setPosition(Vec2(posX, posY));
+        this->addChild(card);
+        
         posY -= delta;
-        if (count >= 15) {
+        if (i >= 15) {
             break;
         }
     }
@@ -182,20 +196,24 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
     int startX = origin.x + 150;
     int posX = startX;
     int posY = origin.y + visibleSize.height / 2;
-    int start = cards->size() - 20;
-    if (start <= 0) {
-        start = 0;
-    }else{
-        drawText("...", Vec2(posX, posY), Size(cardWidth, cardHeight));
-        posX += delta;
-    }
+    int visibleCardCount = 5;
+    int size = cards->size();
     
-    for(int i = start; i < cards->size(); i++){
-        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
-        posX += delta;
-        if (i %10 == 9) {
-            posY += cardHeight;
+    for(int i = 0; i < cards->size(); i++){
+//        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
+        
+        Widget* card;
+        if (i < size - visibleCardCount) {
+            card = createPokerBack(NULL);
+            delta = card->getContentSize().width / 6;
+        }else{
+            card = createPokerBack(cards->at(i));
+            delta = card->getContentSize().width / 2;
         }
+        
+        card->setPosition(Vec2(posX, posY));
+        this->addChild(card);
+        posX += delta;
     }
     
     posX += 20;
