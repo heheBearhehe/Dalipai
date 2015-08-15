@@ -42,10 +42,13 @@ protected:
     
     cocos2d::ui::Widget* createPokerFront(Card* card);
     cocos2d::ui::Widget* createPokerDisplay(Card* card, float numTextSize, float suitTextSize);
+    void onAction(float dt);
     
 private:
     PlayerActionCallBack* mPlayerActionCallBack;
     Player* mPlayer;
+    int mAction;
+    int mCardIndex;
     
 };
 

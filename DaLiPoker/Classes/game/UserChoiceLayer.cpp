@@ -55,6 +55,7 @@ bool UserChoiceLayer::init(){
         return false;
     }
     
+    mCardIndex = 0;
 //    test();
     
     return true;
@@ -67,7 +68,11 @@ void UserChoiceLayer::test(){
 }
 
 void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callback){
+    mAction = 0;
     removeAllChildren();
+    if(card == NULL){
+        return;
+    }
     
     mPlayerActionCallBack = callback;
     
@@ -126,8 +131,9 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
             if (mPlayerActionCallBack != NULL) {
-                mPlayerActionCallBack->onPlayerAction(mPlayer, btn->getTag());
-//                this->setVisible(false);
+                this->setVisible(false);
+                mAction = btn->getTag();
+                this->scheduleOnce(schedule_selector(UserChoiceLayer::onAction), 0.5f);
             }
             
             break;
@@ -143,6 +149,12 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
     }
 }
 
+void UserChoiceLayer::onAction(float dt){
+    if (mAction > 0) {
+        mPlayerActionCallBack->onPlayerAction(mPlayer, mAction);
+    }
+}
+
 
 cocos2d::ui::Widget* UserChoiceLayer::createPokerFront(Card* card){
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -155,8 +167,7 @@ cocos2d::ui::Widget* UserChoiceLayer::createPokerFront(Card* card){
     Size contentSize = btnCard->getContentSize();
     
     int imageCount = sizeof(sCardImagesFileName)/sizeof(sCardImagesFileName[0]);
-    int index = card->getIndex();
-    string imageName = sCardImagesFileName[index % imageCount];
+    string imageName = sCardImagesFileName[mCardIndex++ % imageCount];
     
     auto img = cocos2d::ui::ImageView::create("card/" + imageName);
     img->ignoreContentAdaptWithSize(false);
