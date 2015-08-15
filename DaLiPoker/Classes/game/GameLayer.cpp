@@ -96,25 +96,26 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     float cardWidth = visibleSize.width / 10;
     float cardHeight = cardWidth * 1.5;
-    float delta = cardWidth / 3;
+    float delta = cardWidth / 5;
     int posX = origin.x + 50;
     int posY = origin.y + 50 + cardHeight;
     int visibleCardCount = 3;
     int size = cards->size();
     
     for(int i = 0; i < size; i++){
-//        if (i < size - visibleCardCount) {
-//            drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
-//            posX += delta;
-//        }else{
-//            drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
-//            posX += cardWidth;
-//        }
-        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
-        posX += cardWidth;
-        if (i %10 == 9) {
-            posY += cardHeight;
+        Widget* card;
+        if (i < size - visibleCardCount) {
+            card = createPokerFront(NULL);
+            delta = card->getContentSize().width / 6;
+        }else{
+            card = createPokerFront(cards->at(i));
+            delta = card->getContentSize().width / 2;
         }
+        
+        card->setPosition(Vec2(posX, posY));
+        this->addChild(card);
+        
+        posX += delta;
     }
     
     posX += cardWidth + 20;
@@ -241,6 +242,56 @@ void GameLayer::onFinished(){
     this->drawText(ss.str(), Vec2(origin.x + 200, origin.y + 50), Size(200, 50));
 }
 
+
+cocos2d::ui::Widget* GameLayer::createPokerFront(Card* card){
+    auto btnCard = ImageView::create("poker_front.png");
+    btnCard->ignoreContentAdaptWithSize(false);
+    btnCard->setContentSize(Size(80, 120));
+    
+    if (card != NULL) {
+        Size contentSize = btnCard->getContentSize();
+        float numTextSize = 20;
+        float suitTextSize = 10;
+        auto cardDisplay = createPokerDisplay(card, numTextSize, suitTextSize);
+        cardDisplay->setPosition(Vec2(numTextSize, contentSize.height - numTextSize * 2));
+        btnCard->addChild(cardDisplay);
+        
+        auto cardDisplayReverse = cardDisplay->clone();
+        cardDisplayReverse->setRotation(180);
+        cardDisplayReverse->setPosition(Vec2(contentSize.width - numTextSize, numTextSize * 2));
+        btnCard->addChild(cardDisplayReverse);
+    }
+    
+    return btnCard;
+}
+
+cocos2d::ui::Widget* GameLayer::createPokerDisplay(Card* card, float numTextSize, float suitTextSize){
+    auto widget = Widget::create();
+    
+    auto btnCardText = cocos2d::ui::Button::create();
+    btnCardText->setTitleText(card->getDisplayNum());
+    btnCardText->setTitleColor(Color3B::BLACK);
+    btnCardText->setTitleFontSize(numTextSize);
+    btnCardText->setPosition(Vec2(0, numTextSize));
+    widget->addChild(btnCardText);
+    
+    
+    auto btnCardSuit = cocos2d::ui::Button::create();
+    btnCardSuit->setTitleText(card->getDisplaySuit());
+    btnCardSuit->setTitleColor(Color3B::BLACK);
+    btnCardSuit->setTitleFontSize(suitTextSize);
+    btnCardSuit->setPosition(Vec2(0, 0));
+    widget->addChild(btnCardSuit);
+    
+    return widget;
+}
+
+cocos2d::ui::Widget* GameLayer::createPokerBack(Card* card){
+    auto btnCard = ImageView::create("poker_back.png");
+    btnCard->ignoreContentAdaptWithSize(false);
+    btnCard->setContentSize(Size(80, 120));
+    return btnCard;
+}
 
 
 

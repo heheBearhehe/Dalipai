@@ -139,6 +139,7 @@ bool PlayScene::onChoiceMade(Player* player, int choice, Card* currentCard, Card
 void PlayScene::onFinished(){
     LOGI("UI. onFinished");
     mGameLayer->onFinished();
+    mUserChoiceLayer->setVisible(false);
 }
 
 void PlayScene::menuRestart(Ref* pSender){

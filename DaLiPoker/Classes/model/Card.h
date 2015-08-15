@@ -36,7 +36,8 @@ public:
     int getIndex() { return mRank * SUIT::COUNT + mSuit; }
     
     string getDisplay();
-    string getDisplayInCard();
+    string getDisplaySuit();
+    string getDisplayNum();
     
 private:
     int mRank;

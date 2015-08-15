@@ -33,6 +33,9 @@ protected:
     void updateDiscardCards(std::vector<Card*>* cards);
     void updateGameInfo(int myPoints);
     
+    cocos2d::ui::Widget* createPokerFront(Card* card);
+    cocos2d::ui::Widget* createPokerBack(Card* card);
+    cocos2d::ui::Widget* createPokerDisplay(Card* card, float numTextSize, float suitTextSize);
     
     void drawText(const std::string& text, const cocos2d::Vec2& position, const cocos2d::Size & size);
     void drawCard(Card* card, const cocos2d::Vec2& position, const cocos2d::Size & size);

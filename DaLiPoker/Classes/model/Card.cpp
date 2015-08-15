@@ -31,9 +31,10 @@ string Card::getDisplay(){
     return string(buffer);
 }
 
-string Card::getDisplayInCard(){
-    char buffer[1024] = {};
-    sprintf(buffer, "%s\n%s", RANK_DISPLAY_LIST[mRank].c_str(), SUIT_DISPLAY_LIST[mSuit].c_str());
-    
-    return string(buffer);
+string Card::getDisplaySuit(){
+    return SUIT_DISPLAY_LIST[mSuit];
+}
+
+string Card::getDisplayNum(){
+    return RANK_DISPLAY_LIST[mRank];
 }

@@ -40,6 +40,9 @@ public:
 protected:
     void test();
     
+    cocos2d::ui::Widget* createPokerFront(Card* card);
+    cocos2d::ui::Widget* createPokerDisplay(Card* card, float numTextSize, float suitTextSize);
+    
 private:
     PlayerActionCallBack* mPlayerActionCallBack;
     Player* mPlayer;

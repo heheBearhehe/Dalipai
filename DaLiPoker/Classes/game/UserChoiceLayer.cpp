@@ -42,29 +42,7 @@ void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callba
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     float posY = origin.y + visibleSize.height / 2 - 200;
-    auto btnCard = addButton(card->getDisplay(), Size(100,150), Vec2(origin.x + visibleSize.width / 2, posY), 0);
-    btnCard->loadTextures("poker_front_large.png", "", "", TextureResType::LOCAL);
-    btnCard->setPosition(Vec2(origin.x + visibleSize.width / 2, posY + btnCard->getContentSize().height / 2));
-    
-    Size contentSize = btnCard->getContentSize();
-    auto img = cocos2d::ui::ImageView::create("反正也是挣.jpg");
-    img->ignoreContentAdaptWithSize(false);
-    img->setContentSize(Size(contentSize.width - 100, contentSize.height - 100));
-    img->setPosition(Vec2(contentSize.width / 2, contentSize.height / 2));
-    btnCard->addChild(img);
-    
-    auto btnCardDisplay = cocos2d::ui::Button::create();
-    btnCardDisplay->setTitleText(card->getDisplayInCard());
-    
-    btnCardDisplay->setTitleColor(Color3B::BLACK);
-    btnCardDisplay->setTitleFontSize(40);
-    btnCardDisplay->setPosition(Vec2(60, contentSize.height - 80));
-    btnCard->addChild(btnCardDisplay);
-    
-    auto btnCardDisplayReverse = btnCardDisplay->clone();
-    btnCardDisplayReverse->setRotation(180);
-    btnCardDisplayReverse->setPosition(Vec2(contentSize.width - 60, 80));
-    btnCard->addChild(btnCardDisplayReverse);
+    createPokerFront(card);
     
     posY -= 100;
     
@@ -130,4 +108,58 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
         default:
             break;
     }
+}
+
+
+cocos2d::ui::Widget* UserChoiceLayer::createPokerFront(Card* card){
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    float posY = origin.y + visibleSize.height / 2 - 200;
+    auto btnCard = addButton(card->getDisplay(), Size(100,150), Vec2(origin.x + visibleSize.width / 2, posY), 0);
+    btnCard->loadTextures("poker_front_large.png", "", "", TextureResType::LOCAL);
+    btnCard->setPosition(Vec2(origin.x + visibleSize.width / 2, posY + btnCard->getContentSize().height / 2));
+    
+    Size contentSize = btnCard->getContentSize();
+    auto img = cocos2d::ui::ImageView::create("反正也是挣.jpg");
+    img->ignoreContentAdaptWithSize(false);
+    img->setContentSize(Size(contentSize.width - 100, contentSize.height - 100));
+    img->setPosition(Vec2(contentSize.width / 2, contentSize.height / 2));
+    btnCard->addChild(img);
+    
+    
+    contentSize = btnCard->getContentSize();
+    float numTextSize = 40;
+    float suitTextSize = 30;
+    auto cardDisplay = createPokerDisplay(card, numTextSize, suitTextSize);
+    cardDisplay->setPosition(Vec2(50, contentSize.height - 100));
+    btnCard->addChild(cardDisplay);
+    
+    auto cardDisplayReverse = cardDisplay->clone();
+    cardDisplayReverse->setRotation(180);
+    cardDisplayReverse->setPosition(Vec2(contentSize.width - 50, 100));
+    btnCard->addChild(cardDisplayReverse);
+    
+    return btnCard;
+}
+
+cocos2d::ui::Widget* UserChoiceLayer::createPokerDisplay(Card* card, float numTextSize, float suitTextSize){
+    auto widget = Widget::create();
+    
+    auto btnCardText = cocos2d::ui::Button::create();
+    btnCardText->setTitleText(card->getDisplayNum());
+    btnCardText->setTitleColor(Color3B::BLACK);
+    btnCardText->setTitleFontSize(numTextSize);
+    btnCardText->setPosition(Vec2(0, numTextSize));
+    widget->addChild(btnCardText);
+    
+    
+    auto btnCardSuit = cocos2d::ui::Button::create();
+    btnCardSuit->setTitleText(card->getDisplaySuit());
+    btnCardSuit->setTitleColor(Color3B::BLACK);
+    btnCardSuit->setTitleFontSize(suitTextSize);
+    btnCardSuit->setPosition(Vec2(0, 0));
+    widget->addChild(btnCardSuit);
+    
+    return widget;
 }
