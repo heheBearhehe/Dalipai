@@ -16,6 +16,39 @@ USING_NS_CC;
 
 USING_NS_CC;
 
+static string sCardImagesFileName[] = {
+    "No作No待.jpg",
+    "上课代表.jpg",
+    "乌鸦喝水.jpg",
+    "他叫金十亿.jpg",
+//    "偶遇.jpg",
+//    "军训生存指南.jpg",
+//    "友情与爱情.jpg",
+//    "反正也是挣.jpg",
+//    "天赐良缘.jpg",
+//    "学有所长.jpg",
+//    "宽容.png",
+//    "对影成三人.jpg",
+//    "小马过河.jpg",
+//    "我要创业.jpg",
+//    "我要当学霸.jpg",
+//    "手有余箱.jpg",
+//    "换位教学.jpg",
+//    "文学家.jpg",
+//    "有妹子远方来.jpg",
+//    "朝三暮四.jpg",
+//    "深不见底.jpg",
+//    "焦大武馆.jpg",
+//    "略知一二.jpg",
+//    "第二性.jpg",
+//    "等号.jpg",
+//    "自学成才.jpg",
+//    "衣食住情.jpg",
+//    "谈面子.jpg",
+//    "距离.jpg",
+//    "锄禾日当午.jpg",
+};
+
 
 bool UserChoiceLayer::init(){
     if (!Layer::init()){
@@ -119,9 +152,13 @@ cocos2d::ui::Widget* UserChoiceLayer::createPokerFront(Card* card){
     auto btnCard = addButton(card->getDisplay(), Size(100,150), Vec2(origin.x + visibleSize.width / 2, posY), 0);
     btnCard->loadTextures("poker_front_large.png", "", "", TextureResType::LOCAL);
     btnCard->setPosition(Vec2(origin.x + visibleSize.width / 2, posY + btnCard->getContentSize().height / 2));
-    
     Size contentSize = btnCard->getContentSize();
-    auto img = cocos2d::ui::ImageView::create("反正也是挣.jpg");
+    
+    int imageCount = sizeof(sCardImagesFileName)/sizeof(sCardImagesFileName[0]);
+    int index = card->getIndex();
+    string imageName = sCardImagesFileName[index % imageCount];
+    
+    auto img = cocos2d::ui::ImageView::create("card/" + imageName);
     img->ignoreContentAdaptWithSize(false);
     img->setContentSize(Size(contentSize.width - 100, contentSize.height - 100));
     img->setPosition(Vec2(contentSize.width / 2, contentSize.height / 2));

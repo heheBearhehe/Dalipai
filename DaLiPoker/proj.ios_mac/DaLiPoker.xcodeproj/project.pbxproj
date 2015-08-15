@@ -37,6 +37,7 @@
 		41E941871B7F4E8E00A98625 /* btn_choice.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941841B7F4E8E00A98625 /* btn_choice.png */; };
 		41E941881B7F4E8E00A98625 /* poker_front_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941851B7F4E8E00A98625 /* poker_front_large.png */; };
 		41E9418A1B7F502500A98625 /* 反正也是挣.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41E941891B7F502500A98625 /* 反正也是挣.jpg */; };
+		41E9418C1B7F685800A98625 /* card in Resources */ = {isa = PBXBuildFile; fileRef = 41E9418B1B7F685800A98625 /* card */; };
 		46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7719C43A67006E1F66 /* CloseSelected.png */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
@@ -135,6 +136,7 @@
 		41E941841B7F4E8E00A98625 /* btn_choice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_choice.png; sourceTree = "<group>"; };
 		41E941851B7F4E8E00A98625 /* poker_front_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_front_large.png; sourceTree = "<group>"; };
 		41E941891B7F502500A98625 /* 反正也是挣.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "反正也是挣.jpg"; path = "card/反正也是挣.jpg"; sourceTree = "<group>"; };
+		41E9418B1B7F685800A98625 /* card */ = {isa = PBXFileReference; lastKnownFileType = folder; path = card; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		46880B7719C43A67006E1F66 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				41E9418B1B7F685800A98625 /* card */,
 				41E941891B7F502500A98625 /* 反正也是挣.jpg */,
 				41E941831B7F4E8E00A98625 /* btn_choice_h.png */,
 				41E941841B7F4E8E00A98625 /* btn_choice.png */,
@@ -501,6 +504,7 @@
 				41E941861B7F4E8E00A98625 /* btn_choice_h.png in Resources */,
 				41E9417E1B7F448400A98625 /* Images.xcassets in Resources */,
 				41E941791B7F440C00A98625 /* Default-568h@2x.png in Resources */,
+				41E9418C1B7F685800A98625 /* card in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
