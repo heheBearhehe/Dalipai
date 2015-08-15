@@ -23,16 +23,26 @@
 		4132CFA31B6FA07900F42F1A /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF991B6FA07900F42F1A /* Utils.cpp */; };
 		4132CFA61B6FA22000F42F1A /* UserChoiceLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CFA41B6FA22000F42F1A /* UserChoiceLayer.cpp */; };
 		419847621B6E5FF000F8A29B /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419847611B6E5FF000F8A29B /* HelloWorldScene.cpp */; };
+		41E941681B7F399400A98625 /* game_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41E941641B7F399400A98625 /* game_bg.jpg */; };
+		41E941691B7F399400A98625 /* poker_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941651B7F399400A98625 /* poker_back.png */; };
+		41E9416A1B7F399400A98625 /* poker_discard.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941661B7F399400A98625 /* poker_discard.png */; };
+		41E9416B1B7F399400A98625 /* poker_front.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941671B7F399400A98625 /* poker_front.png */; };
+		41E941721B7F409C00A98625 /* HelloWorld.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41E941711B7F409C00A98625 /* HelloWorld.jpg */; };
+		41E941791B7F440C00A98625 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941751B7F440C00A98625 /* Default-568h@2x.png */; };
+		41E9417A1B7F440C00A98625 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941761B7F440C00A98625 /* Default-667h@2x.png */; };
+		41E9417B1B7F440C00A98625 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941771B7F440C00A98625 /* Default.png */; };
+		41E9417C1B7F440C00A98625 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941781B7F440C00A98625 /* Default@2x.png */; };
+		41E9417E1B7F448400A98625 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41E9417D1B7F448400A98625 /* Images.xcassets */; };
+		41E941861B7F4E8E00A98625 /* btn_choice_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941831B7F4E8E00A98625 /* btn_choice_h.png */; };
+		41E941871B7F4E8E00A98625 /* btn_choice.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941841B7F4E8E00A98625 /* btn_choice.png */; };
+		41E941881B7F4E8E00A98625 /* poker_front_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941851B7F4E8E00A98625 /* poker_front_large.png */; };
+		41E9418A1B7F502500A98625 /* 反正也是挣.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41E941891B7F502500A98625 /* 反正也是挣.jpg */; };
 		46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7719C43A67006E1F66 /* CloseSelected.png */; };
-		46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7A19C43A67006E1F66 /* HelloWorld.png */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
 		503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FF17EB989F00D1A890 /* RootViewController.mm */; };
-		5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5087E77217EB970100C73F5D /* Default-568h@2x.png */; };
-		5087E77E17EB970100C73F5D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5087E77317EB970100C73F5D /* Default.png */; };
-		5087E77F17EB970100C73F5D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5087E77417EB970100C73F5D /* Default@2x.png */; };
 		5087E78017EB970100C73F5D /* Icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = 5087E77517EB970100C73F5D /* Icon-114.png */; };
 		5087E78117EB970100C73F5D /* Icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 5087E77617EB970100C73F5D /* Icon-120.png */; };
 		5087E78217EB970100C73F5D /* Icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = 5087E77717EB970100C73F5D /* Icon-144.png */; };
@@ -46,8 +56,6 @@
 		50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF629517ECD46A001EB2F8 /* Icon-100.png */; };
 		50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A017ECD613001EB2F8 /* Icon-29.png */; };
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
-		521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6219F0C34300D177D7 /* Default-667h@2x.png */; };
-		521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6319F0C34300D177D7 /* Default-736h@3x.png */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -113,9 +121,22 @@
 		4132CFA41B6FA22000F42F1A /* UserChoiceLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UserChoiceLayer.cpp; sourceTree = "<group>"; };
 		4132CFA51B6FA22000F42F1A /* UserChoiceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserChoiceLayer.h; sourceTree = "<group>"; };
 		419847611B6E5FF000F8A29B /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
+		41E941641B7F399400A98625 /* game_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = game_bg.jpg; sourceTree = "<group>"; };
+		41E941651B7F399400A98625 /* poker_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_back.png; sourceTree = "<group>"; };
+		41E941661B7F399400A98625 /* poker_discard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_discard.png; sourceTree = "<group>"; };
+		41E941671B7F399400A98625 /* poker_front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_front.png; sourceTree = "<group>"; };
+		41E941711B7F409C00A98625 /* HelloWorld.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = HelloWorld.jpg; sourceTree = "<group>"; };
+		41E941751B7F440C00A98625 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		41E941761B7F440C00A98625 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
+		41E941771B7F440C00A98625 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		41E941781B7F440C00A98625 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		41E9417D1B7F448400A98625 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "DaLiPoker iOS/Images.xcassets"; sourceTree = SOURCE_ROOT; };
+		41E941831B7F4E8E00A98625 /* btn_choice_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_choice_h.png; sourceTree = "<group>"; };
+		41E941841B7F4E8E00A98625 /* btn_choice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_choice.png; sourceTree = "<group>"; };
+		41E941851B7F4E8E00A98625 /* poker_front_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_front_large.png; sourceTree = "<group>"; };
+		41E941891B7F502500A98625 /* 反正也是挣.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "反正也是挣.jpg"; path = "card/反正也是挣.jpg"; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		46880B7719C43A67006E1F66 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
-		46880B7A19C43A67006E1F66 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		46880B8719C43A87006E1F66 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
@@ -131,9 +152,6 @@
 		503AE10417EB98FF00D1A890 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = mac/Prefix.pch; sourceTree = "<group>"; };
 		503AE11117EB99EE00D1A890 /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
 		503AE11A17EB9C5A00D1A890 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		5087E77217EB970100C73F5D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		5087E77317EB970100C73F5D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		5087E77417EB970100C73F5D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		5087E77517EB970100C73F5D /* Icon-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-114.png"; sourceTree = "<group>"; };
 		5087E77617EB970100C73F5D /* Icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-120.png"; sourceTree = "<group>"; };
 		5087E77717EB970100C73F5D /* Icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-144.png"; sourceTree = "<group>"; };
@@ -150,8 +168,6 @@
 		50EF629517ECD46A001EB2F8 /* Icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-100.png"; sourceTree = "<group>"; };
 		50EF62A017ECD613001EB2F8 /* Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29.png"; sourceTree = "<group>"; };
 		50EF62A117ECD613001EB2F8 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
-		521A8E6219F0C34300D177D7 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
-		521A8E6319F0C34300D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -295,11 +311,20 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				41E941891B7F502500A98625 /* 反正也是挣.jpg */,
+				41E941831B7F4E8E00A98625 /* btn_choice_h.png */,
+				41E941841B7F4E8E00A98625 /* btn_choice.png */,
+				41E941851B7F4E8E00A98625 /* poker_front_large.png */,
+				41E9417D1B7F448400A98625 /* Images.xcassets */,
+				41E941711B7F409C00A98625 /* HelloWorld.jpg */,
+				41E941641B7F399400A98625 /* game_bg.jpg */,
+				41E941651B7F399400A98625 /* poker_back.png */,
+				41E941661B7F399400A98625 /* poker_discard.png */,
+				41E941671B7F399400A98625 /* poker_front.png */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 				3EACC98E19EE6D4300EB3C5E /* res */,
 				46880B7619C43A67006E1F66 /* CloseNormal.png */,
 				46880B7719C43A67006E1F66 /* CloseSelected.png */,
-				46880B7A19C43A67006E1F66 /* HelloWorld.png */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -342,11 +367,10 @@
 		5087E77117EB970100C73F5D /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				521A8E6219F0C34300D177D7 /* Default-667h@2x.png */,
-				521A8E6319F0C34300D177D7 /* Default-736h@3x.png */,
-				5087E77217EB970100C73F5D /* Default-568h@2x.png */,
-				5087E77317EB970100C73F5D /* Default.png */,
-				5087E77417EB970100C73F5D /* Default@2x.png */,
+				41E941751B7F440C00A98625 /* Default-568h@2x.png */,
+				41E941761B7F440C00A98625 /* Default-667h@2x.png */,
+				41E941771B7F440C00A98625 /* Default.png */,
+				41E941781B7F440C00A98625 /* Default@2x.png */,
 				50EF62A017ECD613001EB2F8 /* Icon-29.png */,
 				50EF62A117ECD613001EB2F8 /* Icon-50.png */,
 				50EF629217ECD46A001EB2F8 /* Icon-40.png */,
@@ -448,27 +472,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
+				41E941691B7F399400A98625 /* poker_back.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
-				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
+				41E941681B7F399400A98625 /* game_bg.jpg in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
-				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
-				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
-				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
+				41E9416B1B7F399400A98625 /* poker_front.png in Resources */,
+				41E9417B1B7F440C00A98625 /* Default.png in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
+				41E9417C1B7F440C00A98625 /* Default@2x.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
+				41E9418A1B7F502500A98625 /* 反正也是挣.jpg in Resources */,
+				41E9417A1B7F440C00A98625 /* Default-667h@2x.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
+				41E941881B7F4E8E00A98625 /* poker_front_large.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
+				41E9416A1B7F399400A98625 /* poker_discard.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
-				5087E77E17EB970100C73F5D /* Default.png in Resources */,
-				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
+				41E941871B7F4E8E00A98625 /* btn_choice.png in Resources */,
 				46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */,
+				41E941721B7F409C00A98625 /* HelloWorld.jpg in Resources */,
+				41E941861B7F4E8E00A98625 /* btn_choice_h.png in Resources */,
+				41E9417E1B7F448400A98625 /* Images.xcassets in Resources */,
+				41E941791B7F440C00A98625 /* Default-568h@2x.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

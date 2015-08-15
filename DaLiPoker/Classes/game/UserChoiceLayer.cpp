@@ -42,21 +42,49 @@ void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callba
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     float posY = origin.y + visibleSize.height / 2 - 200;
-    addButton(card->getDisplay(), Size(100,150), Vec2(origin.x + visibleSize.width / 2, posY), 0);
+    auto btnCard = addButton(card->getDisplay(), Size(100,150), Vec2(origin.x + visibleSize.width / 2, posY), 0);
+    btnCard->loadTextures("poker_front_large.png", "", "", TextureResType::LOCAL);
+    btnCard->setPosition(Vec2(origin.x + visibleSize.width / 2, posY + btnCard->getContentSize().height / 2));
+    
+    Size contentSize = btnCard->getContentSize();
+    auto img = cocos2d::ui::ImageView::create("反正也是挣.jpg");
+    img->ignoreContentAdaptWithSize(false);
+    img->setContentSize(Size(contentSize.width - 100, contentSize.height - 100));
+    img->setPosition(Vec2(contentSize.width / 2, contentSize.height / 2));
+    btnCard->addChild(img);
+    
+    auto btnCardDisplay = cocos2d::ui::Button::create();
+    btnCardDisplay->setTitleText(card->getDisplayInCard());
+    
+    btnCardDisplay->setTitleColor(Color3B::BLACK);
+    btnCardDisplay->setTitleFontSize(40);
+    btnCardDisplay->setPosition(Vec2(60, contentSize.height - 80));
+    btnCard->addChild(btnCardDisplay);
+    
+    auto btnCardDisplayReverse = btnCardDisplay->clone();
+    btnCardDisplayReverse->setRotation(180);
+    btnCardDisplayReverse->setPosition(Vec2(contentSize.width - 60, 80));
+    btnCard->addChild(btnCardDisplayReverse);
     
     posY -= 100;
     
+    float buttonWidth = 80;
+    float buttonHeight = 50;
     if(options == Player::PLAYER_CHOICE_KEEP_FOR_GIVE || options == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE){
-        addButton("确定", Size(80,50), Vec2(origin.x + visibleSize.width / 2, posY), options);
+        auto btn = addButton("确定", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2, posY), options);
+        btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width / 4, posY));
     }else{
         if ((options & Player::PLAYER_CHOICE_GIVE) > 0) {
-            addButton("给", Size(80,50), Vec2(origin.x + visibleSize.width / 2 - 150, posY), Player::PLAYER_CHOICE_GIVE);
+            auto btn = addButton("给", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2 - 150, posY), Player::PLAYER_CHOICE_GIVE);
+            btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width * 5 / 4, posY));
         }
         if ((options & Player::PLAYER_CHOICE_KEEP) > 0) {
-            addButton("收", Size(80,50), Vec2(origin.x + visibleSize.width / 2, posY), Player::PLAYER_CHOICE_KEEP);
+            auto btn = addButton("收", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2, posY), Player::PLAYER_CHOICE_KEEP);
+            btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width / 4, posY));
         }
         if ((options & Player::PLAYER_CHOICE_DISCARD) > 0) {
-            addButton("弃", Size(80,50), Vec2(origin.x + visibleSize.width / 2 + 150, posY), Player::PLAYER_CHOICE_DISCARD);
+            auto btn = addButton("弃", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2 + 150, posY), Player::PLAYER_CHOICE_DISCARD);
+            btn->setPosition(Vec2(origin.x + visibleSize.width / 2 + btn->getContentSize().width * 3 / 4, posY));
         }
     }
 }
@@ -64,7 +92,8 @@ void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callba
 
 
 cocos2d::ui::Button* UserChoiceLayer::addButton(const std::string& text, const Size & size, const Vec2& position, int tag){
-    auto btn = cocos2d::ui::Button::create();
+    auto btn = cocos2d::ui::Button::create("btn_choice.png", "btn_choice_h.png", "btn_choice_d.png", TextureResType::LOCAL);
+//    btn->setUnifySizeEnabled(false);
     btn->setTag(tag);
     btn->setTitleText(text);
     

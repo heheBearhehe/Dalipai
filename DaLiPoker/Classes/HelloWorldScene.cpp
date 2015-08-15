@@ -10,6 +10,12 @@ Scene* HelloWorld::createScene()
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    auto bg = Sprite::create("game_bg.jpg");
+    bg->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
+    scene->addChild(bg, 0);
+    
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
     layer->setTouchEnabled(false);
@@ -31,6 +37,12 @@ bool HelloWorld::init()
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    
+    Sprite* pSprite = Sprite::create("game_bg.jpg");
+    pSprite->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
+    this->addChild(pSprite, 0);
+    
     
     auto label = Label::create();
     label->setString("大李牌");

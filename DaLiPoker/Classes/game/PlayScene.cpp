@@ -25,6 +25,10 @@ bool PlayScene::init(){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
+    auto bg = Sprite::create("game_bg.jpg");
+    bg->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
+    this->addChild(bg, 0);
+    
     auto label = Label::create();
     label->setString("大李牌");
     label->setSystemFontSize(30);
