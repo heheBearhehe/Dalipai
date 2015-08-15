@@ -45,14 +45,19 @@ void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callba
     addButton(card->getDisplay(), Size(100,150), Vec2(origin.x + visibleSize.width / 2, posY), 0);
     
     posY -= 100;
-    if ((options & Player::PLAYER_CHOICE_GIVE) > 0) {
-        addButton("给", Size(80,50), Vec2(origin.x + visibleSize.width / 2 - 150, posY), Player::PLAYER_CHOICE_GIVE);
-    }
-    if ((options & Player::PLAYER_CHOICE_KEEP) > 0) {
-        addButton("收", Size(80,50), Vec2(origin.x + visibleSize.width / 2, posY), Player::PLAYER_CHOICE_KEEP);
-    }
-    if ((options & Player::PLAYER_CHOICE_DISCARD) > 0) {
-        addButton("弃", Size(80,50), Vec2(origin.x + visibleSize.width / 2 + 150, posY), Player::PLAYER_CHOICE_DISCARD);
+    
+    if(options == Player::PLAYER_CHOICE_KEEP_FOR_GIVE || options == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE){
+        addButton("确定", Size(80,50), Vec2(origin.x + visibleSize.width / 2, posY), options);
+    }else{
+        if ((options & Player::PLAYER_CHOICE_GIVE) > 0) {
+            addButton("给", Size(80,50), Vec2(origin.x + visibleSize.width / 2 - 150, posY), Player::PLAYER_CHOICE_GIVE);
+        }
+        if ((options & Player::PLAYER_CHOICE_KEEP) > 0) {
+            addButton("收", Size(80,50), Vec2(origin.x + visibleSize.width / 2, posY), Player::PLAYER_CHOICE_KEEP);
+        }
+        if ((options & Player::PLAYER_CHOICE_DISCARD) > 0) {
+            addButton("弃", Size(80,50), Vec2(origin.x + visibleSize.width / 2 + 150, posY), Player::PLAYER_CHOICE_DISCARD);
+        }
     }
 }
 
@@ -81,7 +86,7 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
             if (mPlayerActionCallBack != NULL) {
-                mPlayerActionCallBack->onPlayerAction(NULL, btn->getTag());
+                mPlayerActionCallBack->onPlayerAction(mPlayer, btn->getTag());
 //                this->setVisible(false);
             }
             

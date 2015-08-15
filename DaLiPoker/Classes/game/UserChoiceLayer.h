@@ -15,6 +15,7 @@
 
 class Card;
 class PlayerActionCallBack;
+class Player;
 
 typedef enum buttons{
     HELP,
@@ -29,6 +30,7 @@ public:
     virtual bool init();
     CREATE_FUNC(UserChoiceLayer);
     
+    void setPlayer(Player* player) { mPlayer = player; }
     void show(Card* card, int options, PlayerActionCallBack* callback);
     
     
@@ -40,6 +42,7 @@ protected:
     
 private:
     PlayerActionCallBack* mPlayerActionCallBack;
+    Player* mPlayer;
     
 };
 

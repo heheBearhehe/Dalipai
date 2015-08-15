@@ -25,7 +25,11 @@ public:
     static const int PLAYER_CHOICE_KEEP    = 0x01;
     static const int PLAYER_CHOICE_DISCARD = 0x02;
     static const int PLAYER_CHOICE_GIVE    = 0x04;
-    static const int PLAYER_CHOICE_REMOVE  = 0x08;
+    
+    static const int PLAYER_CHOICE_KEEP_FOR_GIVE    = 0x08;
+    static const int PLAYER_CHOICE_REMOVE_FOR_GIVE  = 0x10;
+    
+    static const int PLAYER_CHOICE_DEAL    = 0x20;
     
     Player();
     ~Player();

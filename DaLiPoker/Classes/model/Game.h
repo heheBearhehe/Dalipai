@@ -37,7 +37,6 @@ typedef enum state{
     FINISH
 }STATE;
 
-
 //class GameListener{
 //    virtual void onGameStateChanged(STATE state);
 //};
@@ -49,7 +48,8 @@ public:
 
 class PlayerChoiceListener{
 public:
-    virtual int makeChoice(Card* card, int availableChoice, PlayerActionCallBack* callback) = 0;
+    virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback) = 0;
+    virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard) = 0;
     virtual void onFinished() = 0;
 };
 
@@ -77,7 +77,7 @@ public:
     void replay();
     
     int  getResetCardsCount();
-    int  getOpponentCardsCount();
+    vector<Card *>* getOpponentCardsList();
     int  getMyPlayerPoints();
     int  getOpponentPoints();
     vector<Card *>* getMyPlayerCardList();
@@ -89,6 +89,7 @@ public:
 protected:
     void shuffle();
     void initCards();
+    void switchPlayer();
     
     void dumpCards();
     

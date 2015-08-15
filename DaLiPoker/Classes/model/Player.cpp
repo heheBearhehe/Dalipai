@@ -46,6 +46,9 @@ void Player::deal(Card* card){
     LOGI("%s# action=[0x%x]", this->getDumpPrefix().c_str(), action);
     
     if(mCallback != NULL && action > 0){
+        if (mChoiceListener != NULL) {
+            mChoiceListener->onChoiceMade(this, action, card, lastCard);
+        }
         mCallback->onPlayerAction(this, action);
     }
 }
@@ -56,14 +59,20 @@ void Player::give(Card* card){
     int action;
     
     if(std::abs(float(lastCard->getRank()) - card->getRank()) <= 1){
-        action = PLAYER_CHOICE_REMOVE;
+        action = PLAYER_CHOICE_REMOVE_FOR_GIVE;
     }else{
-        action = PLAYER_CHOICE_KEEP;
+        action = PLAYER_CHOICE_KEEP_FOR_GIVE;
     }
+    action = this->makeChoice(card, action);
     
     LOGI("%s# action=[0x%x]", getDumpPrefix().c_str(), action);
-    if(mCallback != NULL){
-        mCallback->onPlayerAction(this, action);
+    if(mCallback != NULL && action > 0){
+        if (mChoiceListener != NULL) {
+            mChoiceListener->onChoiceMade(this, action, card, lastCard);
+        }
+        if(mCallback != NULL){
+            mCallback->onPlayerAction(this, action);
+        }
     }
 }
 
@@ -71,15 +80,22 @@ int Player::makeChoice(Card* card, int availableChoice){
     LOGI("%s# makeChoice   availableChoice=[0x%x]", getDumpPrefix().c_str(), availableChoice);
     int choice = 0;
     if (mChoiceListener != NULL) {
-        choice = mChoiceListener->makeChoice(card, availableChoice, mCallback);
+        choice = mChoiceListener->makeChoice(this, card, availableChoice, mCallback);
         if (choice >= 0) {
             return choice;
         }
     }
+    
     if ((availableChoice & PLAYER_CHOICE_KEEP) > 0) {
         return PLAYER_CHOICE_KEEP;
-    }else{
+    }else if ((availableChoice & PLAYER_CHOICE_GIVE) > 0){
         return PLAYER_CHOICE_GIVE;
+    }else if ((availableChoice & PLAYER_CHOICE_REMOVE_FOR_GIVE) > 0){
+        return PLAYER_CHOICE_REMOVE_FOR_GIVE;
+    }else if ((availableChoice & PLAYER_CHOICE_KEEP_FOR_GIVE) > 0){
+        return PLAYER_CHOICE_KEEP_FOR_GIVE;
+    }else{
+        LOGI("%s# ERROR makeChoice  card=[%s] availableChoice=[0x%x]", getDumpPrefix().c_str(), card, availableChoice);
     }
 }
 

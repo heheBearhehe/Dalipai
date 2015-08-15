@@ -33,7 +33,7 @@ void GameLayer::invalidate(){
     }
     
     updateMyCard(mGame->getMyPlayerCardList());
-    updateOpponentCard(mGame->getOpponentCardsCount());
+    updateOpponentCard(mGame->getOpponentCardsList());
     updateResetCard(mGame->getResetCardsCount());
     updateDiscardCards(mGame->getDiscardCardList());
     updateGameInfo(mGame->getMyPlayerPoints());
@@ -69,7 +69,7 @@ void GameLayer::test(){
     
     updateMyCard(myCards);
     updateDiscardCards(discardList);
-    updateOpponentCard(opponentCardCount);
+    updateOpponentCard(discardList);
     updateResetCard(resetCardCount);
     updateGameInfo(myPoints);
 }
@@ -103,12 +103,17 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
     int size = cards->size();
     
     for(int i = 0; i < size; i++){
-        if (i < size - visibleCardCount) {
-            drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
-            posX += delta;
-        }else{
-            drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
-            posX += cardWidth;
+//        if (i < size - visibleCardCount) {
+//            drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
+//            posX += delta;
+//        }else{
+//            drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
+//            posX += cardWidth;
+//        }
+        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
+        posX += cardWidth;
+        if (i %10 == 9) {
+            posY += cardHeight;
         }
     }
     
@@ -118,23 +123,29 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
     drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
 }
 
-void GameLayer::updateOpponentCard(int count){
+void GameLayer::updateOpponentCard(vector<Card*>* cards){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     float cardWidth = visibleSize.width / 10;
     float cardHeight = cardWidth * 1.5;
     float delta = cardWidth / 3;
     int posX = origin.x + 50;
-    int posY = origin.y + visibleSize.height - 200;
+    int posY = origin.y + visibleSize.height - 250;
+    int size = cards->size();
     
-    for(int i = 0; i < count; i++){
-        drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
-        posX += delta;
+    for(int i = 0; i < size; i++){
+        //        drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
+        
+        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
+        posX += cardWidth;
+        if (i %10 == 9) {
+            posY += cardHeight;
+        }
     }
     
     posX += delta + 20;
     stringstream ss;
-    ss << count;
+    ss << size;
     drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
 }
 
@@ -170,7 +181,7 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
     int startX = origin.x + 150;
     int posX = startX;
     int posY = origin.y + visibleSize.height / 2;
-    int start = cards->size() - 5;
+    int start = cards->size() - 20;
     if (start <= 0) {
         start = 0;
     }else{
@@ -181,6 +192,9 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
     for(int i = start; i < cards->size(); i++){
         drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
         posX += delta;
+        if (i %10 == 9) {
+            posY += cardHeight;
+        }
     }
     
     posX += 20;

@@ -73,11 +73,11 @@ bool Game::init(){
 }
 
 void Game::initCards(){
-    int numMin = 1;
-    int numMax = 13;
+    int numMin = 0;
+    int numMax = 12;
     if (mGameMode == GAME_MODE::SMALL) {
-        numMin = 3;
-        numMax = 11;
+        numMin = 2;
+        numMax = 10;
     }
     
     int numCount = numMax - numMin + 1;
@@ -142,18 +142,24 @@ void Game::next(){
     if (mCurrentCardIndex >= mCardList->size()) {
         onFinished();
     }else{
-        Player* temp = mCurrentPlayer;
-        mCurrentPlayer = mNextPlayer;
-        mNextPlayer = temp;
-        
         deal();
     }
+}
+
+void Game::switchPlayer(){
+    Player* temp = mCurrentPlayer;
+    mCurrentPlayer = mNextPlayer;
+    mNextPlayer = temp;
 }
 
 void Game::onPlayerAction(Player* player, int action){
 //    if (player != mCurrentPlayer && mCurrentPlayer != NULL) {
 //        return;
 //    }
+    
+    if (mCurrentCardIndex >= mCardList->size()) {
+        return;
+    }
     
     if (player == NULL) {
         player = mCurrentPlayer;
@@ -168,34 +174,49 @@ void Game::onPlayerAction(Player* player, int action){
         mRecorder->addPlayerAction(player->getTag(), action);
     }
     
-    Card* card = mCardList->at(mCurrentCardIndex);
+    Card* currentCard = mCardList->at(mCurrentCardIndex);
+    Card* lastCard = NULL;
     switch (action) {
         case Player::PLAYER_CHOICE_KEEP:
-            player->addCard(card);
+            player->addCard(currentCard);
+            switchPlayer();
             break;
         
         case Player::PLAYER_CHOICE_DISCARD:
-            mDiscardCardList->push_back(card);
+            mDiscardCardList->push_back(currentCard);
+            if (mPlayerChoiceListener != NULL) {
+                mPlayerChoiceListener->onChoiceMade(player, action, currentCard, lastCard);
+            }
+            switchPlayer();
             break;
             
         case Player::PLAYER_CHOICE_GIVE:
-            mNextPlayer->give(card);
+            if (mPlayerChoiceListener != NULL) {
+                mPlayerChoiceListener->onChoiceMade(player, action, currentCard, lastCard);
+            }
+            switchPlayer();
+            mCurrentPlayer->give(currentCard);
             break;
             
-        case Player::PLAYER_CHOICE_REMOVE:
+        case Player::PLAYER_CHOICE_REMOVE_FOR_GIVE:
         {
-            Card* lastCard = mNextPlayer->removeLastCard();
+            lastCard = mCurrentPlayer->removeLastCard();
             if (lastCard != NULL) {
                 mDiscardCardList->push_back(lastCard);
             }
-            mDiscardCardList->push_back(card);
+            mDiscardCardList->push_back(currentCard);
+            if (mPlayerChoiceListener != NULL) {
+                mPlayerChoiceListener->onChoiceMade(mNextPlayer, action, currentCard, lastCard);
+            }
+            break;
         }
+        case Player::PLAYER_CHOICE_KEEP_FOR_GIVE:
+            player->addCard(currentCard);
             break;
             
         default:
             break;
     }
-    
     
     if (action != Player::PLAYER_CHOICE_GIVE) {
         next();
@@ -211,6 +232,9 @@ void Game::deal(){
     
     if (mCurrentCardIndex >= 0 && mCurrentCardIndex < mCardList->size()) {
         Card* card = mCardList->at(mCurrentCardIndex);
+        if (mPlayerChoiceListener != NULL) {
+            mPlayerChoiceListener->onChoiceMade(mCurrentPlayer, Player::PLAYER_CHOICE_DEAL, card, NULL);
+        }
         
         if (mPlayMode == PLAY_MODE::AUTO) {
             mCurrentPlayer->deal(card);
@@ -264,8 +288,8 @@ int Game::getResetCardsCount(){
     return mCardList->size()- mCurrentCardIndex - 1;
 }
 
-int Game::getOpponentCardsCount(){
-    return mPlayer2->getCardList()->size();
+vector<Card *>* Game::getOpponentCardsList(){
+    return mPlayer2->getCardList();
 }
 
 int Game::getMyPlayerPoints(){

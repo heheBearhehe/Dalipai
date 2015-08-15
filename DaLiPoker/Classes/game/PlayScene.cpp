@@ -49,6 +49,7 @@ bool PlayScene::init(){
     mGameLayer = GameLayer::create();
     mPauseLayer = PauseLayer::create();
     mUserChoiceLayer = UserChoiceLayer::create();
+    mUserChoiceLayer->setPlayer(mPlayer1);
     this->addChild(mGameLayer);
     this->addChild(mPauseLayer);
     this->addChild(mUserChoiceLayer);
@@ -112,13 +113,23 @@ void PlayScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
 }
 
 
-int PlayScene::makeChoice(Card* card, int availableChoice, PlayerActionCallBack* callback){
+int PlayScene::makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback){
     LOGI("UI. makeChoice  card=[%s]", card->getDisplay().c_str());
+    if (player == mPlayer2) {
+        return 0;
+    }
+    
     mGameLayer->invalidate();
     
     mUserChoiceLayer->setVisible(true);
     mUserChoiceLayer->show(card, availableChoice, callback);
     return 0;
+}
+
+bool PlayScene::onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard){
+    LOGI("UI. onChoiceMade  player=[%d] choice=[%d] current=[%s] last=[%s]",
+         player->getTag(), choice, currentCard->getDisplay().c_str(), lastCard == NULL? "" : lastCard->getDisplay().c_str());
+    return false;
 }
 
 void PlayScene::onFinished(){

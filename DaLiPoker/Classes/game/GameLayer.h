@@ -28,7 +28,7 @@ public:
     
 protected:
     void updateMyCard(std::vector<Card*>* cards);
-    void updateOpponentCard(int count);
+    void updateOpponentCard(std::vector<Card*>* cards);
     void updateResetCard(int count);
     void updateDiscardCards(std::vector<Card*>* cards);
     void updateGameInfo(int myPoints);
