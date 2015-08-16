@@ -192,34 +192,41 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     float cardWidth = visibleSize.width / 10;
     float cardHeight = cardWidth * 1.5;
-    float delta = cardWidth;
-    int startX = origin.x + 150;
-    int posX = startX;
-    int posY = origin.y + visibleSize.height / 2;
-    int visibleCardCount = 5;
+    int width = visibleSize.width / 3;
+    int startX = origin.x + visibleSize.width / 3;
+    int height = width;
+    int minX = startX;
+    int maxX = minX + width;
+    int minY = origin.y + visibleSize.height / 2 - height / 2;
+    int maxY = minY + height;
+    int posX = minX;
+    int posY = minY;
     int size = cards->size();
     
-    for(int i = 0; i < cards->size(); i++){
-//        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
-        
+    for(int i = 0; i < size; i++){
         Widget* card;
-        if (i < size - visibleCardCount) {
-            card = createPokerBack(NULL);
-            delta = card->getContentSize().width / 6;
+        card = createPokerFront(cards->at(i));
+        if (i == size - 1) {
+            posX = minX + (maxX - minX) / 2;
+            posY = minY + (maxY - minY) / 2 - cardHeight / 2;
         }else{
-            card = createPokerBack(cards->at(i));
-            delta = card->getContentSize().width / 2;
+            int rotation = (i + 7) % 10;
+            int x = (i + 2) % 5;
+            int y = i % 3;
+            posX = minX + (maxX - minX) / 5 * x + cardWidth / 2;
+            posY = minY + (maxY - minY) / 3 * y;
+            
+            card->setRotation(36 * rotation + 10);
         }
         
         card->setPosition(Vec2(posX, posY));
         this->addChild(card);
-        posX += delta;
     }
     
     posX += 20;
     stringstream ss;
     ss << cards->size();
-    drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
+    drawText(ss.str(), Vec2(maxX + cardWidth, posY), Size(cardWidth, cardHeight));
 }
 
 void GameLayer::updateGameInfo(int myPoints){

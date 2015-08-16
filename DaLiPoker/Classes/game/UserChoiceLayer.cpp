@@ -80,7 +80,8 @@ void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callba
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     float posY = origin.y + visibleSize.height / 2 - 250;
-    createPokerFront(card, posY);
+    auto largeImg = createPokerFront(card, posY);
+    largeImg->setTouchEnabled(false);
     
     posY -= 80;
     
@@ -127,6 +128,10 @@ cocos2d::ui::Button* UserChoiceLayer::addButton(const std::string& text, const S
 void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     cocos2d::ui::Button* btn = (cocos2d::ui::Button*)ref;
     LOGI("UI. touchEvent  tag=[%d]", btn->getTag());
+    
+    if (btn->getTag() <= 0) {
+        return;
+    }
     
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
