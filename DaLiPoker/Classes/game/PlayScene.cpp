@@ -76,7 +76,6 @@ void PlayScene::startGame(){
     mPlayer1->setTag(1);
     mPlayer2 = new Player();
     mPlayer2->setTag(2);
-    mGame->init();
     mGame->setPlayer(mPlayer1, mPlayer2);
     mGame->setPlayer1ChoiceListener(this);
     mGame->setGameStateListener(this);
@@ -152,9 +151,43 @@ void PlayScene::menuRestart(Ref* pSender){
 void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* card2){
     LOGI("PlayScene.onActionExecuted  action=[%x] player=[%d] c1=[%s] c2=[%s]", action, player->getTag(), card1 == NULL? "" : card1->getDisplay().c_str(), card2 == NULL? "" : card2->getDisplay().c_str());
     
+    float delayTime;
+    string message;
+    if (player != NULL && player->getTag() == 2) {
+        delayTime = 0.5f;
+        switch (action) {
+            case Player::PLAYER_CHOICE_KEEP:
+            message = "对方留牌";
+            break;
+            
+            case Player::PLAYER_CHOICE_DISCARD:
+            message = "对方弃牌";
+            break;
+            
+            case Player::PLAYER_CHOICE_GIVE:
+            message = "对方给你牌";
+            break;
+            
+            case Player::PLAYER_CHOICE_KEEP_FOR_GIVE:
+            message = "对方留下了您给的牌";
+            break;
+            
+            case Player::PLAYER_CHOICE_REMOVE_FOR_GIVE:
+            message = "对方弃了2张牌";
+            break;
+            
+            default:
+            break;
+        }
+        mGameLayer->setMessage(message);
+    }else{
+        delayTime = 0.2f;
+        mGameLayer->clearMessage();
+    }
+    
     mGameLayer->invalidate();
     
-    DelayTime * delayAction = DelayTime::create(0.1f);
+    DelayTime * delayAction = DelayTime::create(delayTime);
     CC_CALLBACK_0(PlayScene::onAction, this);
     CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
     this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));

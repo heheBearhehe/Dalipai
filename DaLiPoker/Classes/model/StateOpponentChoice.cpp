@@ -67,7 +67,7 @@ bool StateOpponentChoice::execute(){
     default:
         break;
     }
-    mGame->onActionExecuted(Player::PLAYER_CHOICE_KEEP_FOR_GIVE, oppenentPlayer, currentCard, lastCard);
+    mGame->onActionExecuted(action, oppenentPlayer, currentCard, lastCard);
     
     return StateBase::execute();
 }

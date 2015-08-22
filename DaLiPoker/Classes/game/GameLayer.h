@@ -22,11 +22,14 @@ public:
     CREATE_FUNC(GameLayer);
     
     void setGame(Game* game) { mGame = game;}
+    void setMessage(const std::string& message);
+    void clearMessage();
     void invalidate();
     virtual void update(float delta);
     void onFinished();
     
 protected:
+    void updateMesage();
     void updateMyCard(std::vector<Card*>* cards);
     void updateOpponentCard(std::vector<Card*>* cards);
     void updateResetCard(int count);
@@ -44,6 +47,7 @@ protected:
     
 private:
     Game* mGame;
+    std::string mMessage;
     
 };
 

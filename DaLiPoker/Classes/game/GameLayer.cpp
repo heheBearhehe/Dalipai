@@ -26,6 +26,10 @@ bool GameLayer::init(){
     return true;
 }
 
+void GameLayer::setMessage(const std::string& message){
+    mMessage = message;
+}
+
 void GameLayer::invalidate(){
     this->removeAllChildren();
     if (mGame == NULL) {
@@ -37,6 +41,7 @@ void GameLayer::invalidate(){
     updateResetCard(mGame->getResetCardsCount());
     updateDiscardCards(mGame->getDiscardCardList());
     updateGameInfo(mGame->getMyPlayerPoints());
+    updateMesage();
 }
 
 void GameLayer::test(){
@@ -91,6 +96,28 @@ void GameLayer::drawText(const string& text, const Vec2& position, const Size & 
     this->addChild(label, 1);
 }
 
+void GameLayer::updateMesage(){
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    int posX = origin.x + visibleSize.width / 2;
+    int posY = origin.y + visibleSize.height - 180;
+    
+    auto label = Label::create();
+    label->setContentSize(Size(100, 40));
+    label->setString(mMessage);
+    label->setSystemFontSize(30);
+    label->setColor(Color3B::BLACK);
+    label->setPosition(Vec2(posX,posY));
+    label->setTag(1000);
+    this->addChild(label, 1);
+}
+
+void GameLayer::clearMessage(){
+    mMessage = "";
+    this->removeChildByTag(1000);
+    updateMesage();
+}
+
 void GameLayer::updateMyCard(vector<Card*>* cards){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -131,7 +158,7 @@ void GameLayer::updateOpponentCard(vector<Card*>* cards){
     float cardHeight = cardWidth * 1.5;
     float delta = cardWidth / 3;
     int posX = origin.x + 50;
-    int posY = origin.y + visibleSize.height - 120;
+    int posY = origin.y + visibleSize.height - 110;
     int visibleCardCount = 3;
     int size = cards->size();
     

@@ -109,7 +109,7 @@ void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callba
 
 
 cocos2d::ui::Button* UserChoiceLayer::addButton(const std::string& text, const Size & size, const Vec2& position, int tag){
-    auto btn = cocos2d::ui::Button::create("btn_choice.png", "btn_choice_h.png", "btn_choice_d.png", TextureResType::LOCAL);
+    auto btn = cocos2d::ui::Button::create("btn_choice.png", "btn_choice_h.png", "", TextureResType::LOCAL);
 //    btn->setUnifySizeEnabled(false);
     btn->setTag(tag);
     btn->setTitleText(text);
