@@ -22,6 +22,13 @@
 		4132CFA21B6FA07900F42F1A /* Recorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF971B6FA07900F42F1A /* Recorder.cpp */; };
 		4132CFA31B6FA07900F42F1A /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF991B6FA07900F42F1A /* Utils.cpp */; };
 		4132CFA61B6FA22000F42F1A /* UserChoiceLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CFA41B6FA22000F42F1A /* UserChoiceLayer.cpp */; };
+		4169E6741B8876CA00331C75 /* StateInit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6721B8876CA00331C75 /* StateInit.cpp */; };
+		4169E6771B8876D800331C75 /* StateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6751B8876D800331C75 /* StateBase.cpp */; };
+		4169E67A1B8876EF00331C75 /* StateDeal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6781B8876EF00331C75 /* StateDeal.cpp */; };
+		4169E67D1B88770000331C75 /* StatePlayerChoice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E67B1B88770000331C75 /* StatePlayerChoice.cpp */; };
+		4169E6801B88772D00331C75 /* StateOpponentChoice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E67E1B88772D00331C75 /* StateOpponentChoice.cpp */; };
+		4169E6831B88773D00331C75 /* StateSwitchPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6811B88773D00331C75 /* StateSwitchPlayer.cpp */; };
+		4169E6891B887B7900331C75 /* StateFinish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6871B887B7900331C75 /* StateFinish.cpp */; };
 		419847621B6E5FF000F8A29B /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419847611B6E5FF000F8A29B /* HelloWorldScene.cpp */; };
 		41E941681B7F399400A98625 /* game_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41E941641B7F399400A98625 /* game_bg.jpg */; };
 		41E941691B7F399400A98625 /* poker_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941651B7F399400A98625 /* poker_back.png */; };
@@ -121,6 +128,20 @@
 		4132CF9A1B6FA07900F42F1A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		4132CFA41B6FA22000F42F1A /* UserChoiceLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UserChoiceLayer.cpp; sourceTree = "<group>"; };
 		4132CFA51B6FA22000F42F1A /* UserChoiceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserChoiceLayer.h; sourceTree = "<group>"; };
+		4169E6721B8876CA00331C75 /* StateInit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateInit.cpp; sourceTree = "<group>"; };
+		4169E6731B8876CA00331C75 /* StateInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateInit.h; sourceTree = "<group>"; };
+		4169E6751B8876D800331C75 /* StateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateBase.cpp; sourceTree = "<group>"; };
+		4169E6761B8876D800331C75 /* StateBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateBase.h; sourceTree = "<group>"; };
+		4169E6781B8876EF00331C75 /* StateDeal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateDeal.cpp; sourceTree = "<group>"; };
+		4169E6791B8876EF00331C75 /* StateDeal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateDeal.h; sourceTree = "<group>"; };
+		4169E67B1B88770000331C75 /* StatePlayerChoice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StatePlayerChoice.cpp; sourceTree = "<group>"; };
+		4169E67C1B88770000331C75 /* StatePlayerChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatePlayerChoice.h; sourceTree = "<group>"; };
+		4169E67E1B88772D00331C75 /* StateOpponentChoice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateOpponentChoice.cpp; sourceTree = "<group>"; };
+		4169E67F1B88772D00331C75 /* StateOpponentChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateOpponentChoice.h; sourceTree = "<group>"; };
+		4169E6811B88773D00331C75 /* StateSwitchPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateSwitchPlayer.cpp; sourceTree = "<group>"; };
+		4169E6821B88773D00331C75 /* StateSwitchPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateSwitchPlayer.h; sourceTree = "<group>"; };
+		4169E6871B887B7900331C75 /* StateFinish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateFinish.cpp; sourceTree = "<group>"; };
+		4169E6881B887B7900331C75 /* StateFinish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateFinish.h; sourceTree = "<group>"; };
 		419847611B6E5FF000F8A29B /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
 		41E941641B7F399400A98625 /* game_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = game_bg.jpg; sourceTree = "<group>"; };
 		41E941651B7F399400A98625 /* poker_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_back.png; sourceTree = "<group>"; };
@@ -293,6 +314,7 @@
 		4132CF8D1B6FA07900F42F1A /* model */ = {
 			isa = PBXGroup;
 			children = (
+				4169E6711B8876B500331C75 /* state */,
 				4132CF8E1B6FA07900F42F1A /* AIPlayer.cpp */,
 				4132CF8F1B6FA07900F42F1A /* AIPlayer.h */,
 				4132CF901B6FA07900F42F1A /* Card.cpp */,
@@ -308,6 +330,27 @@
 				4132CF9A1B6FA07900F42F1A /* Utils.h */,
 			);
 			path = model;
+			sourceTree = "<group>";
+		};
+		4169E6711B8876B500331C75 /* state */ = {
+			isa = PBXGroup;
+			children = (
+				4169E6721B8876CA00331C75 /* StateInit.cpp */,
+				4169E6731B8876CA00331C75 /* StateInit.h */,
+				4169E6751B8876D800331C75 /* StateBase.cpp */,
+				4169E6761B8876D800331C75 /* StateBase.h */,
+				4169E6781B8876EF00331C75 /* StateDeal.cpp */,
+				4169E6791B8876EF00331C75 /* StateDeal.h */,
+				4169E67B1B88770000331C75 /* StatePlayerChoice.cpp */,
+				4169E67C1B88770000331C75 /* StatePlayerChoice.h */,
+				4169E67E1B88772D00331C75 /* StateOpponentChoice.cpp */,
+				4169E67F1B88772D00331C75 /* StateOpponentChoice.h */,
+				4169E6811B88773D00331C75 /* StateSwitchPlayer.cpp */,
+				4169E6821B88773D00331C75 /* StateSwitchPlayer.h */,
+				4169E6871B887B7900331C75 /* StateFinish.cpp */,
+				4169E6881B887B7900331C75 /* StateFinish.h */,
+			);
+			name = state;
 			sourceTree = "<group>";
 		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
@@ -519,13 +562,20 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				419847621B6E5FF000F8A29B /* HelloWorldScene.cpp in Sources */,
 				4132CF9D1B6FA07900F42F1A /* PlayScene.cpp in Sources */,
+				4169E6801B88772D00331C75 /* StateOpponentChoice.cpp in Sources */,
+				4169E6831B88773D00331C75 /* StateSwitchPlayer.cpp in Sources */,
+				4169E67A1B8876EF00331C75 /* StateDeal.cpp in Sources */,
+				4169E6741B8876CA00331C75 /* StateInit.cpp in Sources */,
+				4169E6771B8876D800331C75 /* StateBase.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				4132CFA21B6FA07900F42F1A /* Recorder.cpp in Sources */,
+				4169E67D1B88770000331C75 /* StatePlayerChoice.cpp in Sources */,
 				4132CF9C1B6FA07900F42F1A /* PauseLayer.cpp in Sources */,
 				4132CFA01B6FA07900F42F1A /* Game.cpp in Sources */,
 				4132CFA61B6FA22000F42F1A /* UserChoiceLayer.cpp in Sources */,
+				4169E6891B887B7900331C75 /* StateFinish.cpp in Sources */,
 				4132CFA31B6FA07900F42F1A /* Utils.cpp in Sources */,
 				4132CFA11B6FA07900F42F1A /* Player.cpp in Sources */,
 				4132CF9E1B6FA07900F42F1A /* AIPlayer.cpp in Sources */,
@@ -643,7 +693,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d671db8f-1e92-433a-b2af-db375da1a556";
+				PROVISIONING_PROFILE = "c34dca28-f75a-4848-9121-7bc4c4ec7e54";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -653,7 +703,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Hanxiong Wang (SR8YE8438U)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hanxiong Wang (RAG5RFUBYC)";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -674,7 +724,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d671db8f-1e92-433a-b2af-db375da1a556";
+				PROVISIONING_PROFILE = "acaa22ab-f827-4234-882b-2db584b7bf73";
 				SDKROOT = macosx;
 				VALIDATE_PRODUCT = YES;
 			};

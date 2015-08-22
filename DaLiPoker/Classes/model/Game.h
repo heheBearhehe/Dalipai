@@ -11,12 +11,14 @@
 
 #include <stdio.h>
 #include <vector>
+#include "Utils.h"
 
 using std::vector;
 
 class Card;
 class Player;
 class Recorder;
+class StateBase;
 
 
 typedef enum playmode{
@@ -30,20 +32,19 @@ typedef enum mode{
 }GAME_MODE;
 
 typedef enum state{
-    NEW,
     INIT,
-//    PLAY,
+    PLAYER_DEAL,  // deal
+    PLAYER_CHOICE,   // keep/discard/give
+    PLAYER_OPPENENT_CHOICE, // auto keep/discard
+    PLAYER_SWITCH,    // switch to next player
+    FINISH,
     PAUSE,
-    FINISH
 }STATE;
-
-//class GameListener{
-//    virtual void onGameStateChanged(STATE state);
-//};
 
 class PlayerActionCallBack{
 public:
     virtual void onPlayerAction(Player* player, int action) = 0;
+    virtual void execute() = 0;
 };
 
 class PlayerChoiceListener{
@@ -51,6 +52,12 @@ public:
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback) = 0;
     virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard) = 0;
     virtual void onFinished() = 0;
+};
+
+
+class GameStateListener{
+public:
+    virtual void onActionExecuted(int action, Player* player, Card* card1, Card* card2) = 0;
 };
 
 
@@ -66,10 +73,19 @@ public:
     bool setPlayer(Player* player1, Player* player2);
     bool start();
     
+public:
+    Player* currentPlayer() { return mCurrentPlayer; }
+    Player* oppenentPlayer() { return mNextPlayer; }
+    void nextState(STATE nextState);
+    void onActionExecuted(int action, Player* player, Card* card1, Card* card2);
+    Card* currentCard();
+    void makeChoice(Player* player, Card* card, int availableChoice);
+    
+
     virtual void onPlayerAction(Player* player, int action);
     
-    void deal();
     void next();
+    void execute();
 
     void pause();
     void stop();
@@ -84,6 +100,8 @@ public:
     vector<Card *>* getDiscardCardList();
     
     void setPlayer1ChoiceListener(PlayerChoiceListener* l);
+    void setPlayer2ChoiceListener(PlayerChoiceListener* l);
+    void setGameStateListener(GameStateListener* l);
     
     
 protected:
@@ -92,6 +110,14 @@ protected:
     void switchPlayer();
     
     void dumpCards();
+    
+    StateBase* getState(STATE state);
+    
+    friend class StateInit;
+    friend class StateDeal;
+    friend class StatePlayerChoice;
+    friend class StateSwitchPlayer;
+    friend class StateOpponentChoice;
     
 private:
     PLAY_MODE       mPlayMode;
@@ -109,6 +135,12 @@ private:
     
     Recorder*       mRecorder;
     PlayerChoiceListener* mPlayerChoiceListener;
+    PlayerChoiceListener* mPlayer2ChoiceListener;
+    GameStateListener*    mGameStateListener;
+    
+    StateBase*      mCurrentState;
+    vector<StateBase *>* mStateList;
+    int             mPlayerAction;
 };
 
 

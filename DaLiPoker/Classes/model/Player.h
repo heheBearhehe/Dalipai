@@ -22,6 +22,7 @@ class PlayerChoiceListener;
 class Player {
     
 public:
+    static const int PLAYER_CHOICE_AUTO    = 0x00;
     static const int PLAYER_CHOICE_KEEP    = 0x01;
     static const int PLAYER_CHOICE_DISCARD = 0x02;
     static const int PLAYER_CHOICE_GIVE    = 0x04;
@@ -41,8 +42,8 @@ public:
     void setPlayerActionCallBack(PlayerActionCallBack* callback) { mCallback = callback; }
     void setChoiceListener(PlayerChoiceListener* l) { mChoiceListener = l; }
     
-    void deal(Card* card);
-    void give(Card* card);
+//    void deal(Card* card);
+//    void give(Card* card);
     
     void addCard(Card* card);
     Card* removeLastCard();
@@ -54,8 +55,11 @@ public:
     int             calcPoints();
     
     
+    friend class StatePlayerChoice;
+    friend class StateOpponentChoice;
+    
 protected:
-    int makeChoice(Card* card, int availableChoice);
+//    int makeChoice(Card* card, int availableChoice);
     
     
 private:

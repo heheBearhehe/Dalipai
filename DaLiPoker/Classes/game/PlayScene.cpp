@@ -79,9 +79,11 @@ void PlayScene::startGame(){
     mGame->init();
     mGame->setPlayer(mPlayer1, mPlayer2);
     mGame->setPlayer1ChoiceListener(this);
+    mGame->setGameStateListener(this);
     mGameLayer->setGame(mGame);
     
     mGame->start();
+    mGame->next();
 }
 
 cocos2d::ui::Button* PlayScene::addButton(const std::string& text, const Size & size, const Vec2& position, int tag){
@@ -146,5 +148,22 @@ void PlayScene::menuRestart(Ref* pSender){
     startGame();
 }
 
+
+void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* card2){
+    LOGI("PlayScene.onActionExecuted  action=[%x] player=[%d] c1=[%s] c2=[%s]", action, player->getTag(), card1 == NULL? "" : card1->getDisplay().c_str(), card2 == NULL? "" : card2->getDisplay().c_str());
+    
+    mGameLayer->invalidate();
+    
+    DelayTime * delayAction = DelayTime::create(0.1f);
+    CC_CALLBACK_0(PlayScene::onAction, this);
+    CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
+    this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+    
+}
+                                           
+void PlayScene::onAction(){
+    LOGI("PlayScene.onAction");
+    mGame->next();
+}
 
 

@@ -157,6 +157,7 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
 void UserChoiceLayer::onAction(float dt){
     if (mAction > 0) {
         mPlayerActionCallBack->onPlayerAction(mPlayer, mAction);
+        mPlayerActionCallBack->execute();
     }
 }
 

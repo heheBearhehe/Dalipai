@@ -11,6 +11,14 @@
 #include "Player.h"
 #include "Recorder.h"
 #include "Utils.h"
+#include "AIPlayer.h"
+
+#include "StateInit.h"
+#include "StateDeal.h"
+#include "StatePlayerChoice.h"
+#include "StateOpponentChoice.h"
+#include "StateSwitchPlayer.h"
+#include "StateFinish.h"
 
 #include <iostream>
 #include <random>
@@ -23,10 +31,22 @@ Game::Game(GAME_MODE mode){
     mCardList = new vector<Card *>();
     mDiscardCardList = new vector<Card *>();
     mGameMode = mode;
-    mState = STATE::NEW;
+    mState = STATE::INIT;
     mPlayer1 = NULL;
     mPlayer2 = NULL;
     mRecorder = NULL;
+    mPlayerChoiceListener = NULL;
+    mPlayer2ChoiceListener = NULL;
+    
+    mStateList = new vector<StateBase *>();
+    mStateList->push_back(new StateInit(this));
+    mStateList->push_back(new StateDeal(this));
+    mStateList->push_back(new StatePlayerChoice(this));
+    mStateList->push_back(new StateOpponentChoice(this));
+    mStateList->push_back(new StateSwitchPlayer(this));
+    mStateList->push_back(new StateFinish(this));
+    
+    mCurrentState = getState(STATE::INIT);
 }
 
 Game::~Game(){
@@ -38,14 +58,13 @@ Game::~Game(){
     delete mCardList;
     
     delete mDiscardCardList;
+    delete mPlayer2ChoiceListener;
 }
 
 bool Game::init(){
-    if(mState != STATE::NEW){
-        return false;
-    }
-    
     mState = STATE::INIT;
+    mCurrentState = getState(STATE::INIT);
+    mCurrentCardIndex = 0;
     
     if (mPlayMode == PLAY_MODE::AUTO) {
         initCards();
@@ -118,32 +137,30 @@ bool Game::setPlayer(Player* player1, Player* player2){
 }
 
 bool Game::start(){
-    LOGI("- start");
-
-    if(mState != STATE::INIT){
-        LOGI("*** start. not init");
-        return false;
-    }
-    
     if(mPlayer1 == NULL || mPlayer2 == NULL){
         LOGI("***  player NULL");
         return false;
     }
     
-    mCurrentCardIndex = 0;
-    deal();
+    if (mPlayer2ChoiceListener == NULL) {
+        mPlayer2ChoiceListener = new AIPlayer(this);
+        mPlayer2->setChoiceListener(mPlayer2ChoiceListener);
+    }
+    
+    mCurrentState->execute();
+    mCurrentState->next();
     
     return true;
 }
 
 void Game::next(){
     LOGI("- next");
-    ++mCurrentCardIndex;
-    if (mCurrentCardIndex >= mCardList->size()) {
-        onFinished();
-    }else{
-        deal();
-    }
+    mCurrentState->next();
+}
+
+void Game::execute(){
+    LOGI("- execute");
+    mCurrentState->execute();
 }
 
 void Game::switchPlayer(){
@@ -153,10 +170,6 @@ void Game::switchPlayer(){
 }
 
 void Game::onPlayerAction(Player* player, int action){
-//    if (player != mCurrentPlayer && mCurrentPlayer != NULL) {
-//        return;
-//    }
-    
     if (mCurrentCardIndex >= mCardList->size()) {
         return;
     }
@@ -174,76 +187,30 @@ void Game::onPlayerAction(Player* player, int action){
         mRecorder->addPlayerAction(player->getTag(), action);
     }
     
-    Card* currentCard = mCardList->at(mCurrentCardIndex);
-    Card* lastCard = NULL;
+    mPlayerAction = action;
+    
+    
     switch (action) {
         case Player::PLAYER_CHOICE_KEEP:
-            player->addCard(currentCard);
-            switchPlayer();
             break;
         
         case Player::PLAYER_CHOICE_DISCARD:
-            mDiscardCardList->push_back(currentCard);
-            if (mPlayerChoiceListener != NULL) {
-                mPlayerChoiceListener->onChoiceMade(player, action, currentCard, lastCard);
-            }
-            switchPlayer();
             break;
             
         case Player::PLAYER_CHOICE_GIVE:
-            if (mPlayerChoiceListener != NULL) {
-                mPlayerChoiceListener->onChoiceMade(player, action, currentCard, lastCard);
-            }
-            switchPlayer();
-            mCurrentPlayer->give(currentCard);
             break;
             
         case Player::PLAYER_CHOICE_REMOVE_FOR_GIVE:
         {
-            lastCard = mCurrentPlayer->removeLastCard();
-            if (lastCard != NULL) {
-                mDiscardCardList->push_back(lastCard);
-            }
-            mDiscardCardList->push_back(currentCard);
-            if (mPlayerChoiceListener != NULL) {
-                mPlayerChoiceListener->onChoiceMade(mNextPlayer, action, currentCard, lastCard);
-            }
             break;
         }
         case Player::PLAYER_CHOICE_KEEP_FOR_GIVE:
-            player->addCard(currentCard);
             break;
             
         default:
             break;
     }
     
-    if (action != Player::PLAYER_CHOICE_GIVE) {
-        next();
-    }
-}
-
-void Game::deal(){
-    LOGI("- deal");
-    if (mCurrentPlayer == NULL) {
-        LOGI("*** deal. no player");
-        return;
-    }
-    
-    if (mCurrentCardIndex >= 0 && mCurrentCardIndex < mCardList->size()) {
-        Card* card = mCardList->at(mCurrentCardIndex);
-        if (mPlayerChoiceListener != NULL) {
-            mPlayerChoiceListener->onChoiceMade(mCurrentPlayer, Player::PLAYER_CHOICE_DEAL, card, NULL);
-        }
-        
-        if (mPlayMode == PLAY_MODE::AUTO) {
-            mCurrentPlayer->deal(card);
-        }else{
-//            this->onPlayerAction(mCurrentPlayer, action);
-        }
-    }else{
-        LOGI("*** deal. error");
-    }
 }
 
 void Game::pause(){
@@ -315,6 +282,44 @@ vector<Card *>* Game::getDiscardCardList(){
 void Game::setPlayer1ChoiceListener(PlayerChoiceListener* l) {
     mPlayerChoiceListener = l;
     mPlayer1->setChoiceListener(l);
+}
+
+void Game::setPlayer2ChoiceListener(PlayerChoiceListener* l) {
+    mPlayer2ChoiceListener = l;
+}
+
+
+StateBase* Game::getState(STATE state){
+    return mStateList->at(state);
+}
+
+void Game::nextState(STATE nextState){
+    mCurrentState = getState(nextState);
+    
+    if(mCurrentState->enter()){
+        mCurrentState->execute();
+    }
+}
+
+void Game::onActionExecuted(int action, Player* player, Card* card1, Card* card2){
+    mGameStateListener->onActionExecuted(action, player, card1, card2);
+}
+
+void Game::setGameStateListener(GameStateListener* l){
+    mGameStateListener = l;
+}
+
+Card* Game::currentCard(){
+    Card* card = NULL;
+    if (mCurrentCardIndex >= 0 && mCurrentCardIndex < mCardList->size()) {
+        card = mCardList->at(mCurrentCardIndex);
+    }
+    return card;
+}
+
+
+void Game::makeChoice(Player* player, Card* card, int availableChoice){
+    
 }
 
 
