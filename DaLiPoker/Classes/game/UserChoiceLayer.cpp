@@ -17,36 +17,36 @@ USING_NS_CC;
 USING_NS_CC;
 
 static string sCardImagesFileName[] = {
-    "No作No待.jpg",
-    "上课代表.jpg",
-    "乌鸦喝水.jpg",
-    "他叫金十亿.jpg",
-//    "偶遇.jpg",
-//    "军训生存指南.jpg",
-//    "友情与爱情.jpg",
-//    "反正也是挣.jpg",
-//    "天赐良缘.jpg",
-//    "学有所长.jpg",
+    "No作No待",
+    "上课代表",
+    "乌鸦喝水",
+    "他叫金十亿",
+//    "偶遇",
+//    "军训生存指南",
+//    "友情与爱情",
+//    "反正也是挣",
+//    "天赐良缘",
+//    "学有所长",
 //    "宽容.png",
-//    "对影成三人.jpg",
-//    "小马过河.jpg",
-//    "我要创业.jpg",
-//    "我要当学霸.jpg",
-//    "手有余箱.jpg",
-//    "换位教学.jpg",
-//    "文学家.jpg",
-//    "有妹子远方来.jpg",
-//    "朝三暮四.jpg",
-//    "深不见底.jpg",
-//    "焦大武馆.jpg",
-//    "略知一二.jpg",
-//    "第二性.jpg",
-//    "等号.jpg",
-//    "自学成才.jpg",
-//    "衣食住情.jpg",
-//    "谈面子.jpg",
-//    "距离.jpg",
-//    "锄禾日当午.jpg",
+//    "对影成三人",
+//    "小马过河",
+//    "我要创业",
+//    "我要当学霸",
+//    "手有余箱",
+//    "换位教学",
+//    "文学家",
+//    "有妹子远方来",
+//    "朝三暮四",
+//    "深不见底",
+//    "焦大武馆",
+//    "略知一二",
+//    "第二性",
+//    "等号",
+//    "自学成才",
+//    "衣食住情",
+//    "谈面子",
+//    "距离",
+//    "锄禾日当午",
 };
 
 
@@ -174,12 +174,19 @@ cocos2d::ui::Widget* UserChoiceLayer::createPokerFront(Card* card, float posY){
     int imageCount = sizeof(sCardImagesFileName)/sizeof(sCardImagesFileName[0]);
     string imageName = sCardImagesFileName[mCardIndex++ % imageCount];
     
-    auto img = cocos2d::ui::ImageView::create("card/" + imageName);
+    auto img = cocos2d::ui::ImageView::create("card/" + imageName + ".jpg");
     img->ignoreContentAdaptWithSize(false);
     img->setContentSize(Size(contentSize.width - 100, contentSize.height - 100));
     img->setPosition(Vec2(contentSize.width / 2, contentSize.height / 2));
     btnCard->addChild(img);
     
+    auto labelTitle = Label::create();
+    labelTitle->setContentSize(Size(contentSize.width / 2, 50));
+    labelTitle->setString(imageName);
+    labelTitle->setSystemFontSize(30);
+    labelTitle->setColor(Color3B::BLACK);
+    labelTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - 60));
+    btnCard->addChild(labelTitle);
     
     contentSize = btnCard->getContentSize();
     float numTextSize = 40;
