@@ -127,7 +127,13 @@ int PlayScene::makeChoice(Player* player, Card* card, int availableChoice, Playe
     mGameLayer->invalidate();
     
     mUserChoiceLayer->setVisible(true);
-    mUserChoiceLayer->show(card, availableChoice, callback);
+    mUserChoiceLayer->show(card, player->getLastCard(), availableChoice, callback);
+    
+    string message = getChoiceMessage(availableChoice, player);
+    if (message.length() > 0) {
+        mGameLayer->setMessage(message);
+    }
+
     return 0;
 }
 
@@ -152,51 +158,125 @@ void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* 
     LOGI("PlayScene.onActionExecuted  action=[%x] player=[%d] c1=[%s] c2=[%s]", action, player->getTag(), card1 == NULL? "" : card1->getDisplay().c_str(), card2 == NULL? "" : card2->getDisplay().c_str());
     
     float delayTime;
-    string message;
-    if (player != NULL && player->getTag() == 2) {
+    string message = getActionExecutedMessage(action, player);
+    if (message.length() > 0) {
         delayTime = 0.5f;
-        switch (action) {
-            case Player::PLAYER_CHOICE_KEEP:
-            message = "对方留牌";
-            break;
-            
-            case Player::PLAYER_CHOICE_DISCARD:
-            message = "对方弃牌";
-            break;
-            
-            case Player::PLAYER_CHOICE_GIVE:
-            message = "对方给你牌";
-            break;
-            
-            case Player::PLAYER_CHOICE_KEEP_FOR_GIVE:
-            message = "对方留下了您给的牌";
-            break;
-            
-            case Player::PLAYER_CHOICE_REMOVE_FOR_GIVE:
-            message = "对方弃了2张牌";
-            break;
-            
-            default:
-            break;
-        }
         mGameLayer->setMessage(message);
     }else{
         delayTime = 0.2f;
         mGameLayer->clearMessage();
     }
-    
     mGameLayer->invalidate();
     
     DelayTime * delayAction = DelayTime::create(delayTime);
     CC_CALLBACK_0(PlayScene::onAction, this);
     CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
     this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
-    
 }
                                            
 void PlayScene::onAction(){
     LOGI("PlayScene.onAction");
     mGame->next();
+}
+
+std::string PlayScene::getChoiceMessage(int action, Player* player){
+    string message = "";
+    if (player == NULL) {
+        return message;
+    }
+    
+    if (player->getTag() == 2) {
+        switch (action) {
+            case Player::PLAYER_CHOICE_KEEP:
+                message = "对方摸牌";
+                break;
+            case Player::PLAYER_CHOICE_DISCARD:
+                message = "对方弃牌";
+                break;
+            case Player::PLAYER_CHOICE_GIVE:
+                message = "对方给你牌";
+                break;
+            case Player::PLAYER_CHOICE_KEEP_FOR_GIVE:
+                message = "对方留下了您给的牌";
+                break;
+            case Player::PLAYER_CHOICE_REMOVE_FOR_GIVE:
+                message = "对方弃了2张牌";
+                break;
+                
+            default:
+                break;
+        }
+    }else if (player->getTag() == 1) {
+        if ((action & (action -1)) != 0) {
+            message = "你摸了一张牌";
+        }else{
+            switch (action) {
+                case Player::PLAYER_CHOICE_KEEP_FOR_GIVE:
+                    message = "你必须留下对方给你的牌";
+                    break;
+                case Player::PLAYER_CHOICE_REMOVE_FOR_GIVE:
+                    message = "你必须弃掉对方给你的牌，并再弃一张手牌";
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    }
+    
+    return message;
+}
+
+
+std::string PlayScene::getActionExecutedMessage(int action, Player* player){
+    string message = "";
+    if (player == NULL) {
+        return message;
+    }
+    
+    if (player->getTag() == 2) {
+        switch (action) {
+            case Player::PLAYER_CHOICE_KEEP:
+                message = "对方留牌";//
+                break;
+            case Player::PLAYER_CHOICE_DISCARD:
+                message = "对方弃牌";
+                break;
+            case Player::PLAYER_CHOICE_GIVE:
+                message = "对方给你牌";//
+                break;
+            case Player::PLAYER_CHOICE_KEEP_FOR_GIVE:
+                message = "对方留下了您给的牌";
+                break;
+            case Player::PLAYER_CHOICE_REMOVE_FOR_GIVE:
+                message = "对方弃了2张牌";
+                break;
+                
+            default:
+                break;
+        }
+    }else if (player->getTag() == 1) {
+        switch (action) {
+            case Player::PLAYER_CHOICE_KEEP:
+                break;
+            case Player::PLAYER_CHOICE_DISCARD:
+                message = "弃牌";
+                break;
+            case Player::PLAYER_CHOICE_GIVE:
+                message = "给对方牌";
+                break;
+            case Player::PLAYER_CHOICE_KEEP_FOR_GIVE:
+                message = "你留下了对方给的牌";
+                break;
+            case Player::PLAYER_CHOICE_REMOVE_FOR_GIVE:
+                message = "你弃了2张牌";
+                break;
+                
+            default:
+                break;
+        }
+    }
+    return message;
 }
 
 

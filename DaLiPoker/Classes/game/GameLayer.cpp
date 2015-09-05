@@ -28,6 +28,7 @@ bool GameLayer::init(){
 
 void GameLayer::setMessage(const std::string& message){
     mMessage = message;
+    updateMesage();
 }
 
 void GameLayer::invalidate(){
@@ -97,10 +98,12 @@ void GameLayer::drawText(const string& text, const Vec2& position, const Size & 
 }
 
 void GameLayer::updateMesage(){
+    this->removeChildByTag(1000);
+    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     int posX = origin.x + visibleSize.width / 2;
-    int posY = origin.y + visibleSize.height - 180;
+    int posY = origin.y + visibleSize.height - 190;
     
     auto label = Label::create();
     label->setContentSize(Size(100, 40));

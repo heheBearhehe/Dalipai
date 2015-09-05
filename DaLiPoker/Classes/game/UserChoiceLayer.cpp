@@ -64,10 +64,10 @@ bool UserChoiceLayer::init(){
 void UserChoiceLayer::test(){
     this->removeAllChildren();
     
-    show(new Card(2, 3), 7, NULL);
+    show(new Card(2, 3), NULL, 7, NULL);
 }
 
-void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callback){
+void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCallBack* callback){
     mAction = 0;
     removeAllChildren();
     if(card == NULL){
@@ -90,6 +90,18 @@ void UserChoiceLayer::show(Card* card, int options, PlayerActionCallBack* callba
     if(options == Player::PLAYER_CHOICE_KEEP_FOR_GIVE || options == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE){
         auto btn = addButton("确定", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2, posY), options);
         btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width / 4, posY));
+        
+        if (options == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE && card2 != NULL) {
+            auto largeImg2 = createPokerFront(card2, posY);
+            cocos2d::Vec2 oldPos = largeImg->getPosition();
+            cocos2d::Size oldSize = largeImg->getContentSize();
+            float scale = 0.6;
+            largeImg->setScale(scale);
+            largeImg2->setScale(scale);
+            
+            largeImg->setPosition(cocos2d::Vec2(oldPos.x - oldSize.width * scale / 2 - 10, oldPos.y));
+            largeImg2->setPosition(cocos2d::Vec2(oldPos.x + oldSize.width * scale / 2 + 10, oldPos.y));
+        }
     }else{
         if ((options & Player::PLAYER_CHOICE_GIVE) > 0) {
             auto btn = addButton("给", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2 - 150, posY), Player::PLAYER_CHOICE_GIVE);

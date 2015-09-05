@@ -45,6 +45,8 @@ private:
     
     void startGame();
     void menuRestart(Ref* pSender);
+    std::string getChoiceMessage(int action, Player* player);
+    std::string getActionExecutedMessage(int action, Player* player);
     
 private:
     Game*   mGame;
