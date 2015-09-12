@@ -17,36 +17,32 @@ USING_NS_CC;
 USING_NS_CC;
 
 static string sCardImagesFileName[] = {
-    "No作No待",
-    "上课代表",
-    "乌鸦喝水",
-    "他叫金十亿",
-//    "偶遇",
-//    "军训生存指南",
-//    "友情与爱情",
-//    "反正也是挣",
-//    "天赐良缘",
-//    "学有所长",
-//    "宽容.png",
-//    "对影成三人",
-//    "小马过河",
-//    "我要创业",
-//    "我要当学霸",
-//    "手有余箱",
-//    "换位教学",
-//    "文学家",
-//    "有妹子远方来",
-//    "朝三暮四",
-//    "深不见底",
-//    "焦大武馆",
-//    "略知一二",
-//    "第二性",
-//    "等号",
-//    "自学成才",
-//    "衣食住情",
-//    "谈面子",
-//    "距离",
-//    "锄禾日当午",
+    "黑01-宽容.jpg",
+    "黑02-第二性.jpg",
+    "黑03-上课代表.jpg",
+    "黑04-谈面子.jpg",
+    "黑05-乌鸦喝水.jpg",
+    "黑06-换位教学.jpg",
+    "黑07-深不见底.jpg",
+    "黑08-我要创业.jpg",
+    "黑09-小马过河.jpg",
+    "黑10-衣食住情.jpg",
+    "黑11-自学成才.jpg",
+    "黑12-距离.jpg",
+    "黑13-文学家.jpg",
+    "红01-学有所长",
+    "红02-等号.jpg",
+    "红03-天赐良缘.jpg",
+    "红04-朝三暮四.jpg",
+    "红05-锄禾日当午.jpg",
+    "红06-偶遇.jpg",
+    "红07-焦大武馆.jpg",
+    "红08-我要当学霸.jpg",
+    "红09-反正也是挣.jpg",
+    "红10-他叫金十亿.jpg",
+    "红11-友情与爱情.jpg",
+    "红12-略知一二.jpg",
+    "红13-对影成三人.jpg",
 };
 
 
@@ -183,10 +179,9 @@ cocos2d::ui::Widget* UserChoiceLayer::createPokerFront(Card* card, float posY){
     btnCard->setPosition(Vec2(origin.x + visibleSize.width / 2, posY + btnCard->getContentSize().height / 2));
     Size contentSize = btnCard->getContentSize();
     
-    int imageCount = sizeof(sCardImagesFileName)/sizeof(sCardImagesFileName[0]);
-    string imageName = sCardImagesFileName[mCardIndex++ % imageCount];
+    string imageName = getCardImageName(card);
     
-    auto img = cocos2d::ui::ImageView::create("card/" + imageName + ".jpg");
+    auto img = cocos2d::ui::ImageView::create("card/" + imageName);
     img->ignoreContentAdaptWithSize(false);
     img->setContentSize(Size(contentSize.width - 100, contentSize.height - 100));
     img->setPosition(Vec2(contentSize.width / 2, contentSize.height / 2));
@@ -194,7 +189,7 @@ cocos2d::ui::Widget* UserChoiceLayer::createPokerFront(Card* card, float posY){
     
     auto labelTitle = Label::create();
     labelTitle->setContentSize(Size(contentSize.width / 2, 50));
-    labelTitle->setString(imageName);
+    labelTitle->setString(getCardImageTitle(imageName));
     labelTitle->setSystemFontSize(30);
     labelTitle->setColor(Color3B::BLACK);
     labelTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - 60));
@@ -234,4 +229,25 @@ cocos2d::ui::Widget* UserChoiceLayer::createPokerDisplay(Card* card, float numTe
     widget->addChild(btnCardSuit);
     
     return widget;
+}
+
+std::string UserChoiceLayer::getCardImageName(Card* card){
+    int indexOffset = 0;
+    if (card->getSuit() == SUIT::HEART || card->getSuit() == SUIT::DIAMOND) {
+        indexOffset = sizeof(RANK_DISPLAY_LIST)/sizeof(RANK_DISPLAY_LIST[0]);
+    }
+    
+    int imageCount = sizeof(sCardImagesFileName)/sizeof(sCardImagesFileName[0]);
+    int index = indexOffset + card->getRank();
+    if (index < 0 || index >= imageCount) {
+        index = 0;
+    }
+    
+    return sCardImagesFileName[index];
+}
+
+std::string UserChoiceLayer::getCardImageTitle(std::string imageName){
+    int prefixLength = string("黑01-").length();
+    int suffixLength = string(".jpg").length();
+    return imageName.substr(prefixLength, imageName.length() - prefixLength - suffixLength);
 }

@@ -43,6 +43,8 @@ protected:
     cocos2d::ui::Widget* createPokerFront(Card* card, float posY);
     cocos2d::ui::Widget* createPokerDisplay(Card* card, float numTextSize, float suitTextSize);
     void onAction(float dt);
+    std::string getCardImageName(Card* card);
+    std::string getCardImageTitle(std::string imageName);
     
 private:
     PlayerActionCallBack* mPlayerActionCallBack;
