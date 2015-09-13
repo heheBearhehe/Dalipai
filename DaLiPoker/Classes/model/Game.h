@@ -73,6 +73,9 @@ public:
     bool setPlayer(Player* player1, Player* player2);
     bool start();
     
+    int getMaxRank() { return mMaxRank; }
+    int getMinRank() { return mMinRank; }
+    
 public:
     Player* currentPlayer() { return mCurrentPlayer; }
     Player* oppenentPlayer() { return mNextPlayer; }
@@ -141,6 +144,8 @@ private:
     StateBase*      mCurrentState;
     vector<StateBase *>* mStateList;
     int             mPlayerAction;
+    int             mMinRank;
+    int             mMaxRank;
 };
 
 

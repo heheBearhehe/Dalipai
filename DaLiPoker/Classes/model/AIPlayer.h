@@ -21,8 +21,13 @@ public:
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback);
     virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard);
     
+    void setStrategy(int strategy) { mStrategy = strategy; };
+    
+protected:
+    int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback, int strategy);
 private:
     Game* mGame;
+    int mStrategy;
 };
 
 #endif /* defined(__dalipoker__AIPlayer__) */

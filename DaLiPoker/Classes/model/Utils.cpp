@@ -10,10 +10,13 @@
 
 static bool sEnableLog = true;
 
+void initUtils(){
+    srand((unsigned)time(NULL));
+}
+
 void enableLog(bool enable){
     sEnableLog = enable;
 }
-
 
 void LOGI (const char* msg, ...) {
     if (!sEnableLog) {
@@ -36,3 +39,19 @@ void LOGF (const char* msg, ...) {
     va_end(args);
     cout << buffer << std::endl;
 }
+
+bool getRandomSelect(int prob){
+    return prob > getRandomProb();
+}
+
+int getRandomProb(){
+    return RANDOM_MIN + rand() % (RANDOM_MAX + RANDOM_MIN);
+}
+
+int getRandom(int max){
+    return rand() % max;
+}
+
+
+
+

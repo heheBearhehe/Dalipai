@@ -103,6 +103,9 @@ void Game::initCards(){
     for (int i = 0; i < numCount * SUIT::COUNT; i++) {
         mCardList->push_back(new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT));
     }
+    
+    mMinRank = numMin;
+    mMaxRank = numMax;
 }
 
 void Game::dumpCards(){
