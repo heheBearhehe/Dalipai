@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "Card.h"
+#include <cmath>
 
 StatePlayerChoice::StatePlayerChoice(Game* game):StateBase(game){
     mAvailableAction = Player::PLAYER_CHOICE_AUTO;

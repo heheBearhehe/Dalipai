@@ -72,14 +72,13 @@ void PlayScene::startGame(){
     delete mPlayer1;
     delete mPlayer2;
     
-    mGame = new Game(GAME_MODE::SMALL);
+    mGame = new Game();
     mPlayer1 = new Player();
     mPlayer1->setTag(1);
     mPlayer2 = new Player();
     mPlayer2->setTag(2);
     mGame->setPlayer(mPlayer1, mPlayer2);
     mGame->setPlayer1ChoiceListener(this);
-//    mGame->setPlayer1ChoiceListener(new AIPlayer(mGame));
     mGame->setGameStateListener(this);
     mGameLayer->setShouldShowOppnentCard(false);
     mGameLayer->setGame(mGame);

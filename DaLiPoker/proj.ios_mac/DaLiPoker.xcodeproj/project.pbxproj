@@ -12,6 +12,20 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
+		4115120C1BA57636009274DA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4115120B1BA57636009274DA /* main.cpp */; };
+		4115122C1BA579FC009274DA /* AIPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512111BA579FC009274DA /* AIPlayer.cpp */; };
+		4115122D1BA579FC009274DA /* Card.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512131BA579FC009274DA /* Card.cpp */; };
+		4115122E1BA579FC009274DA /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512161BA579FC009274DA /* Game.cpp */; };
+		4115122F1BA579FC009274DA /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512181BA579FC009274DA /* Player.cpp */; };
+		411512301BA579FC009274DA /* Recorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4115121A1BA579FC009274DA /* Recorder.cpp */; };
+		411512311BA579FC009274DA /* StateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4115121C1BA579FC009274DA /* StateBase.cpp */; };
+		411512321BA579FC009274DA /* StateDeal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4115121E1BA579FC009274DA /* StateDeal.cpp */; };
+		411512331BA579FC009274DA /* StateFinish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512201BA579FC009274DA /* StateFinish.cpp */; };
+		411512341BA579FC009274DA /* StateInit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512221BA579FC009274DA /* StateInit.cpp */; };
+		411512351BA579FC009274DA /* StateOpponentChoice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512241BA579FC009274DA /* StateOpponentChoice.cpp */; };
+		411512361BA579FC009274DA /* StatePlayerChoice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512261BA579FC009274DA /* StatePlayerChoice.cpp */; };
+		411512371BA579FC009274DA /* StateSwitchPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512281BA579FC009274DA /* StateSwitchPlayer.cpp */; };
+		411512381BA579FC009274DA /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4115122A1BA579FC009274DA /* Utils.cpp */; };
 		4132CF9B1B6FA07900F42F1A /* GameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF871B6FA07900F42F1A /* GameLayer.cpp */; };
 		4132CF9C1B6FA07900F42F1A /* PauseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF891B6FA07900F42F1A /* PauseLayer.cpp */; };
 		4132CF9D1B6FA07900F42F1A /* PlayScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF8B1B6FA07900F42F1A /* PlayScene.cpp */; };
@@ -98,6 +112,18 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		411512071BA57636009274DA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
@@ -106,6 +132,35 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
+		411512091BA57636009274DA /* GameTestCmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameTestCmd; sourceTree = BUILT_PRODUCTS_DIR; };
+		4115120B1BA57636009274DA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		411512111BA579FC009274DA /* AIPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AIPlayer.cpp; sourceTree = "<group>"; };
+		411512121BA579FC009274DA /* AIPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIPlayer.h; sourceTree = "<group>"; };
+		411512131BA579FC009274DA /* Card.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Card.cpp; sourceTree = "<group>"; };
+		411512141BA579FC009274DA /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
+		411512151BA579FC009274DA /* def.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = def.h; sourceTree = "<group>"; };
+		411512161BA579FC009274DA /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		411512171BA579FC009274DA /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		411512181BA579FC009274DA /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		411512191BA579FC009274DA /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		4115121A1BA579FC009274DA /* Recorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Recorder.cpp; sourceTree = "<group>"; };
+		4115121B1BA579FC009274DA /* Recorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recorder.h; sourceTree = "<group>"; };
+		4115121C1BA579FC009274DA /* StateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateBase.cpp; sourceTree = "<group>"; };
+		4115121D1BA579FC009274DA /* StateBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateBase.h; sourceTree = "<group>"; };
+		4115121E1BA579FC009274DA /* StateDeal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateDeal.cpp; sourceTree = "<group>"; };
+		4115121F1BA579FC009274DA /* StateDeal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateDeal.h; sourceTree = "<group>"; };
+		411512201BA579FC009274DA /* StateFinish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateFinish.cpp; sourceTree = "<group>"; };
+		411512211BA579FC009274DA /* StateFinish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateFinish.h; sourceTree = "<group>"; };
+		411512221BA579FC009274DA /* StateInit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateInit.cpp; sourceTree = "<group>"; };
+		411512231BA579FC009274DA /* StateInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateInit.h; sourceTree = "<group>"; };
+		411512241BA579FC009274DA /* StateOpponentChoice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateOpponentChoice.cpp; sourceTree = "<group>"; };
+		411512251BA579FC009274DA /* StateOpponentChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateOpponentChoice.h; sourceTree = "<group>"; };
+		411512261BA579FC009274DA /* StatePlayerChoice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StatePlayerChoice.cpp; sourceTree = "<group>"; };
+		411512271BA579FC009274DA /* StatePlayerChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatePlayerChoice.h; sourceTree = "<group>"; };
+		411512281BA579FC009274DA /* StateSwitchPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateSwitchPlayer.cpp; sourceTree = "<group>"; };
+		411512291BA579FC009274DA /* StateSwitchPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateSwitchPlayer.h; sourceTree = "<group>"; };
+		4115122A1BA579FC009274DA /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
+		4115122B1BA579FC009274DA /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		4132CF871B6FA07900F42F1A /* GameLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLayer.cpp; sourceTree = "<group>"; };
 		4132CF881B6FA07900F42F1A /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
 		4132CF891B6FA07900F42F1A /* PauseLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PauseLayer.cpp; sourceTree = "<group>"; };
@@ -221,6 +276,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		411512061BA57636009274DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -243,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* DaLiPoker iOS.app */,
+				411512091BA57636009274DA /* GameTestCmd */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -262,6 +325,7 @@
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
+				4115120A1BA57636009274DA /* GameTestCmd */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				503AE10617EB990700D1A890 /* mac */,
@@ -292,6 +356,50 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4115120A1BA57636009274DA /* GameTestCmd */ = {
+			isa = PBXGroup;
+			children = (
+				411512101BA579FC009274DA /* model */,
+				4115120B1BA57636009274DA /* main.cpp */,
+			);
+			path = GameTestCmd;
+			sourceTree = "<group>";
+		};
+		411512101BA579FC009274DA /* model */ = {
+			isa = PBXGroup;
+			children = (
+				411512111BA579FC009274DA /* AIPlayer.cpp */,
+				411512121BA579FC009274DA /* AIPlayer.h */,
+				411512131BA579FC009274DA /* Card.cpp */,
+				411512141BA579FC009274DA /* Card.h */,
+				411512151BA579FC009274DA /* def.h */,
+				411512161BA579FC009274DA /* Game.cpp */,
+				411512171BA579FC009274DA /* Game.h */,
+				411512181BA579FC009274DA /* Player.cpp */,
+				411512191BA579FC009274DA /* Player.h */,
+				4115121A1BA579FC009274DA /* Recorder.cpp */,
+				4115121B1BA579FC009274DA /* Recorder.h */,
+				4115121C1BA579FC009274DA /* StateBase.cpp */,
+				4115121D1BA579FC009274DA /* StateBase.h */,
+				4115121E1BA579FC009274DA /* StateDeal.cpp */,
+				4115121F1BA579FC009274DA /* StateDeal.h */,
+				411512201BA579FC009274DA /* StateFinish.cpp */,
+				411512211BA579FC009274DA /* StateFinish.h */,
+				411512221BA579FC009274DA /* StateInit.cpp */,
+				411512231BA579FC009274DA /* StateInit.h */,
+				411512241BA579FC009274DA /* StateOpponentChoice.cpp */,
+				411512251BA579FC009274DA /* StateOpponentChoice.h */,
+				411512261BA579FC009274DA /* StatePlayerChoice.cpp */,
+				411512271BA579FC009274DA /* StatePlayerChoice.h */,
+				411512281BA579FC009274DA /* StateSwitchPlayer.cpp */,
+				411512291BA579FC009274DA /* StateSwitchPlayer.h */,
+				4115122A1BA579FC009274DA /* Utils.cpp */,
+				4115122B1BA579FC009274DA /* Utils.h */,
+			);
+			name = model;
+			path = ../../Classes/model;
 			sourceTree = "<group>";
 		};
 		4132CF861B6FA07900F42F1A /* game */ = {
@@ -454,6 +562,23 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* DaLiPoker iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		411512081BA57636009274DA /* GameTestCmd */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4115120D1BA57636009274DA /* Build configuration list for PBXNativeTarget "GameTestCmd" */;
+			buildPhases = (
+				411512051BA57636009274DA /* Sources */,
+				411512061BA57636009274DA /* Frameworks */,
+				411512071BA57636009274DA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GameTestCmd;
+			productName = GameTestCmd;
+			productReference = 411512091BA57636009274DA /* GameTestCmd */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -464,6 +589,9 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = RAG5RFUBYC;
+					};
+					411512081BA57636009274DA = {
+						CreatedOnToolsVersion = 6.4;
 					};
 				};
 			};
@@ -488,6 +616,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* DaLiPoker iOS */,
+				411512081BA57636009274DA /* GameTestCmd */,
 			);
 		};
 /* End PBXProject section */
@@ -580,6 +709,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		411512051BA57636009274DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4115122D1BA579FC009274DA /* Card.cpp in Sources */,
+				4115122C1BA579FC009274DA /* AIPlayer.cpp in Sources */,
+				4115120C1BA57636009274DA /* main.cpp in Sources */,
+				411512361BA579FC009274DA /* StatePlayerChoice.cpp in Sources */,
+				411512301BA579FC009274DA /* Recorder.cpp in Sources */,
+				4115122E1BA579FC009274DA /* Game.cpp in Sources */,
+				411512341BA579FC009274DA /* StateInit.cpp in Sources */,
+				411512331BA579FC009274DA /* StateFinish.cpp in Sources */,
+				411512371BA579FC009274DA /* StateSwitchPlayer.cpp in Sources */,
+				411512381BA579FC009274DA /* Utils.cpp in Sources */,
+				411512321BA579FC009274DA /* StateDeal.cpp in Sources */,
+				411512351BA579FC009274DA /* StateOpponentChoice.cpp in Sources */,
+				411512311BA579FC009274DA /* StateBase.cpp in Sources */,
+				4115122F1BA579FC009274DA /* Player.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -661,6 +811,76 @@
 			};
 			name = Release;
 		};
+		4115120E1BA57636009274DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4115120F1BA57636009274DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -689,7 +909,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c34dca28-f75a-4848-9121-7bc4c4ec7e54";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -737,6 +957,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		4115120D1BA57636009274DA /* Build configuration list for PBXNativeTarget "GameTestCmd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4115120E1BA57636009274DA /* Debug */,
+				4115120F1BA57636009274DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "DaLiPoker" */ = {
 			isa = XCConfigurationList;

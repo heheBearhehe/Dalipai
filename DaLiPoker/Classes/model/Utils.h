@@ -15,7 +15,11 @@
 #include <iostream>
 using std::cout;
 
+void enableLog(bool enable);
     
 void LOGI (const char* msg, ...) ;
+
+
+void LOGF (const char* msg, ...) ;
 
 #endif /* defined(__dalipoker__Utils__) */

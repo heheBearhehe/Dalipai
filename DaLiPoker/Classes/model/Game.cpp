@@ -59,7 +59,6 @@ Game::~Game(){
     delete mCardList;
     
     delete mDiscardCardList;
-    delete mPlayer2ChoiceListener;
 }
 
 bool Game::init(){
