@@ -115,7 +115,7 @@ void Game::dumpCards(){
 }
 
 void Game::shuffle(){
-    std::default_random_engine gen((unsigned)time(NULL));
+    std::default_random_engine gen(std::chrono::system_clock::now ().time_since_epoch ().count ());
     std::shuffle(mCardList->begin(),mCardList->end(), gen);
 }
 
@@ -290,6 +290,7 @@ void Game::setPlayer1ChoiceListener(PlayerChoiceListener* l) {
 
 void Game::setPlayer2ChoiceListener(PlayerChoiceListener* l) {
     mPlayer2ChoiceListener = l;
+    mPlayer2->setChoiceListener(l);
 }
 
 
