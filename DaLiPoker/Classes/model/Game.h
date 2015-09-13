@@ -51,13 +51,13 @@ class PlayerChoiceListener{
 public:
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback) = 0;
     virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard) = 0;
-    virtual void onFinished() = 0;
 };
 
 
 class GameStateListener{
 public:
     virtual void onActionExecuted(int action, Player* player, Card* card1, Card* card2) = 0;
+    virtual void onFinished() = 0;
 };
 
 

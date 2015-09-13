@@ -21,6 +21,7 @@ bool GameLayer::init(){
     }
     
 //    test();
+    mShouldShowOppnentCard = false;
     invalidate();
     
     return true;
@@ -166,18 +167,41 @@ void GameLayer::updateOpponentCard(vector<Card*>* cards){
     int size = cards->size();
     
     for(int i = 0; i < size; i++){
-        //        drawCard(NULL, Vec2(posX, posY), Size(cardWidth, cardHeight));
-        
-//        drawCard(cards->at(i), Vec2(posX, posY), Size(cardWidth, cardHeight));
-        
         Widget* card;
+        Card* cardToShow = NULL;
+        int deltaRate;
+        
         if (i < size - visibleCardCount) {
-            card = createPokerBack(NULL);
-            delta = card->getContentSize().width / 6;
+            deltaRate = 6;
         }else{
-            card = createPokerBack(cards->at(i));
-            delta = card->getContentSize().width / 2;
+            deltaRate = 2;
+            cardToShow = cards->at(i);
         }
+        
+        if (shouldShowOppnentCard()) {
+            card = createPokerFront(cardToShow);
+        }else{
+            card = createPokerBack(cardToShow);
+        }
+        delta = card->getContentSize().width / deltaRate;
+        
+        
+//        if (i < size - visibleCardCount) {
+//            if (shouldShowOppnentCard()) {
+//                card = createPokerFront(NULL);
+//            }else{
+//                card = createPokerBack(NULL);
+//            }
+//            delta = card->getContentSize().width / 6;
+//        }else{
+//            if (shouldShowOppnentCard()) {
+//                card = createPokerFront(cards->at(i));
+//            }else{
+//                card = createPokerBack(cards->at(i));
+//                
+//            }
+//            delta = card->getContentSize().width / 2;
+//        }
         
         card->setPosition(Vec2(posX, posY));
         this->addChild(card);

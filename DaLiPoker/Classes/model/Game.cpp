@@ -37,6 +37,7 @@ Game::Game(GAME_MODE mode){
     mRecorder = NULL;
     mPlayerChoiceListener = NULL;
     mPlayer2ChoiceListener = NULL;
+    mGameStateListener = NULL;
     
     mStateList = new vector<StateBase *>();
     mStateList->push_back(new StateInit(this));
@@ -161,6 +162,9 @@ void Game::next(){
 void Game::execute(){
     LOGI("- execute");
     mCurrentState->execute();
+    if (mGameStateListener == NULL) {
+        next();
+    }
 }
 
 void Game::switchPlayer(){
@@ -223,8 +227,8 @@ void Game::stop(){
 
 void Game::onFinished(){
     mState = STATE::FINISH;
-    if (mPlayerChoiceListener != NULL) {
-        mPlayerChoiceListener->onFinished();
+    if (mGameStateListener != NULL) {
+        mGameStateListener->onFinished();
     }
     LOGI("--------- onFinished");
     int p1Points = mPlayer1->getPoints();
@@ -297,12 +301,15 @@ void Game::nextState(STATE nextState){
     mCurrentState = getState(nextState);
     
     if(mCurrentState->enter()){
-        mCurrentState->execute();
+//        mCurrentState->execute();
+        execute();
     }
 }
 
 void Game::onActionExecuted(int action, Player* player, Card* card1, Card* card2){
-    mGameStateListener->onActionExecuted(action, player, card1, card2);
+    if (mGameStateListener != NULL) {
+        mGameStateListener->onActionExecuted(action, player, card1, card2);
+    }
 }
 
 void Game::setGameStateListener(GameStateListener* l){

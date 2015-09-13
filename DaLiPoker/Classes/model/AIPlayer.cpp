@@ -37,7 +37,3 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
 bool AIPlayer::onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard){
     return true;
 }
-
-void AIPlayer::onFinished(){
-    
-}

@@ -12,6 +12,7 @@
 #include "PauseLayer.h"
 #include "UserChoiceLayer.h"
 #include "../model/def.h"
+#include "AIPlayer.h"
 
 using namespace std;
 
@@ -78,7 +79,9 @@ void PlayScene::startGame(){
     mPlayer2->setTag(2);
     mGame->setPlayer(mPlayer1, mPlayer2);
     mGame->setPlayer1ChoiceListener(this);
+//    mGame->setPlayer1ChoiceListener(new AIPlayer(mGame));
     mGame->setGameStateListener(this);
+    mGameLayer->setShouldShowOppnentCard(false);
     mGameLayer->setGame(mGame);
     
     mGame->start();

@@ -20,7 +20,6 @@ public:
     virtual ~AIPlayer();
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback);
     virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard);
-    virtual void onFinished();
     
 private:
     Game* mGame;

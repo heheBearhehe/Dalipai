@@ -27,6 +27,8 @@ public:
     void invalidate();
     virtual void update(float delta);
     void onFinished();
+    void setShouldShowOppnentCard(bool show) { mShouldShowOppnentCard = show; };
+    bool shouldShowOppnentCard() { return mShouldShowOppnentCard; }
     
 protected:
     void updateMesage();
@@ -48,6 +50,7 @@ protected:
 private:
     Game* mGame;
     std::string mMessage;
+    bool mShouldShowOppnentCard;
     
 };
 
