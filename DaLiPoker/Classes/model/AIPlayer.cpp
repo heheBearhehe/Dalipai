@@ -13,6 +13,10 @@
 
 AIPlayer::AIPlayer(Game* game):mGame(game){
     mStrategy = 0;
+    mKeepStrategyWeight = NULL;
+    mKeepStrategyWeight = new int[3] {100, 200, 100};
+    mGiveStrategy = 2;
+    mGiveCount = 0;
 }
 
 AIPlayer::~AIPlayer(){
@@ -87,9 +91,16 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
                 }
                 
                 int weight[3];
-                weight[0] = 10;
-                weight[1] = 6;
-                weight[2] = 3;
+                if (mKeepStrategyWeight == NULL) {
+                    weight[0] = 10;
+                    weight[1] = 6;
+                    weight[2] = 3;
+                }else{
+                    weight[0] = mKeepStrategyWeight[0];
+                    weight[1] = mKeepStrategyWeight[1];
+                    weight[2] = mKeepStrategyWeight[2];
+                }
+                
                 
                 Card* last = cardList->at(size - 1);
                 Card* last2 = cardList->at(size - 2);
@@ -102,21 +113,23 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
                 int* totalScore = new int[rankCount];
                 
                 for(int rank = minRank; rank <= maxRank; rank++){
-                    int score[3] = {0};
-                    
+                    float score[3] = {0};
                     if(abs(rank - lastRank) <= 1){
                         score[2] = 0;
                     }else{
-                        score[2] = std::max(rank - minRank - 1, maxRank - rank - 1);
+                        float gapMin = std::min(rank - minRank - 3, maxRank - rank - 3);
+                        float gapMax = std::max(rank - minRank - 3, maxRank - rank - 3);
+                        score[2] = ((gapMax + 1)* gapMax / 2 + (gapMin > 0? (gapMin + 1) * gapMin / 2 : 0))
+                                    / (rankCount * rankCount);
                     }
                     
                     if (rank > lastRank + 1) {
-                        score[1] = maxRank - rank - 1;
+                        score[1] = ((float)maxRank - rank - 1) / rankCount;
                         if(lastRank > last2Rank){
                             score[0] = 1;
                         }
                     }else if(rank < lastRank - 1){
-                        score[1] = rank - minRank - 1;
+                        score[1] = ((float)rank - minRank - 1) / rankCount;
                         if(lastRank < last2Rank){
                             score[0] = 1;
                         }
@@ -131,7 +144,7 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
                         cardScore += score[i] * weight[i];
                     }
                     totalScore[rank - minRank] = cardScore;
-                    LOGI("rank=[%d] cardScore=[%d] rankCount=[%d] minRank=[%d] score=[%d %d %d]", rank, cardScore, rankCount, minRank, score[0], score[1], score[2]);
+                    LOGI("rank=[%d] cardScore=[%d] rankCount=[%d] minRank=[%d] score=[%5.2f %5.2f %5.2f]", rank, cardScore, rankCount, minRank, score[0], score[1], score[2]);
                 }
                 
                 int currentScore = totalScore[currentRank - minRank];
@@ -150,8 +163,30 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
 
             }
             
-            if (mStrategy > 0 && (availableChoice & Player::PLAYER_CHOICE_GIVE) > 0){
-                choiceList.push_back((int)Player::PLAYER_CHOICE_GIVE);
+            if (mGiveStrategy > 0 && mStrategy > 0 && (availableChoice & Player::PLAYER_CHOICE_GIVE) > 0){
+                int curSeq = card->getSeq();
+                vector<Card *>* discardList = mGame->getDiscardCardList();
+                Card* lastOpponentDiscardCard = NULL;
+                if (discardList != NULL && !discardList->empty()) {
+                    vector<Card *>::iterator iter;
+                    for (iter = discardList->end() - 1; iter != discardList->begin(); iter--){
+                        Card* discardCard = *iter;
+                        if (discardCard->getTag() != player->getTag() && discardCard->getTag() > 0) {
+                            lastOpponentDiscardCard = (*iter);
+                            break;
+                        }
+                    }
+                }
+                if (lastOpponentDiscardCard != NULL && lastOpponentDiscardCard->getSeq() == curSeq - 1) {
+                    if (abs(card->getRank() - lastOpponentDiscardCard->getRank()) <= mGiveStrategy) {
+                        mGiveCount++;
+                        return Player::PLAYER_CHOICE_GIVE;
+                    }
+                }
+                
+                if(getRandomSelect(20)){
+                    choiceList.push_back((int)Player::PLAYER_CHOICE_GIVE);
+                }
             }
             if (mStrategy > 0 && (availableChoice & Player::PLAYER_CHOICE_DISCARD) > 0){
                 choiceList.push_back((int)Player::PLAYER_CHOICE_DISCARD);

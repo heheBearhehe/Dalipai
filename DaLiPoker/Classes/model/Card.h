@@ -34,6 +34,10 @@ public:
     int getRank() { return mRank; }
     int getSuit() { return mSuit; }
     int getIndex() { return mRank * SUIT::COUNT + mSuit; }
+    int getTag() { return mTag; }
+    void setTag(int tag) { mTag = tag; }
+    int getSeq() { return mSeq; }
+    void setSeq(int seq) { mSeq = seq; }
     
     string getDisplay();
     string getDisplaySuit();
@@ -42,6 +46,8 @@ public:
 private:
     int mRank;
     int mSuit;
+    int mTag;
+    int mSeq;
 };
 
 

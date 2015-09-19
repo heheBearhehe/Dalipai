@@ -119,6 +119,9 @@ void Game::dumpCards(){
 void Game::shuffle(){
     std::default_random_engine gen(std::chrono::system_clock::now ().time_since_epoch ().count ());
     std::shuffle(mCardList->begin(),mCardList->end(), gen);
+    for (int i = 0; i < mCardList->size(); i++){
+        mCardList->at(i)->setSeq(i);
+    }
 }
 
 bool Game::setPlayer(Player* player1, Player* player2){
@@ -188,6 +191,10 @@ void Game::onPlayerAction(Player* player, int action){
     }
     
     LOGI("- onPlayerAction. player=[%d]  action=[%d]", player->getTag(), action);
+    Card* card = currentCard();
+    if (card != NULL && card->getTag() == 0) {
+        card->setTag(player->getTag());
+    }
     
     if (mRecorder != NULL) {
         mRecorder->addPlayerAction(player->getTag(), action);

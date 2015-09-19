@@ -8,11 +8,14 @@
 
 #include <iostream>
 #include "def.h"
-
+#include<math.h>
 
 void testGame();
+void testGameForKeep();
+void testGameForKeep(int weight1, int weight2, int count);
+void testGameForKeep2(int weight1, int weight2, int count);
 void testGame(int p1Strategy, int p2Stategy);
-void testGame(int p1Strategy, int p2Strategy, int gameCount);
+void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount);
 
 int main(int argc, const char * argv[]) {
     // insert code here...
@@ -20,10 +23,10 @@ int main(int argc, const char * argv[]) {
     initUtils();
     enableLog(false);
     
-//    testGame();
-    
-    enableLog(true);
-    testGame(3, 0, 1);
+//        enableLog(true);
+    testGameForKeep();
+    //    testGame(3, 0, 1);
+    std::cout << "Finish!\n";
     return 0;
 }
 
@@ -31,6 +34,7 @@ int main(int argc, const char * argv[]) {
 
 
 static float strategyPoints[STRATEGY_COUNT] = {0};
+static float weightPoints[] = {0};
 
 void testGame(){
     int strategyCount = STRATEGY_COUNT;
@@ -56,11 +60,86 @@ void testGame(){
     
 }
 
-void testGame(int p1Strategy, int p2Strategy){
-    testGame(p1Strategy, p2Strategy, 10000);
+void testGameForKeep(){
+//    int delta = 20;
+//    for (int i = 0; i < 100; i+=delta) {
+//        for (int j = 0; j < 100; j+=delta) {
+//            int weight1 = 990000 + i * 100 + j;
+//            int weight2 = 990000 + 6000;
+//            testGameForKeep(weight1, weight2, 10000);
+//        }
+//    }
+//    int delta = 200;
+//    int min = 0;
+//    int max = 1000;
+//    for (int i = min; i <= max; i+=delta) {
+//        for (int j = min; j <= max; j+=delta) {
+//            testGameForKeep2(i , j, 10000);
+//        }
+//    }
+    for (int i = 0; i <= 5; i++) {
+        testGameForKeep2(i , 0, 10000);
+    }
 }
 
-void testGame(int p1Strategy, int p2Strategy, int gameCount){
+void testGameForKeep2(int weight1, int weight2, int count){
+    AIPlayer* ai1 = new AIPlayer(NULL);
+    AIPlayer* ai2 = new AIPlayer(NULL);
+    ai1->setStrategy(3);
+    ai1->setGiveStrategy(weight1);
+    ai2->setStrategy(3);
+    ai2->setGiveStrategy(0);
+    
+    
+    int s1[3]={100, 200, 100};
+    int s2[3]={100, 200, 100};
+    
+    ai1->setKeepStrategyWeight(s1);
+    ai2->setKeepStrategyWeight(s2);
+    
+    testGame(ai1, ai2, count);
+    
+    delete ai1;
+    delete ai2;
+}
+
+void testGameForKeep(int weight1, int weight2, int count){
+    
+    AIPlayer* ai1 = new AIPlayer(NULL);
+    AIPlayer* ai2 = new AIPlayer(NULL);
+    ai1->setStrategy(3);
+    ai2->setStrategy(3);
+    
+    
+    int s1[3]={weight1 / 10000, (weight1 / 100) % 100, weight1 % 100};
+    int s2[3]={weight2 / 10000, (weight2 / 100) % 100, weight2 % 100};
+    for (int i = 0; i < 3; i++) {
+        if (s1[i] == 99) {
+            s1[i] = 100;
+        }
+        if (s2[i] == 99) {
+            s2[i] = 100;
+        }
+    }
+    
+    ai1->setKeepStrategyWeight(s1);
+    ai2->setKeepStrategyWeight(s2);
+        
+    testGame(ai1, ai2, count);
+    
+    delete ai1;
+    delete ai2;
+}
+
+void testGame(int p1Strategy, int p2Strategy){
+    AIPlayer* ai1 = new AIPlayer(NULL);
+    AIPlayer* ai2 = new AIPlayer(NULL);
+    ai1->setStrategy(p1Strategy);
+    ai2->setStrategy(p2Strategy);
+    testGame(ai1, ai2, 10000);
+}
+
+void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     
     int win = 0;
     int draw = 0;
@@ -68,6 +147,9 @@ void testGame(int p1Strategy, int p2Strategy, int gameCount){
     int maxPts = 0;
     int minPts = 0;
     int maxWin = 0;
+    int totalPts1 = 0;
+    int totalPts2 = 0;
+    int totalGiveCount = 0;
     
     std::vector<int>* p1PtsList = new std::vector<int>();
     std::vector<int>* p2PtsList = new std::vector<int>();
@@ -75,10 +157,8 @@ void testGame(int p1Strategy, int p2Strategy, int gameCount){
         Game* game = new Game(GAME_MODE::NORMAL);
         Player* player1 = new Player();
         Player* player2 = new Player();
-        AIPlayer* ai1 = new AIPlayer(game);
-        ai1->setStrategy(p1Strategy);
-        AIPlayer* ai2 = new AIPlayer(game);
-        ai2->setStrategy(p2Strategy);
+        ai1->setGame(game);
+        ai2->setGame(game);
         
         player1->setTag(1);
         player2->setTag(2);
@@ -92,13 +172,13 @@ void testGame(int p1Strategy, int p2Strategy, int gameCount){
         p1PtsList->push_back(player1->getPoints());
         p2PtsList->push_back(player2->getPoints());
         
-        delete ai1;
-        delete ai2;
         delete player1;
         delete player2;
         delete game;
+        totalGiveCount += ai1->getGiveCount();
     }
     
+    int* p1Pts = new int[gameCount];
     for (int i = 0; i < gameCount; i++) {
         string msg;
         int p1 = p1PtsList->at(i);
@@ -125,16 +205,33 @@ void testGame(int p1Strategy, int p2Strategy, int gameCount){
             maxWin = abs(p1 - p2);
         }
         
+        totalPts1 += p1;
+        totalPts2 += p2;
+        p1Pts[i] = p1;
 //        if (i > gameCount - 10) {
 //            LOGF("%3d. p1=[%d]  p2=[%d]  %s", i, p1, p2, msg.c_str());
 //        }
     }
     
-    LOGF("--- strategy p1=[%d] p2=[%d]", p1Strategy, p2Strategy);
-    LOGF("total=[%d] w/d/l=[%d/%d/%d]=[%5.1f%%\t%5.1f%%\t%5.1f%%]", gameCount, win, draw, lose, (float)win * 100 / gameCount, (float)draw * 100 / gameCount, (float)lose * 100 / gameCount );
-    LOGF("max=[%d] min=[%d] maxWin=[%d]", maxPts, minPts, maxWin);
+//    float avg1 = totalPts1 / gameCount;
+//    float sum = 0;
+//    for (int i = 0; i < gameCount; i++) {
+//        sum += (p1Pts[i] - avg1) * (p1Pts[i] - avg1);
+//    }
+//    float variance = sum/ gameCount;
+//    float stdD = sqrt(variance);
     
-    strategyPoints[p1Strategy] += (float)win * 100 / gameCount * 3 + (float)draw * 100 / gameCount;
-    strategyPoints[p2Strategy] += (float)lose * 100 / gameCount * 3 + (float)draw * 100 / gameCount;
+//    LOGF("------- strategy p1=[%d] p2=[%d]", ai1->getStategy(), ai2->getStategy());
+//    LOGF("- p1.weight=[%d-%d-%d]", ai1->getKeepStrategyWeight()[0], ai1->getKeepStrategyWeight()[1], ai1->getKeepStrategyWeight()[2]);
+//    LOGF("- p2.weight=[%d-%d-%d]", ai2->getKeepStrategyWeight()[0], ai2->getKeepStrategyWeight()[1], ai2->getKeepStrategyWeight()[2]);
+//    LOGF("total=[%d] w/d/l=[%d/%d/%d]=[%5.1f%%\t%5.1f%%\t%5.1f%%]", gameCount, win, draw, lose, (float)win * 100 / gameCount, (float)draw * 100 / gameCount, (float)lose * 100 / gameCount );
+//    LOGF("max=[%d] min=[%d] maxWin=[%d] avg1=[%5.2f] avg2=[%5.2f]", maxPts, minPts, maxWin, (float)totalPts1 / gameCount, (float)totalPts2 / gameCount);
+//    LOGF("------- ");
+    strategyPoints[ai1->getStategy()] += (float)win * 100 / gameCount * 3 + (float)draw * 100 / gameCount;
+    strategyPoints[ai2->getStategy()] += (float)lose * 100 / gameCount * 3 + (float)draw * 100 / gameCount;
     
+    LOGF("%d\t%5.2f\t%5.2f\t%5.2f\t%5.1f%%\t%5.1f%%\t%5.1f%%",
+         ai1->getGiveStrategy(), (float)totalGiveCount / gameCount,
+         (float)totalPts1 / gameCount, (float)totalPts2 / gameCount,
+         (float)win * 100 / gameCount, (float)draw * 100 / gameCount, (float)lose * 100 / gameCount);
 }

@@ -10,6 +10,8 @@
 
 
 Card::Card(int rank, int suit):mRank(rank), mSuit(suit){
+    mTag = 0;
+    mSeq = -1;
 }
 
 Card::Card(int index){
