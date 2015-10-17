@@ -27,6 +27,8 @@ public:
     void setKeepStrategyWeight(int weight[]) { mKeepStrategyWeight = weight; }
     int* getKeepStrategyWeight() { return mKeepStrategyWeight; }
     
+    void setGiveProb(int prob){ mGiveProb = prob; }
+    int getGiveProb() { return mGiveProb; }
     void setGiveStrategy(int strategy){ mGiveStrategy = strategy; }
     int getGiveStrategy() { return mGiveStrategy; }
     int getGiveCount() { return mGiveCount; }
@@ -39,6 +41,7 @@ private:
     int* mKeepStrategyWeight;
     int mGiveStrategy;
     int mGiveCount;
+    int mGiveProb;
 };
 
 #endif /* defined(__dalipoker__AIPlayer__) */

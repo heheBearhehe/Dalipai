@@ -22,10 +22,12 @@ class Card;
 class GameLayer;
 class PauseLayer;
 class UserChoiceLayer;
+class CalcScoreLayer;
 class PlayerActionCallBack;
+class CalcScoreActionCallBack;
 
 
-class PlayScene : public cocos2d::Scene, public PlayerChoiceListener, public GameStateListener
+class PlayScene : public cocos2d::Scene, public PlayerChoiceListener, public GameStateListener, public GameActionCallBack
 {
 public:
     virtual bool init();
@@ -34,6 +36,7 @@ public:
     
     virtual void onActionExecuted(int action, Player* player, Card* card1, Card* card2);
     void onAction();
+    virtual void onGameAction(int action);
 private:
     
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback);
@@ -56,6 +59,7 @@ private:
     GameLayer*       mGameLayer;
     PauseLayer*      mPauseLayer;
     UserChoiceLayer* mUserChoiceLayer;
+    CalcScoreLayer*  mCalcScoreLayer;
     
     
 };

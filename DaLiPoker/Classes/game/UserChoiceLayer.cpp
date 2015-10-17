@@ -13,9 +13,6 @@ using namespace std;
 using namespace cocos2d::ui;
 USING_NS_CC;
 
-
-USING_NS_CC;
-
 static string sCardImagesFileName[] = {
     "黑01-宽容.jpg",
     "黑02-第二性.jpg",

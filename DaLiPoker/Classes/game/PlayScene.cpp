@@ -11,6 +11,7 @@
 #include "GameLayer.h"
 #include "PauseLayer.h"
 #include "UserChoiceLayer.h"
+#include "CalcScoreLayer.h"
 #include "../model/def.h"
 #include "AIPlayer.h"
 
@@ -55,9 +56,11 @@ bool PlayScene::init(){
     mPauseLayer = PauseLayer::create();
     mUserChoiceLayer = UserChoiceLayer::create();
     mUserChoiceLayer->setPlayer(mPlayer1);
+    mCalcScoreLayer = CalcScoreLayer::create();
     this->addChild(mGameLayer);
     this->addChild(mPauseLayer);
     this->addChild(mUserChoiceLayer);
+    this->addChild(mCalcScoreLayer);
     mGameLayer->setVisible(true);
     mPauseLayer->setVisible(false);
     mUserChoiceLayer->setVisible(false);
@@ -68,6 +71,9 @@ bool PlayScene::init(){
 }
 
 void PlayScene::startGame(){
+    mGameLayer->setVisible(true);
+    mCalcScoreLayer->setVisible(false);
+    
     delete mGame;
     delete mPlayer1;
     delete mPlayer2;
@@ -149,6 +155,29 @@ void PlayScene::onFinished(){
     LOGI("UI. onFinished");
     mGameLayer->onFinished();
     mUserChoiceLayer->setVisible(false);
+    
+    mGameLayer->setVisible(false);
+    mCalcScoreLayer->setVisible(true);
+    mCalcScoreLayer->show(mGame, this);
+}
+
+void PlayScene::onGameAction(int action){
+    switch (action) {
+        case GAME_ACTION::GAME_ACTION_RECALC_SCORE:
+            onFinished();
+            break;
+        case GAME_ACTION::GAME_ACTION_RESTART:
+            startGame();
+            break;
+        case GAME_ACTION::GAME_ACTION_REPLAY:
+            break;
+        case GAME_ACTION::GAME_ACTION_EXIT:
+            Director::getInstance()->popScene();
+            break;
+            
+        default:
+            break;
+    }
 }
 
 void PlayScene::menuRestart(Ref* pSender){

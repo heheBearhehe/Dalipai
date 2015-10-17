@@ -41,6 +41,20 @@ typedef enum state{
     PAUSE,
 }STATE;
 
+
+typedef enum action{
+    GAME_ACTION_RESUME,
+    GAME_ACTION_RECALC_SCORE,
+    GAME_ACTION_RESTART,
+    GAME_ACTION_REPLAY,
+    GAME_ACTION_EXIT,
+}GAME_ACTION;
+
+class GameActionCallBack{
+public:
+    virtual void onGameAction(int action) = 0;
+};
+
 class PlayerActionCallBack{
 public:
     virtual void onPlayerAction(Player* player, int action) = 0;

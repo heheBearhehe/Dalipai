@@ -12,11 +12,12 @@
 
 
 AIPlayer::AIPlayer(Game* game):mGame(game){
-    mStrategy = 0;
+    mStrategy = 3;
     mKeepStrategyWeight = NULL;
     mKeepStrategyWeight = new int[3] {100, 200, 100};
     mGiveStrategy = 2;
     mGiveCount = 0;
+    mGiveProb = 0;
 }
 
 AIPlayer::~AIPlayer(){
@@ -184,8 +185,13 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
                     }
                 }
                 
-                if(getRandomSelect(20)){
-                    choiceList.push_back((int)Player::PLAYER_CHOICE_GIVE);
+                if (mGiveProb < 0) {
+                    mGiveProb = 20;
+                }
+                if(getRandomSelect(mGiveProb)){
+                    //                    choiceList.push_back((int)Player::PLAYER_CHOICE_GIVE);
+                    mGiveCount++;
+                    return Player::PLAYER_CHOICE_GIVE;
                 }
             }
             if (mStrategy > 0 && (availableChoice & Player::PLAYER_CHOICE_DISCARD) > 0){
@@ -194,8 +200,15 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
             
             if (choiceList.size() > 0) {
                 return choiceList.at(getRandom((int)choiceList.size()));
+            }else{
+                if ((availableChoice & Player::PLAYER_CHOICE_DISCARD) > 0) {
+                    return Player::PLAYER_CHOICE_DISCARD;
+                }else if ((availableChoice & Player::PLAYER_CHOICE_GIVE) > 0) {
+                    return Player::PLAYER_CHOICE_GIVE;
+                }else if ((availableChoice & Player::PLAYER_CHOICE_KEEP) > 0) {
+                    return Player::PLAYER_CHOICE_KEEP;
+                }
             }
-            
         }
             break;
             

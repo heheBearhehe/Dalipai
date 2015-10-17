@@ -77,8 +77,10 @@ void testGameForKeep(){
 //            testGameForKeep2(i , j, 10000);
 //        }
 //    }
-    for (int i = 0; i <= 5; i++) {
-        testGameForKeep2(i , 0, 10000);
+    for (int i = 1; i <= 3; i++) {
+        for(int j = 0; j <= 100; j+=10){
+            testGameForKeep2(i , j, 10000);
+        }
     }
 }
 
@@ -87,8 +89,11 @@ void testGameForKeep2(int weight1, int weight2, int count){
     AIPlayer* ai2 = new AIPlayer(NULL);
     ai1->setStrategy(3);
     ai1->setGiveStrategy(weight1);
+    ai1->setGiveProb(weight2);
     ai2->setStrategy(3);
     ai2->setGiveStrategy(0);
+//    ai2->setGiveStrategy(2);
+//    ai2->setGiveProb(weight2);
     
     
     int s1[3]={100, 200, 100};
@@ -154,7 +159,7 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     std::vector<int>* p1PtsList = new std::vector<int>();
     std::vector<int>* p2PtsList = new std::vector<int>();
     for (int i = 0; i < gameCount; i++) {
-        Game* game = new Game(GAME_MODE::NORMAL);
+        Game* game = new Game(GAME_MODE::SMALL);
         Player* player1 = new Player();
         Player* player2 = new Player();
         ai1->setGame(game);
@@ -230,8 +235,8 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     strategyPoints[ai1->getStategy()] += (float)win * 100 / gameCount * 3 + (float)draw * 100 / gameCount;
     strategyPoints[ai2->getStategy()] += (float)lose * 100 / gameCount * 3 + (float)draw * 100 / gameCount;
     
-    LOGF("%d\t%5.2f\t%5.2f\t%5.2f\t%5.1f%%\t%5.1f%%\t%5.1f%%",
-         ai1->getGiveStrategy(), (float)totalGiveCount / gameCount,
+    LOGF("%d\t%d\t%5.2f\t%5.2f\t%5.2f\t%5.1f%%\t%5.1f%%\t%5.1f%%",
+         ai1->getGiveStrategy(), ai1->getGiveProb(), (float)totalGiveCount / gameCount,
          (float)totalPts1 / gameCount, (float)totalPts2 / gameCount,
          (float)win * 100 / gameCount, (float)draw * 100 / gameCount, (float)lose * 100 / gameCount);
 }
