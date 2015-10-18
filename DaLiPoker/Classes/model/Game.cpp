@@ -288,7 +288,7 @@ int Game::getMyPlayerPoints(){
 }
 
 int Game::getOpponentPoints(){
-    if (mState != STATE::FINISH) {
+    if (mPlayMode != PLAY_MODE::REPLAY && mState != STATE::FINISH) {
         return 0;
     }
     

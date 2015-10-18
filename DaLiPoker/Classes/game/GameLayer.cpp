@@ -43,7 +43,7 @@ void GameLayer::invalidate(){
     updateResetCard(mGame->getResetCardsCount());
     updateDiscardCards(mGame->getDiscardCardList());
     updateDealCard();
-    updateGameInfo(mGame->getMyPlayerPoints());
+    updateGameInfo(mGame->getMyPlayerPoints(), mGame->getOpponentPoints());
     updateMesage();
 }
 
@@ -79,7 +79,7 @@ void GameLayer::test(){
     updateDiscardCards(discardList);
     updateOpponentCard(discardList);
     updateResetCard(resetCardCount);
-    updateGameInfo(myPoints);
+    updateGameInfo(myPoints, -1);
 }
 
 void GameLayer::update(float delta){
@@ -302,7 +302,7 @@ void GameLayer::updateDealCard(){
     this->addChild(card);
 }
 
-void GameLayer::updateGameInfo(int myPoints){
+void GameLayer::updateGameInfo(int myPoints, int opponentPoints){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
@@ -317,6 +317,20 @@ void GameLayer::updateGameInfo(int myPoints){
     label->setPosition(Vec2(origin.x + visibleSize.width - label->getContentSize().width,
                             origin.y + label->getContentSize().height + 50));
     this->addChild(label, 1);
+    
+    if (mShouldShowOppnentCard && opponentPoints >= 0) {
+        stringstream ss;
+        ss << "总分: " << opponentPoints;
+        
+        auto label = Label::create();
+        label->setContentSize(Size(100, 40));
+        label->setString(ss.str());
+        label->setSystemFontSize(30);
+        label->setColor(Color3B::BLACK);
+        label->setPosition(Vec2(origin.x + visibleSize.width - label->getContentSize().width,
+                                origin.y + label->getContentSize().height + visibleSize.height - 110));
+        this->addChild(label, 1);
+    }
 }
 
 void GameLayer::onFinished(){

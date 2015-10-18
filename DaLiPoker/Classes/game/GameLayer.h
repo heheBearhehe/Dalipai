@@ -38,7 +38,7 @@ protected:
     void updateResetCard(int count);
     void updateDiscardCards(std::vector<Card*>* cards);
     void updateDealCard();
-    void updateGameInfo(int myPoints);
+    void updateGameInfo(int myPoints, int opponentPoints);
     
     cocos2d::ui::Widget* createPokerFront(Card* card);
     cocos2d::ui::Widget* createPokerBack(Card* card);
