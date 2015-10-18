@@ -45,6 +45,8 @@
 		4169E6891B887B7900331C75 /* StateFinish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6871B887B7900331C75 /* StateFinish.cpp */; };
 		419847621B6E5FF000F8A29B /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419847611B6E5FF000F8A29B /* HelloWorldScene.cpp */; };
 		41A810501BD249930038905C /* CalcScoreLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A8104E1BD249930038905C /* CalcScoreLayer.cpp */; settings = {ASSET_TAGS = (); }; };
+		41A810531BD280910038905C /* SettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810511BD280910038905C /* SettingsScene.cpp */; settings = {ASSET_TAGS = (); }; };
+		41A810561BD3D2A00038905C /* Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810541BD3D2A00038905C /* Settings.cpp */; settings = {ASSET_TAGS = (); }; };
 		41E941681B7F399400A98625 /* game_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41E941641B7F399400A98625 /* game_bg.jpg */; };
 		41E941691B7F399400A98625 /* poker_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941651B7F399400A98625 /* poker_back.png */; };
 		41E9416A1B7F399400A98625 /* poker_discard.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941661B7F399400A98625 /* poker_discard.png */; };
@@ -200,6 +202,10 @@
 		419847611B6E5FF000F8A29B /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
 		41A8104E1BD249930038905C /* CalcScoreLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CalcScoreLayer.cpp; sourceTree = "<group>"; };
 		41A8104F1BD249930038905C /* CalcScoreLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalcScoreLayer.h; sourceTree = "<group>"; };
+		41A810511BD280910038905C /* SettingsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsScene.cpp; sourceTree = "<group>"; };
+		41A810521BD280910038905C /* SettingsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsScene.h; sourceTree = "<group>"; };
+		41A810541BD3D2A00038905C /* Settings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Settings.cpp; sourceTree = "<group>"; };
+		41A810551BD3D2A00038905C /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		41E941641B7F399400A98625 /* game_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = game_bg.jpg; sourceTree = "<group>"; };
 		41E941651B7F399400A98625 /* poker_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_back.png; sourceTree = "<group>"; };
 		41E941661B7F399400A98625 /* poker_discard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_discard.png; sourceTree = "<group>"; };
@@ -418,6 +424,10 @@
 				4132CFA51B6FA22000F42F1A /* UserChoiceLayer.h */,
 				41A8104E1BD249930038905C /* CalcScoreLayer.cpp */,
 				41A8104F1BD249930038905C /* CalcScoreLayer.h */,
+				41A810511BD280910038905C /* SettingsScene.cpp */,
+				41A810521BD280910038905C /* SettingsScene.h */,
+				41A810541BD3D2A00038905C /* Settings.cpp */,
+				41A810551BD3D2A00038905C /* Settings.h */,
 			);
 			path = game;
 			sourceTree = "<group>";
@@ -698,6 +708,7 @@
 				4169E6741B8876CA00331C75 /* StateInit.cpp in Sources */,
 				4169E6771B8876D800331C75 /* StateBase.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				41A810531BD280910038905C /* SettingsScene.cpp in Sources */,
 				41A810501BD249930038905C /* CalcScoreLayer.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -710,6 +721,7 @@
 				4132CFA31B6FA07900F42F1A /* Utils.cpp in Sources */,
 				4132CFA11B6FA07900F42F1A /* Player.cpp in Sources */,
 				4132CF9E1B6FA07900F42F1A /* AIPlayer.cpp in Sources */,
+				41A810561BD3D2A00038905C /* Settings.cpp in Sources */,
 				4132CF9B1B6FA07900F42F1A /* GameLayer.cpp in Sources */,
 				4132CF9F1B6FA07900F42F1A /* Card.cpp in Sources */,
 			);

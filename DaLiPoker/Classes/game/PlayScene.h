@@ -18,6 +18,7 @@ class Game;
 class Player;
 class Recorder;
 class Card;
+class AIPlayer;
 
 class GameLayer;
 class PauseLayer;
@@ -55,6 +56,7 @@ private:
     Game*   mGame;
     Player* mPlayer1;
     Player* mPlayer2;
+    AIPlayer* mAi2;
     
     GameLayer*       mGameLayer;
     PauseLayer*      mPauseLayer;

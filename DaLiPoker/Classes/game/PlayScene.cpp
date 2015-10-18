@@ -14,6 +14,7 @@
 #include "CalcScoreLayer.h"
 #include "../model/def.h"
 #include "AIPlayer.h"
+#include "Settings.h"
 
 using namespace std;
 
@@ -77,6 +78,7 @@ void PlayScene::startGame(){
     delete mGame;
     delete mPlayer1;
     delete mPlayer2;
+    delete mAi2;
     
     mGame = new Game();
     mPlayer1 = new Player();
@@ -85,6 +87,15 @@ void PlayScene::startGame(){
     mPlayer2->setTag(2);
     mGame->setPlayer(mPlayer1, mPlayer2);
     mGame->setPlayer1ChoiceListener(this);
+    mAi2 = new AIPlayer(mGame);
+    if (Settings::getInstance()->giveProb >= 0) {
+        mAi2->setGiveProb(Settings::getInstance()->giveProb);
+    }
+    if (Settings::getInstance()->card1Weight >= 0) {
+        mAi2->setKeepStrategyWeight((int[]){Settings::getInstance()->card1Weight, Settings::getInstance()->card2Weight, Settings::getInstance()->card3Weight});
+    }
+    
+    mGame->setPlayer2ChoiceListener(mAi2);
     mGame->setGameStateListener(this);
     mGameLayer->setShouldShowOppnentCard(false);
     mGameLayer->setGame(mGame);

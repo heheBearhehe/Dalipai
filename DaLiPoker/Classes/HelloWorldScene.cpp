@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "PlayScene.h"
+#include "SettingsScene.h"
 #include <iostream>
 using namespace std;
 
@@ -107,9 +108,21 @@ void HelloWorld::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
-            if (btn->getTag() == MAIN_BUTTONS::PLAY) {
-                Director::getInstance()->pushScene(PlayScene::create());
+            switch (btn->getTag()) {
+                case MAIN_BUTTONS::PLAY:
+                    Director::getInstance()->pushScene(PlayScene::create());
+                    break;
+                case MAIN_BUTTONS::HELP:
+                    break;
+                case MAIN_BUTTONS::STATISTIC:
+                    break;
+                case MAIN_BUTTONS::SETTINGS:
+                    Director::getInstance()->pushScene(SettingsScene::create());
+                    break;
+                default:
+                    break;
             }
+            
             break;
         case cocos2d::ui::Widget::TouchEventType::MOVED:
             break;
