@@ -35,6 +35,7 @@ public:
     Player();
     ~Player();
     
+    void reset();
     string getDumpPrefix();
     
     void setTag(int tag) { mTag = tag; };

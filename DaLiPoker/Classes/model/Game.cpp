@@ -26,8 +26,8 @@
 using std::cout;
 
 
-Game::Game(GAME_MODE mode){
-    mPlayMode = PLAY_MODE::AUTO;
+Game::Game(GAME_MODE mode, PLAY_MODE playMode){
+    mPlayMode = playMode;
     mCardList = new vector<Card *>();
     mDiscardCardList = new vector<Card *>();
     mGameMode = mode;
@@ -61,30 +61,40 @@ Game::~Game(){
     delete mDiscardCardList;
 }
 
-bool Game::init(){
+void Game::reset(){
+    mPlayer1->reset();
+    mPlayer2->reset();
+    mCurrentPlayer = mPlayer1;
+    mNextPlayer = mPlayer2;
     mState = STATE::INIT;
     mCurrentState = getState(STATE::INIT);
     mCurrentCardIndex = 0;
-    
+    mDiscardCardList->clear();
+}
+
+bool Game::init(){
     if (mPlayMode == PLAY_MODE::AUTO) {
         initCards();
         shuffle();
         mRecorder = new Recorder();
         mRecorder->setCardList(mCardList);
     }else if(mPlayMode == PLAY_MODE::REPLAY){
-        vector<Card *>::iterator iter;
-        for (iter = mCardList->begin(); iter != mCardList->end(); iter++){
-            delete (*iter);
-        }
-        delete mCardList;
+//        vector<Card *>::iterator iter;
+//        for (iter = mCardList->begin(); iter != mCardList->end(); iter++){
+//            delete (*iter);
+//        }
+//        delete mCardList;
         
         mCardList = new vector<Card *>();
         
         vector<int>* cardIndexList = mRecorder->getCardIndexList();
-        vector<int>* actionList = mRecorder->getActionList();
         vector<int>::iterator iterIndex;
+        int seq = 0;
         for (iterIndex = cardIndexList->begin(); iterIndex != cardIndexList->end(); iterIndex++) {
-            mCardList->push_back(new Card(*iterIndex));
+            Card* card = new Card(*iterIndex);
+            card->setTag(seq % 2 + 1);
+            card->setSeq(seq++);
+            mCardList->push_back(card);
         }
     }
     
@@ -153,6 +163,7 @@ bool Game::start(){
         mPlayer2->setChoiceListener(mPlayer2ChoiceListener);
     }
     
+    reset();
     mCurrentState->execute();
     mCurrentState->next();
     
@@ -196,7 +207,7 @@ void Game::onPlayerAction(Player* player, int action){
         card->setTag(player->getTag());
     }
     
-    if (mRecorder != NULL) {
+    if (mPlayMode != PLAY_MODE::REPLAY && mRecorder != NULL && action > Player::PLAYER_CHOICE_AUTO && action <= Player::PLAYER_CHOICE_GIVE) {
         mRecorder->addPlayerAction(player->getTag(), action);
     }
     

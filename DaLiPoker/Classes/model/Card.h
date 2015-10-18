@@ -29,6 +29,7 @@ class Card {
 public:
     Card(int rank, int suit);
     Card(int index);
+    ~Card();
     virtual string toString();
 
     int getRank() { return mRank; }

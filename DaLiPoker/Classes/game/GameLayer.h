@@ -22,6 +22,7 @@ public:
     CREATE_FUNC(GameLayer);
     
     void setGame(Game* game) { mGame = game;}
+    void setDealCardForReplay(Card* card) { mDealCard = card; }
     void setMessage(const std::string& message);
     void clearMessage();
     void invalidate();
@@ -36,6 +37,7 @@ protected:
     void updateOpponentCard(std::vector<Card*>* cards);
     void updateResetCard(int count);
     void updateDiscardCards(std::vector<Card*>* cards);
+    void updateDealCard();
     void updateGameInfo(int myPoints);
     
     cocos2d::ui::Widget* createPokerFront(Card* card);
@@ -49,6 +51,7 @@ protected:
     
 private:
     Game* mGame;
+    Card* mDealCard;
     std::string mMessage;
     bool mShouldShowOppnentCard;
     

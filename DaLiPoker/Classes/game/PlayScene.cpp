@@ -14,6 +14,7 @@
 #include "CalcScoreLayer.h"
 #include "../model/def.h"
 #include "AIPlayer.h"
+#include "ReplayPlayer.h"
 #include "Settings.h"
 
 using namespace std;
@@ -52,7 +53,8 @@ bool PlayScene::init(){
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
     
-    
+    mReplayerPlayer = NULL;
+    mReplayInterval = 1;
     mGameLayer = GameLayer::create();
     mPauseLayer = PauseLayer::create();
     mUserChoiceLayer = UserChoiceLayer::create();
@@ -72,36 +74,83 @@ bool PlayScene::init(){
 }
 
 void PlayScene::startGame(){
+    mReplayMode = false;
     mGameLayer->setVisible(true);
     mCalcScoreLayer->setVisible(false);
+    
+    bool testReplay = false;
     
     delete mGame;
     delete mPlayer1;
     delete mPlayer2;
     delete mAi2;
     
-    mGame = new Game();
+    mReplayMode = testReplay;
+    mGame = new Game(GAME_MODE::NORMAL, mReplayMode ? PLAY_MODE::REPLAY : PLAY_MODE::AUTO);
+    
     mPlayer1 = new Player();
     mPlayer1->setTag(1);
     mPlayer2 = new Player();
     mPlayer2->setTag(2);
     mGame->setPlayer(mPlayer1, mPlayer2);
-    mGame->setPlayer1ChoiceListener(this);
-    mAi2 = new AIPlayer(mGame);
-    if (Settings::getInstance()->giveProb >= 0) {
-        mAi2->setGiveProb(Settings::getInstance()->giveProb);
-    }
-    if (Settings::getInstance()->card1Weight >= 0) {
-        mAi2->setKeepStrategyWeight((int[]){Settings::getInstance()->card1Weight, Settings::getInstance()->card2Weight, Settings::getInstance()->card3Weight});
-    }
     
-    mGame->setPlayer2ChoiceListener(mAi2);
+    if (mReplayMode) {
+        Recorder* recorder = new Recorder();
+        vector<Card *> *cardList = new vector<Card *>();
+        for (int i = 0; i < 8; i++) {
+            cardList->push_back(new Card(i));
+        }
+        for (int i = 0; i < 8; i++) {
+            recorder->addPlayerAction((i % 2) + 1, 2);
+        }
+        recorder->setCardList(cardList);
+        mGame->setRecorder(recorder);
+        
+        mReplayerPlayer = new ReplayPlayer(mGame);
+        mReplayerPlayer->setRecorder(recorder);
+        
+        mGame->setPlayer1ChoiceListener(this);
+        mGame->setPlayer2ChoiceListener(this);
+        mGameLayer->setShouldShowOppnentCard(true);
+    }else{
+        
+        mGame->setPlayer1ChoiceListener(this);
+        mAi2 = new AIPlayer(mGame);
+        if (Settings::getInstance()->giveProb >= 0) {
+            mAi2->setGiveProb(Settings::getInstance()->giveProb);
+        }
+        if (Settings::getInstance()->card1Weight >= 0) {
+            mAi2->setKeepStrategyWeight((int[]){Settings::getInstance()->card1Weight, Settings::getInstance()->card2Weight, Settings::getInstance()->card3Weight});
+        }
+        
+        mGame->setPlayer2ChoiceListener(mAi2);
+        mGameLayer->setShouldShowOppnentCard(false);
+    }
     mGame->setGameStateListener(this);
-    mGameLayer->setShouldShowOppnentCard(false);
     mGameLayer->setGame(mGame);
     
     mGame->start();
     mGame->next();
+}
+
+void PlayScene::replayGame(){
+    mReplayMode = true;
+    mGameLayer->setVisible(true);
+    mCalcScoreLayer->setVisible(false);
+    
+    mGame->setPlayMode(PLAY_MODE::REPLAY);
+    mReplayerPlayer = new ReplayPlayer(mGame);
+    mReplayerPlayer->setRecorder(mGame->getRecorder());
+    
+    mGame->setPlayer1ChoiceListener(this);
+    mGame->setPlayer2ChoiceListener(this);
+    mGameLayer->setShouldShowOppnentCard(true);
+    mGame->setGameStateListener(this);
+    mGameLayer->setGame(mGame);
+    
+    mGame->start();
+    mGame->next();
+    
 }
 
 cocos2d::ui::Button* PlayScene::addButton(const std::string& text, const Size & size, const Vec2& position, int tag){
@@ -139,14 +188,24 @@ void PlayScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
 
 int PlayScene::makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback){
     LOGI("UI. makeChoice  card=[%s]", card->getDisplay().c_str());
-    if (player == mPlayer2) {
+    if (!mReplayMode && player == mPlayer2) {
         return 0;
     }
     
-    mGameLayer->invalidate();
-    
-    mUserChoiceLayer->setVisible(true);
-    mUserChoiceLayer->show(card, player->getLastCard(), availableChoice, callback);
+    if (mReplayMode) {
+        mReplayCallback = callback;
+        mCurrentReplayPlayer = player;
+        mCurrentReplayAction = mReplayerPlayer->makeChoice(player, card, availableChoice, callback);
+        DelayTime * delayAction = DelayTime::create(mReplayInterval * 2);
+        CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onMakeChoice, this));
+        this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+    }else{
+        mGameLayer->setDealCardForReplay(NULL);
+        mGameLayer->invalidate();
+        
+        mUserChoiceLayer->setVisible(true);
+        mUserChoiceLayer->show(card, player->getLastCard(), availableChoice, callback);
+    }
     
     string message = getChoiceMessage(availableChoice, player);
     if (message.length() > 0) {
@@ -154,6 +213,12 @@ int PlayScene::makeChoice(Player* player, Card* card, int availableChoice, Playe
     }
 
     return 0;
+}
+
+void PlayScene::onMakeChoice(){
+    LOGI("PlayScene.onMakeChoice");
+    mReplayCallback->onPlayerAction(mCurrentReplayPlayer, mCurrentReplayAction);
+    mReplayCallback->execute();
 }
 
 bool PlayScene::onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard){
@@ -181,6 +246,7 @@ void PlayScene::onGameAction(int action){
             startGame();
             break;
         case GAME_ACTION::GAME_ACTION_REPLAY:
+            replayGame();
             break;
         case GAME_ACTION::GAME_ACTION_EXIT:
             Director::getInstance()->popScene();
@@ -208,10 +274,18 @@ void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* 
         delayTime = 0.2f;
         mGameLayer->clearMessage();
     }
+    mGameLayer->setDealCardForReplay(NULL);
+    if (mReplayMode) {
+        delayTime = mReplayInterval;
+        if (action == ACTION_START_GAME_STATE + STATE::PLAYER_DEAL) {
+            mGameLayer->setDealCardForReplay(card1);
+        }
+    }
+    
     mGameLayer->invalidate();
     
     DelayTime * delayAction = DelayTime::create(delayTime);
-    CC_CALLBACK_0(PlayScene::onAction, this);
+//    CC_CALLBACK_0(PlayScene::onAction, this);
     CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
     this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
 }

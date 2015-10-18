@@ -31,6 +31,8 @@ public:
     
     vector<int>* getCardIndexList() { return mCardIndexList; }
     vector<int>* getActionList() { return mActionList; }
+    
+    int getAction(int index, int playerTag);
         
 private:
     vector<int>* mCardIndexList;

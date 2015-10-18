@@ -35,7 +35,8 @@ bool StateOpponentChoice::enter(){
         action = Player::PLAYER_CHOICE_KEEP_FOR_GIVE;
     }
     mAvailableAction = action;
-    mGame->onPlayerAction(oppenentPlayer, action);
+    mGame->mPlayerAction = action;
+//    mGame->onPlayerAction(oppenentPlayer, action);
     
     action = oppenentPlayer->mChoiceListener->makeChoice(oppenentPlayer, card, action, oppenentPlayer->mCallback);
     

@@ -22,6 +22,12 @@ Player::~Player(){
     delete mKeepCardList;
 }
 
+
+void Player::reset(){
+    mKeepCardList->clear();
+    mPoints = 0;
+}
+
 string Player::getDumpPrefix(){
     return this->getTag() > 1? "                                                            " : "                   ";
 }

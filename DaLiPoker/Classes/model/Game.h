@@ -41,6 +41,9 @@ typedef enum state{
     PAUSE,
 }STATE;
 
+static const int ACTION_START_GAME_ACTION = 0;
+static const int ACTION_START_GAME_STATE  = 1000;
+
 
 typedef enum action{
     GAME_ACTION_RESUME,
@@ -80,9 +83,11 @@ class Game : public PlayerActionCallBack{
     
 public:
     
-    Game(GAME_MODE mode = GAME_MODE::NORMAL);
+    Game(GAME_MODE mode = GAME_MODE::NORMAL, PLAY_MODE playMode = PLAY_MODE::AUTO);
     ~Game();
     
+    void setPlayMode(PLAY_MODE mode) { mPlayMode = mode; }
+    void reset();
     bool init();
     bool setPlayer(Player* player1, Player* player2);
     bool start();
@@ -120,6 +125,8 @@ public:
     void setPlayer2ChoiceListener(PlayerChoiceListener* l);
     void setGameStateListener(GameStateListener* l);
     
+    void setRecorder(Recorder* recorder) { mRecorder = recorder; }
+    Recorder* getRecorder() { return mRecorder; };
     
 protected:
     void shuffle();

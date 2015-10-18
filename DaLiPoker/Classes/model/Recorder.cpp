@@ -42,4 +42,19 @@ void Recorder::addPlayerAction(int playerTag, int action){
     LOGI("saved action=[0x%x]", serializationAction);
 }
 
+int Recorder::getAction(int index, int playerTag){
+    if (mActionList == NULL || mActionList->size() <= index || index < 0) {
+        return 0;
+    }
+    
+    int playerAction = mActionList->at(index);
+    int tag = playerAction >> 8;
+    int action = playerAction & 0xff;
+    
+    if (tag == playerTag) {
+        return action;
+    }else{
+        return 0;
+    }
+}
 

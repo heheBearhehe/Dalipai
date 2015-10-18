@@ -47,6 +47,8 @@
 		41A810501BD249930038905C /* CalcScoreLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A8104E1BD249930038905C /* CalcScoreLayer.cpp */; settings = {ASSET_TAGS = (); }; };
 		41A810531BD280910038905C /* SettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810511BD280910038905C /* SettingsScene.cpp */; settings = {ASSET_TAGS = (); }; };
 		41A810561BD3D2A00038905C /* Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810541BD3D2A00038905C /* Settings.cpp */; settings = {ASSET_TAGS = (); }; };
+		41A810591BD3E1E50038905C /* ReplayLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810571BD3E1E50038905C /* ReplayLayer.cpp */; settings = {ASSET_TAGS = (); }; };
+		41A8105C1BD3E43B0038905C /* ReplayPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A8105A1BD3E43B0038905C /* ReplayPlayer.cpp */; settings = {ASSET_TAGS = (); }; };
 		41E941681B7F399400A98625 /* game_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41E941641B7F399400A98625 /* game_bg.jpg */; };
 		41E941691B7F399400A98625 /* poker_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941651B7F399400A98625 /* poker_back.png */; };
 		41E9416A1B7F399400A98625 /* poker_discard.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941661B7F399400A98625 /* poker_discard.png */; };
@@ -206,6 +208,10 @@
 		41A810521BD280910038905C /* SettingsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsScene.h; sourceTree = "<group>"; };
 		41A810541BD3D2A00038905C /* Settings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Settings.cpp; sourceTree = "<group>"; };
 		41A810551BD3D2A00038905C /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		41A810571BD3E1E50038905C /* ReplayLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReplayLayer.cpp; sourceTree = "<group>"; };
+		41A810581BD3E1E50038905C /* ReplayLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplayLayer.h; sourceTree = "<group>"; };
+		41A8105A1BD3E43B0038905C /* ReplayPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReplayPlayer.cpp; sourceTree = "<group>"; };
+		41A8105B1BD3E43B0038905C /* ReplayPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplayPlayer.h; sourceTree = "<group>"; };
 		41E941641B7F399400A98625 /* game_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = game_bg.jpg; sourceTree = "<group>"; };
 		41E941651B7F399400A98625 /* poker_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_back.png; sourceTree = "<group>"; };
 		41E941661B7F399400A98625 /* poker_discard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_discard.png; sourceTree = "<group>"; };
@@ -428,6 +434,8 @@
 				41A810521BD280910038905C /* SettingsScene.h */,
 				41A810541BD3D2A00038905C /* Settings.cpp */,
 				41A810551BD3D2A00038905C /* Settings.h */,
+				41A810571BD3E1E50038905C /* ReplayLayer.cpp */,
+				41A810581BD3E1E50038905C /* ReplayLayer.h */,
 			);
 			path = game;
 			sourceTree = "<group>";
@@ -449,6 +457,8 @@
 				4132CF981B6FA07900F42F1A /* Recorder.h */,
 				4132CF991B6FA07900F42F1A /* Utils.cpp */,
 				4132CF9A1B6FA07900F42F1A /* Utils.h */,
+				41A8105A1BD3E43B0038905C /* ReplayPlayer.cpp */,
+				41A8105B1BD3E43B0038905C /* ReplayPlayer.h */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -703,10 +713,12 @@
 				419847621B6E5FF000F8A29B /* HelloWorldScene.cpp in Sources */,
 				4132CF9D1B6FA07900F42F1A /* PlayScene.cpp in Sources */,
 				4169E6801B88772D00331C75 /* StateOpponentChoice.cpp in Sources */,
+				41A8105C1BD3E43B0038905C /* ReplayPlayer.cpp in Sources */,
 				4169E6831B88773D00331C75 /* StateSwitchPlayer.cpp in Sources */,
 				4169E67A1B8876EF00331C75 /* StateDeal.cpp in Sources */,
 				4169E6741B8876CA00331C75 /* StateInit.cpp in Sources */,
 				4169E6771B8876D800331C75 /* StateBase.cpp in Sources */,
+				41A810591BD3E1E50038905C /* ReplayLayer.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				41A810531BD280910038905C /* SettingsScene.cpp in Sources */,
 				41A810501BD249930038905C /* CalcScoreLayer.cpp in Sources */,

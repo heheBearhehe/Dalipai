@@ -42,6 +42,7 @@ void GameLayer::invalidate(){
     updateOpponentCard(mGame->getOpponentCardsList());
     updateResetCard(mGame->getResetCardsCount());
     updateDiscardCards(mGame->getDiscardCardList());
+    updateDealCard();
     updateGameInfo(mGame->getMyPlayerPoints());
     updateMesage();
 }
@@ -281,6 +282,24 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
     stringstream ss;
     ss << cards->size();
     drawText(ss.str(), Vec2(maxX + cardWidth, posY), Size(cardWidth, cardHeight));
+}
+
+
+void GameLayer::updateDealCard(){
+    if (mDealCard == NULL) {
+        return;
+    }
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    float cardWidth = visibleSize.width / 10;
+    float cardHeight = cardWidth * 1.5;
+    int posX = origin.x + visibleSize.width / 2;
+    int posY = mDealCard->getTag() == 1 ? origin.y + 150 + cardHeight : origin.y + visibleSize.height - 300;
+    
+    Widget* card = createPokerFront(mDealCard);
+    card->setPosition(Vec2(posX, posY));
+    this->addChild(card);
 }
 
 void GameLayer::updateGameInfo(int myPoints){

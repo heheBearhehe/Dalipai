@@ -27,7 +27,7 @@ static string sCardImagesFileName[] = {
     "黑11-自学成才.jpg",
     "黑12-距离.jpg",
     "黑13-文学家.jpg",
-    "红01-学有所长",
+    "红01-学有所长.jpg",
     "红02-等号.jpg",
     "红03-天赐良缘.jpg",
     "红04-朝三暮四.jpg",

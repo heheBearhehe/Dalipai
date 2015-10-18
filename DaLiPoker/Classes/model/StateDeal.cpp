@@ -29,7 +29,7 @@ bool StateDeal::execute(){
     
     Card* card = mGame->currentCard();
     if (card != NULL) {
-        mGame->onActionExecuted(STATE::PLAYER_DEAL, mGame->mCurrentPlayer, card, NULL);
+        mGame->onActionExecuted(ACTION_START_GAME_STATE + STATE::PLAYER_DEAL, mGame->mCurrentPlayer, card, NULL);
     }
     
     return StateBase::execute();

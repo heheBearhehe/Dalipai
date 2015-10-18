@@ -19,6 +19,7 @@ class Player;
 class Recorder;
 class Card;
 class AIPlayer;
+class ReplayPlayer;
 
 class GameLayer;
 class PauseLayer;
@@ -37,6 +38,7 @@ public:
     
     virtual void onActionExecuted(int action, Player* player, Card* card1, Card* card2);
     void onAction();
+    void onMakeChoice();
     virtual void onGameAction(int action);
 private:
     
@@ -48,6 +50,7 @@ private:
     cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
     
     void startGame();
+    void replayGame();
     void menuRestart(Ref* pSender);
     std::string getChoiceMessage(int action, Player* player);
     std::string getActionExecutedMessage(int action, Player* player);
@@ -57,12 +60,19 @@ private:
     Player* mPlayer1;
     Player* mPlayer2;
     AIPlayer* mAi2;
+    ReplayPlayer* mReplayerPlayer;
     
     GameLayer*       mGameLayer;
     PauseLayer*      mPauseLayer;
     UserChoiceLayer* mUserChoiceLayer;
     CalcScoreLayer*  mCalcScoreLayer;
     
+    bool                  mReplayMode;
+    int                   mReplayInterval;
+    PlayerActionCallBack* mReplayCallback;
+    Player*               mCurrentReplayPlayer;
+    int                   mCurrentReplayAction;
+
     
 };
 

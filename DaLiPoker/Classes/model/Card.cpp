@@ -19,6 +19,10 @@ Card::Card(int index){
     mSuit = index % SUIT::COUNT;
 }
 
+Card::~Card(){
+    
+}
+
 string Card::toString(){
     char buffer[1024] = {};
     sprintf(buffer, "Card[%s] [%d-%d] index=[%d]", getDisplay().c_str(), mRank, mSuit, getIndex());
