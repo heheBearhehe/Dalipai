@@ -49,7 +49,7 @@ protected:
     
     void test();
     
-private:
+protected:
     Game* mGame;
     Card* mDealCard;
     std::string mMessage;

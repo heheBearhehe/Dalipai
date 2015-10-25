@@ -39,6 +39,8 @@ public:
     void setTag(int tag) { mTag = tag; }
     int getSeq() { return mSeq; }
     void setSeq(int seq) { mSeq = seq; }
+    int getScored() { return mScored; }
+    void setScored(bool scored) { mScored = scored; }
     
     string getDisplay();
     string getDisplaySuit();
@@ -49,6 +51,7 @@ private:
     int mSuit;
     int mTag;
     int mSeq;
+    int mScored;
 };
 
 
