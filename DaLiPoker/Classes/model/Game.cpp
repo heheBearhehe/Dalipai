@@ -103,7 +103,7 @@ bool Game::init(){
 
 void Game::initCards(){
     int numMin = 0;
-    int numMax = 1;
+    int numMax = 12;
     if (mGameMode == GAME_MODE::SMALL) {
         numMin = 2;
         numMax = 10;
@@ -111,7 +111,15 @@ void Game::initCards(){
     
     int numCount = numMax - numMin + 1;
     for (int i = 0; i < numCount * SUIT::COUNT; i++) {
-        mCardList->push_back(new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT));
+        Card* card = new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT);
+        
+        // for test
+//        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB) {
+//            delete card;
+//            continue;
+//        }
+        
+        mCardList->push_back(card);
     }
     
     mMinRank = numMin;

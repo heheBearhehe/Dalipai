@@ -25,6 +25,7 @@ class GameLayer;
 class PauseLayer;
 class UserChoiceLayer;
 class CalcScoreLayer;
+class ReplayLayer;
 class PlayerActionCallBack;
 class CalcScoreActionCallBack;
 
@@ -66,9 +67,11 @@ private:
     PauseLayer*      mPauseLayer;
     UserChoiceLayer* mUserChoiceLayer;
     CalcScoreLayer*  mCalcScoreLayer;
+    ReplayLayer*     mReplayLayer;
     
     bool                  mReplayMode;
-    int                   mReplayInterval;
+    bool                  mReplayPaused;
+    float                 mReplayInterval;
     PlayerActionCallBack* mReplayCallback;
     Player*               mCurrentReplayPlayer;
     int                   mCurrentReplayAction;

@@ -12,6 +12,7 @@
 #include "PauseLayer.h"
 #include "UserChoiceLayer.h"
 #include "CalcScoreLayer.h"
+#include "ReplayLayer.h"
 #include "../model/def.h"
 #include "AIPlayer.h"
 #include "ReplayPlayer.h"
@@ -36,13 +37,13 @@ bool PlayScene::init(){
     bg->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
     this->addChild(bg, 0);
     
-    auto label = Label::create();
-    label->setString("大李牌");
-    label->setSystemFontSize(30);
-    label->setColor(Color3B::BLACK);
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-    this->addChild(label, 1);
+//    auto label = Label::create();
+//    label->setString("大李牌");
+//    label->setSystemFontSize(30);
+//    label->setColor(Color3B::BLACK);
+//    label->setPosition(Vec2(origin.x + visibleSize.width/2,
+//                            origin.y + visibleSize.height - label->getContentSize().height));
+//    this->addChild(label, 1);
     
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
@@ -64,13 +65,17 @@ bool PlayScene::init(){
     mUserChoiceLayer = UserChoiceLayer::create();
     mUserChoiceLayer->setPlayer(mPlayer1);
     mCalcScoreLayer = CalcScoreLayer::create();
+    mReplayLayer = ReplayLayer::create();
     this->addChild(mGameLayer);
     this->addChild(mPauseLayer, 10000);
     this->addChild(mUserChoiceLayer);
     this->addChild(mCalcScoreLayer);
+    this->addChild(mReplayLayer);
+    
     mGameLayer->setVisible(true);
     mPauseLayer->setVisible(false);
     mUserChoiceLayer->setVisible(false);
+    mReplayLayer->setVisible(false);
     
     startGame();
     
@@ -79,8 +84,10 @@ bool PlayScene::init(){
 
 void PlayScene::startGame(){
     mReplayMode = false;
+    mReplayPaused = false;
     mGameLayer->setVisible(true);
     mCalcScoreLayer->setVisible(false);
+    mReplayLayer->setVisible(false);
     
     getChildByTag(TAG_BTN_PAUSE)->setVisible(true);
     
@@ -141,9 +148,13 @@ void PlayScene::startGame(){
 
 void PlayScene::replayGame(){
     mReplayMode = true;
+    mReplayPaused = false;
     this->getChildByTag(TAG_BTN_PAUSE)->setVisible(false);
+    
     mGameLayer->setVisible(true);
     mCalcScoreLayer->setVisible(false);
+    mReplayLayer->setVisible(true);
+    mReplayLayer->show(mGame, this);
     
     mGame->setPlayMode(PLAY_MODE::REPLAY);
     mReplayerPlayer = new ReplayPlayer(mGame);
@@ -224,6 +235,9 @@ int PlayScene::makeChoice(Player* player, Card* card, int availableChoice, Playe
 
 void PlayScene::onMakeChoice(){
     LOGI("PlayScene.onMakeChoice");
+    if (mReplayPaused) {
+        return;
+    }
     mReplayCallback->onPlayerAction(mCurrentReplayPlayer, mCurrentReplayAction);
     mReplayCallback->execute();
 }
@@ -238,6 +252,7 @@ void PlayScene::onFinished(){
     LOGI("UI. onFinished");
     mGameLayer->onFinished();
     mUserChoiceLayer->setVisible(false);
+    mReplayLayer->setVisible(false);
     
     mGameLayer->setVisible(false);
     this->getChildByTag(TAG_BTN_PAUSE)->setVisible(false);
@@ -265,6 +280,34 @@ void PlayScene::onGameAction(int action){
         case GAME_ACTION::GAME_ACTION_REPLAY:
             replayGame();
             break;
+            
+        case GAME_ACTION::GAME_ACTION_REPLAY_PAUSE:
+            if (mReplayPaused) {
+                mReplayPaused = false;
+                onMakeChoice();
+            }else{
+                mReplayPaused = true;
+            }
+            break;
+        case GAME_ACTION::GAME_ACTION_REPLAY_RESUME:
+            mReplayPaused = true;
+            onMakeChoice();
+            break;
+        case GAME_ACTION::GAME_ACTION_REPLAY_EXIT:
+            mReplayPaused = true;
+            onFinished();
+            break;
+        case GAME_ACTION::GAME_ACTION_REPLAY_FAST:
+            if (mReplayInterval >= 0.2) {
+                mReplayInterval /= 2;
+            }
+            break;
+        case GAME_ACTION::GAME_ACTION_REPLAY_SLOW:
+            if (mReplayInterval <= 5) {
+                mReplayInterval *= 2;
+            }
+            break;
+            
         case GAME_ACTION::GAME_ACTION_EXIT:
             Director::getInstance()->popScene();
             break;

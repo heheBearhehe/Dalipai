@@ -15,7 +15,7 @@
 #include <CocosGUI.h>
 
 class Game;
-
+class GameActionCallBack;
 
 class ReplayLayer : public cocos2d::Layer
 {
@@ -23,7 +23,7 @@ public:
     virtual bool init();
     CREATE_FUNC(ReplayLayer);
     
-    void show(Game* game);
+    void show(Game* game, GameActionCallBack* callback);
     void invalidate();
     
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
@@ -34,6 +34,7 @@ protected:
     
 private:
     Game* mGame;
+    GameActionCallBack* mGameActionCallBack;
     
 };
 
