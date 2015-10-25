@@ -127,8 +127,8 @@ void PlayScene::startGame(){
         mGameLayer->setShouldShowOppnentCard(true);
     }else{
         
-//        mGame->setPlayer1ChoiceListener(this);
-        mGame->setPlayer1ChoiceListener(new AIPlayer(mGame));
+        mGame->setPlayer1ChoiceListener(this);
+//        mGame->setPlayer1ChoiceListener(new AIPlayer(mGame));
         mAi2 = new AIPlayer(mGame);
         if (Settings::getInstance()->giveProb >= 0) {
             mAi2->setGiveProb(Settings::getInstance()->giveProb);
