@@ -66,7 +66,7 @@ void CalcScoreLayer::invalidate(){
     
     
     {
-        auto btn = addButton("重数", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2 - 160, posY), GAME_ACTION::GAME_ACTION_RESUME);
+        auto btn = addButton("重数", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2 - 160, posY), GAME_ACTION::GAME_ACTION_RECALC_SCORE);
         btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width * 5 / 4, posY));
     }
     {

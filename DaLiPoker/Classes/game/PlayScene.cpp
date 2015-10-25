@@ -21,6 +21,9 @@ using namespace std;
 
 USING_NS_CC;
 
+static const int TAG_BTN_PAUSE   = 1000;
+
+
 bool PlayScene::init(){
     if (!Scene::init()){
         return false;
@@ -46,11 +49,12 @@ bool PlayScene::init(){
                                            "CloseSelected.png",
                                            CC_CALLBACK_1(PlayScene::menuRestart, this));
     
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+    closeItem->setPosition(Vec2(origin.x + closeItem->getContentSize().width/2 ,
+                                origin.y + visibleSize.height - closeItem->getContentSize().height/2));
     
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
+    menu->setTag(TAG_BTN_PAUSE);
     this->addChild(menu, 1);
     
     mReplayerPlayer = NULL;
@@ -61,7 +65,7 @@ bool PlayScene::init(){
     mUserChoiceLayer->setPlayer(mPlayer1);
     mCalcScoreLayer = CalcScoreLayer::create();
     this->addChild(mGameLayer);
-    this->addChild(mPauseLayer);
+    this->addChild(mPauseLayer, 10000);
     this->addChild(mUserChoiceLayer);
     this->addChild(mCalcScoreLayer);
     mGameLayer->setVisible(true);
@@ -77,6 +81,8 @@ void PlayScene::startGame(){
     mReplayMode = false;
     mGameLayer->setVisible(true);
     mCalcScoreLayer->setVisible(false);
+    
+    getChildByTag(TAG_BTN_PAUSE)->setVisible(true);
     
     bool testReplay = false;
     
@@ -135,6 +141,7 @@ void PlayScene::startGame(){
 
 void PlayScene::replayGame(){
     mReplayMode = true;
+    this->getChildByTag(TAG_BTN_PAUSE)->setVisible(false);
     mGameLayer->setVisible(true);
     mCalcScoreLayer->setVisible(false);
     
@@ -233,16 +240,26 @@ void PlayScene::onFinished(){
     mUserChoiceLayer->setVisible(false);
     
     mGameLayer->setVisible(false);
+    this->getChildByTag(TAG_BTN_PAUSE)->setVisible(false);
     mCalcScoreLayer->setVisible(true);
     mCalcScoreLayer->show(mGame, this);
 }
 
 void PlayScene::onGameAction(int action){
     switch (action) {
+        case GAME_ACTION::GAME_ACTION_PAUSE:
+            mPauseLayer->setVisible(true);
+            mPauseLayer->show(mGame, this);
+            break;
+        case GAME_ACTION::GAME_ACTION_RESUME:
+            mPauseLayer->setVisible(false);
+            break;
         case GAME_ACTION::GAME_ACTION_RECALC_SCORE:
             onFinished();
             break;
         case GAME_ACTION::GAME_ACTION_RESTART:
+            mPauseLayer->setVisible(false);
+            mUserChoiceLayer->setVisible(false);
             startGame();
             break;
         case GAME_ACTION::GAME_ACTION_REPLAY:
@@ -258,7 +275,7 @@ void PlayScene::onGameAction(int action){
 }
 
 void PlayScene::menuRestart(Ref* pSender){
-    startGame();
+    onGameAction(GAME_ACTION::GAME_ACTION_PAUSE);
 }
 
 

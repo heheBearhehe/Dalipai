@@ -72,7 +72,7 @@ void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCal
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    float posY = origin.y + visibleSize.height / 2 - 250;
+    float posY = origin.y + visibleSize.height / 2 - 300;
     auto largeImg = createPokerFront(card, posY);
     largeImg->setTouchEnabled(false);
     

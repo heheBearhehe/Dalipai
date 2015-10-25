@@ -10,17 +10,30 @@
 #define __DaLiPoker__PauseLayer__
 
 #include <stdio.h>
+#include <vector>
+#include "cocos2d.h"
+#include <CocosGUI.h>
 
-class PauseLayer : public cocos2d::Layer
+class Game;
+class GameActionCallBack;
+
+class PauseLayer : public cocos2d::LayerColor
 {
 public:
     virtual bool init();
     CREATE_FUNC(PauseLayer);
     
-private:
+    void show(Game* game, GameActionCallBack* callback);
+    void invalidate();
+    
+    void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
+    cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
+    void drawText(const std::string& text, const cocos2d::Vec2& position, const cocos2d::Size & size);
     
     
 private:
+    Game* mGame;
+    GameActionCallBack* mGameActionCallBack;
     
 };
 
