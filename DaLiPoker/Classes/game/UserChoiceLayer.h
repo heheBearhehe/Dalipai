@@ -32,6 +32,8 @@ public:
     
     void setPlayer(Player* player) { mPlayer = player; }
     void show(Card* card, Card* card2, int options, PlayerActionCallBack* callback);
+    void showOppenentCard(Card* card, Card* card2);
+    void hideOppenentCard();
     
     
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);

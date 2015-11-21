@@ -400,12 +400,30 @@ void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* 
         onAction();
     }else{
         mGameLayer->invalidate();
-        DelayTime * delayAction = DelayTime::create(delayTime);
-        CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
-        this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+        if (!mReplayMode
+            && player->getTag() == 2
+            && (action == Player::PLAYER_CHOICE_DISCARD || action == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE)) {
+            mUserChoiceLayer->showOppenentCard(card1, card2);
+            mUserChoiceLayer->setVisible(true);
+            DelayTime * delayAction = DelayTime::create(2.0);
+            CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::hideOppenentCardAndOnAction, this));
+            this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+        }else{
+            DelayTime * delayAction = DelayTime::create(delayTime);
+            CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
+            this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+        }
     }
 }
-                                           
+
+void PlayScene::hideOppenentCardAndOnAction(){
+    mUserChoiceLayer->hideOppenentCard();
+    mGameLayer->clearMessage();
+    DelayTime * delayAction = DelayTime::create(1.0);
+    CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
+    this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+}
+
 void PlayScene::onAction(){
     LOGI("*****  PlayScene.onAction.DO");
     mGame->next();

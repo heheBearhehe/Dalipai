@@ -42,6 +42,8 @@ static string sCardImagesFileName[] = {
     "红13-对影成三人.jpg",
 };
 
+static const int TAG_OPPENENT_CARD_1     = 1000;
+static const int TAG_OPPENENT_CARD_2     = 1001;
 
 bool UserChoiceLayer::init(){
     if (!Layer::init()){
@@ -80,6 +82,7 @@ void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCal
     
     float buttonWidth = 80;
     float buttonHeight = 50;
+    
     if(options == Player::PLAYER_CHOICE_KEEP_FOR_GIVE || options == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE){
         auto btn = addButton("确定", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2, posY), options);
         btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width / 4, posY));
@@ -112,6 +115,35 @@ void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCal
 }
 
 
+void UserChoiceLayer::showOppenentCard(Card* card, Card* card2){
+    removeAllChildren();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    float posY = origin.y + visibleSize.height / 2 - 300;
+    auto largeImg = createPokerFront(card, posY);
+    largeImg->setTouchEnabled(false);
+    largeImg->setTag(TAG_OPPENENT_CARD_1);
+    
+    posY -= 80;
+    if (card2 != NULL) {
+        auto largeImg2 = createPokerFront(card2, posY);
+        largeImg2->setTag(TAG_OPPENENT_CARD_2);
+        cocos2d::Vec2 oldPos = largeImg->getPosition();
+        cocos2d::Size oldSize = largeImg->getContentSize();
+        float scale = 0.6;
+        largeImg->setScale(scale);
+        largeImg2->setScale(scale);
+        
+        largeImg->setPosition(cocos2d::Vec2(oldPos.x - oldSize.width * scale / 2 - 10, oldPos.y));
+        largeImg2->setPosition(cocos2d::Vec2(oldPos.x + oldSize.width * scale / 2 + 10, oldPos.y));
+    }
+}
+
+void UserChoiceLayer::hideOppenentCard(){
+    this->removeChildByTag(TAG_OPPENENT_CARD_1);
+    this->removeChildByTag(TAG_OPPENENT_CARD_2);
+}
 
 cocos2d::ui::Button* UserChoiceLayer::addButton(const std::string& text, const Size & size, const Vec2& position, int tag){
     auto btn = cocos2d::ui::Button::create("btn_choice.png", "btn_choice_h.png", "", TextureResType::LOCAL);

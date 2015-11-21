@@ -45,6 +45,7 @@ private:
     
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback);
     virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard);
+    void hideOppenentCardAndOnAction();
     virtual void onFinished();
     
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
