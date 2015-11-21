@@ -21,6 +21,8 @@ StatePlayerChoice::~StatePlayerChoice(){
 }
 
 bool StatePlayerChoice::enter(){
+    LOGI("******* StatePlayerChoice::enter()");
+    StateBase::enter();
     Player* currentPlayer = mGame->currentPlayer();
     
     Card* card = mGame->currentCard();
@@ -42,7 +44,7 @@ bool StatePlayerChoice::enter(){
         }
         mAvailableAction = action;
         
-        LOGI("%s# makeChoice   availableChoice=[0x%x]", currentPlayer->getDumpPrefix().c_str(), mAvailableAction);
+        LOGI("*******  %s# makeChoice   availableChoice=[0x%x]", currentPlayer->getDumpPrefix().c_str(), mAvailableAction);
         
         choice = currentPlayer->mChoiceListener->makeChoice(currentPlayer, card, mAvailableAction, currentPlayer->mCallback);
         if (choice >= 0) {
@@ -54,12 +56,12 @@ bool StatePlayerChoice::enter(){
     }
     
     LOGI("%s# action=[0x%x]", currentPlayer->getDumpPrefix().c_str(), action);
-    StateBase::enter();
     
     return choice > 0;
 }
 
 bool StatePlayerChoice::execute(){
+    LOGI("******* StatePlayerChoice::execute() mPlayerAction=[%d] mAvailableAction=[0x%x]", mGame->mPlayerAction, mAvailableAction);
     int action = mGame->mPlayerAction;
     if ((action & mAvailableAction) < 0) {
         return false;
@@ -81,12 +83,13 @@ bool StatePlayerChoice::execute(){
         return false;
     }
     
+    bool ret = StateBase::execute();
     mGame->onActionExecuted(action, mGame->currentPlayer(), mGame->currentCard(), NULL);
-    
-    return StateBase::execute();
+    return ret;
 }
 
 bool StatePlayerChoice::next(){
+    LOGI("******* StatePlayerChoice::next()  mExecuted=[%d] mPlayerAction=[%d] mAvailableAction=[0x%x]", mExecuted, mGame->mPlayerAction, mAvailableAction);
     if (!mExecuted) {
         return false;
     }

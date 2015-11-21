@@ -90,16 +90,14 @@ void ReplayLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type)
     
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
-            if (btn->getTag() == GAME_ACTION_REPLAY_PAUSE) {
-                btn->setTag(GAME_ACTION_REPLAY_RESUME);
-                btn->setTitleText(">");
-            }else if(btn->getTag() == GAME_ACTION_REPLAY_RESUME){
-                btn->setTag(GAME_ACTION_REPLAY_PAUSE);
-                btn->setTitleText("||");
-            }
-            
             if (mGameActionCallBack != NULL) {
                 mGameActionCallBack->onGameAction(btn->getTag());
+            }
+            
+            if (btn->getTag() == GAME_ACTION_REPLAY_PAUSE) {
+                updateReplay(true);
+            }else if(btn->getTag() == GAME_ACTION_REPLAY_RESUME){
+                updateReplay(false);
             }
             break;
         case cocos2d::ui::Widget::TouchEventType::MOVED:
@@ -111,5 +109,22 @@ void ReplayLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type)
             
         default:
             break;
+    }
+}
+
+void ReplayLayer::updateReplay(bool pause){
+    if (pause) {
+        cocos2d::ui::Button* btn = (cocos2d::ui::Button*)this->getChildByTag(GAME_ACTION_REPLAY_PAUSE);
+        btn->setTag(GAME_ACTION_REPLAY_RESUME);
+        btn->setTitleText(">");
+        
+        this->getChildByTag(GAME_ACTION_REPLAY_SLOW)->setTag(GAME_ACTION_REPLAY_PREV);
+        this->getChildByTag(GAME_ACTION_REPLAY_FAST)->setTag(GAME_ACTION_REPLAY_NEXT);
+    }else{
+        cocos2d::ui::Button* btn = (cocos2d::ui::Button*)this->getChildByTag(GAME_ACTION_REPLAY_RESUME);
+        btn->setTag(GAME_ACTION_REPLAY_PAUSE);
+        btn->setTitleText("||");
+        this->getChildByTag(GAME_ACTION_REPLAY_PREV)->setTag(GAME_ACTION_REPLAY_SLOW);
+        this->getChildByTag(GAME_ACTION_REPLAY_NEXT)->setTag(GAME_ACTION_REPLAY_FAST);
     }
 }

@@ -52,6 +52,9 @@ private:
     
     void startGame();
     void replayGame();
+    void replayGame(int startCardIndex);
+    void finishReplay();
+
     void menuRestart(Ref* pSender);
     std::string getChoiceMessage(int action, Player* player);
     std::string getActionExecutedMessage(int action, Player* player);
@@ -69,8 +72,10 @@ private:
     CalcScoreLayer*  mCalcScoreLayer;
     ReplayLayer*     mReplayLayer;
     
+    bool                  mChoiceSkipped;
     bool                  mReplayMode;
     bool                  mReplayPaused;
+    int                   mReplayStartCardIndex;
     float                 mReplayInterval;
     PlayerActionCallBack* mReplayCallback;
     Player*               mCurrentReplayPlayer;

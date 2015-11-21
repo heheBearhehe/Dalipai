@@ -114,7 +114,7 @@ void Game::initCards(){
         Card* card = new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT);
         
         // for test
-//        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB) {
+//        if (card->getSuit() != SUIT::DIAMOND || card->getSuit() == SUIT::CLUB) {
 //            delete card;
 //            continue;
 //        }
@@ -179,12 +179,12 @@ bool Game::start(){
 }
 
 void Game::next(){
-    LOGI("- next");
+    LOGI("******* game.next");
     mCurrentState->next();
 }
 
 void Game::execute(){
-    LOGI("- execute");
+    LOGI("******* game.execute");
     mCurrentState->execute();
     if (mGameStateListener == NULL) {
         next();
@@ -209,7 +209,7 @@ void Game::onPlayerAction(Player* player, int action){
         }
     }
     
-    LOGI("- onPlayerAction. player=[%d]  action=[%d]", player->getTag(), action);
+    LOGI("******* game.onPlayerAction. player=[%d]  action=[%d]", player->getTag(), action);
     Card* card = currentCard();
     if (card != NULL && card->getTag() == 0) {
         card->setTag(player->getTag());

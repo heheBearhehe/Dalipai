@@ -18,16 +18,21 @@ StateSwitchPlayer::~StateSwitchPlayer(){
 }
 
 bool StateSwitchPlayer::enter(){
+    LOGI("******* StateSwitchPlayer::enter()");
     return StateBase::enter();
 }
 
 bool StateSwitchPlayer::execute(){
+    LOGI("******* StateSwitchPlayer::execute()");
     mGame->switchPlayer();
+    
+    bool ret = StateBase::execute();
     mGame->onActionExecuted(0, mGame->currentPlayer(), mGame->currentCard(), NULL);
-    return StateBase::execute();
+    return ret;
 }
 
 bool StateSwitchPlayer::next(){
+    LOGI("******* StateSwitchPlayer::next()");
     if (!mExecuted) {
         return true;
     }

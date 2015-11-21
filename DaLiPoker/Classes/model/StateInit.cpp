@@ -18,15 +18,18 @@ StateInit::~StateInit(){
 }
 
 bool StateInit::enter(){
+    LOGI("******* StateInit::enter()");
     return StateBase::enter();
 }
 
 bool StateInit::execute(){
+    LOGI("******* StateInit::execute()");
     mGame->init();
     return StateBase::execute();
 }
 
 bool StateInit::next(){
+    LOGI("******* StateInit::next()");
     mGame->nextState(STATE::PLAYER_DEAL);
     
     return true;

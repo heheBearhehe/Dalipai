@@ -56,6 +56,8 @@ typedef enum action{
     GAME_ACTION_REPLAY_EXIT,
     GAME_ACTION_REPLAY_FAST,
     GAME_ACTION_REPLAY_SLOW,
+    GAME_ACTION_REPLAY_NEXT,
+    GAME_ACTION_REPLAY_PREV,
     GAME_ACTION_EXIT,
 }GAME_ACTION;
 
@@ -120,6 +122,7 @@ public:
     void onFinished();
     void replay();
     
+    int  getCurrentCardIndex() { return mCurrentCardIndex; }
     int  getResetCardsCount();
     vector<Card *>* getOpponentCardsList();
     int  getMyPlayerPoints();
@@ -133,6 +136,8 @@ public:
     
     void setRecorder(Recorder* recorder) { mRecorder = recorder; }
     Recorder* getRecorder() { return mRecorder; };
+    
+    
     
 protected:
     void shuffle();

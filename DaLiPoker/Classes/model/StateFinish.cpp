@@ -18,14 +18,17 @@ StateFinish::~StateFinish(){
 }
 
 bool StateFinish::enter(){
+    LOGI("******* StateFinish::enter()");
     return StateBase::enter();
 }
 
 bool StateFinish::execute(){
+    LOGI("******* StateFinish::execute()");
     mGame->onFinished();
     return StateBase::execute();
 }
 
 bool StateFinish::next(){
+    LOGI("******* StateFinish::next()");
     return false;
 }

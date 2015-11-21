@@ -28,7 +28,7 @@ void LOGI (const char* msg, ...) {
     va_start(args, msg);
     vsprintf(buffer,msg,args);
     va_end(args);
-    cout << buffer << std::endl;
+    cout << "dali:" << buffer << std::endl;
 }
 
 void LOGF (const char* msg, ...) {

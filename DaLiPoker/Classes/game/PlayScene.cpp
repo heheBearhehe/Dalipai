@@ -85,6 +85,8 @@ bool PlayScene::init(){
 void PlayScene::startGame(){
     mReplayMode = false;
     mReplayPaused = false;
+    mChoiceSkipped = false;
+    mReplayStartCardIndex = -1;
     mGameLayer->setVisible(true);
     mCalcScoreLayer->setVisible(false);
     mReplayLayer->setVisible(false);
@@ -148,8 +150,15 @@ void PlayScene::startGame(){
 }
 
 void PlayScene::replayGame(){
+    replayGame(0);
+}
+
+void PlayScene::replayGame(int startCardIndex){
+    LOGI("*******  PlayScene::replayGame  startCardIndex=[%d]", startCardIndex);
     mReplayMode = true;
     mReplayPaused = false;
+    mChoiceSkipped = false;
+    mReplayStartCardIndex = startCardIndex;
     this->getChildByTag(TAG_BTN_PAUSE)->setVisible(false);
     
     mGameLayer->setVisible(true);
@@ -160,7 +169,6 @@ void PlayScene::replayGame(){
     mGame->setPlayMode(PLAY_MODE::REPLAY);
     mReplayerPlayer = new ReplayPlayer(mGame);
     mReplayerPlayer->setRecorder(mGame->getRecorder());
-    
     mGame->setPlayer1ChoiceListener(this);
     mGame->setPlayer2ChoiceListener(this);
     mGameLayer->setShouldShowOppnentCard(true);
@@ -168,8 +176,29 @@ void PlayScene::replayGame(){
     mGameLayer->setGame(mGame);
     
     mGame->start();
-    mGame->next();
     
+    if (startCardIndex <= 0) {
+        mGame->next();
+    }
+}
+
+void PlayScene::finishReplay(){
+    mReplayMode = true;
+    mReplayPaused = false;
+    mChoiceSkipped = false;
+    mReplayStartCardIndex = mGame->getRecorder()->getCardIndexList()->size();
+    
+    mGame->setPlayMode(PLAY_MODE::REPLAY);
+    mReplayerPlayer = new ReplayPlayer(mGame);
+    mReplayerPlayer->setRecorder(mGame->getRecorder());
+    mGame->setPlayer1ChoiceListener(mReplayerPlayer);
+    mGame->setPlayer2ChoiceListener(mReplayerPlayer);
+    mGameLayer->setShouldShowOppnentCard(true);
+    mGame->setGameStateListener(this);
+    mGameLayer->setGame(mGame);
+    
+    mGame->start();
+    mGame->next();
 }
 
 cocos2d::ui::Button* PlayScene::addButton(const std::string& text, const Size & size, const Vec2& position, int tag){
@@ -206,7 +235,7 @@ void PlayScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
 
 
 int PlayScene::makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback){
-    LOGI("UI. makeChoice  card=[%s]", card->getDisplay().c_str());
+    LOGI("*******  UI. makeChoice  card=[%s] replay=[%d]", card->getDisplay().c_str(), mReplayMode);
     if (!mReplayMode && player == mPlayer2) {
         return 0;
     }
@@ -215,9 +244,16 @@ int PlayScene::makeChoice(Player* player, Card* card, int availableChoice, Playe
         mReplayCallback = callback;
         mCurrentReplayPlayer = player;
         mCurrentReplayAction = mReplayerPlayer->makeChoice(player, card, availableChoice, callback);
-        DelayTime * delayAction = DelayTime::create(mReplayInterval * 2);
-        CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onMakeChoice, this));
-        this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+        int currentCardIndex = mGame->getCurrentCardIndex();
+        LOGI("*******  UI. makeChoice.2   currentCardIndex=[%d]  mReplayStartCardIndex=[%d]", currentCardIndex, mReplayStartCardIndex);
+        if (currentCardIndex < mReplayStartCardIndex) {
+            onMakeChoice();
+        }else{
+            DelayTime * delayAction = DelayTime::create(mReplayInterval * 2);
+            CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onMakeChoice, this));
+            this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+        }
+        
     }else{
         mGameLayer->setDealCardForReplay(NULL);
         mGameLayer->invalidate();
@@ -235,10 +271,13 @@ int PlayScene::makeChoice(Player* player, Card* card, int availableChoice, Playe
 }
 
 void PlayScene::onMakeChoice(){
-    LOGI("PlayScene.onMakeChoice");
     if (mReplayPaused) {
+        LOGI("*******  PlayScene.onMakeChoice.SKIP");
+        mChoiceSkipped = true;
         return;
     }
+    LOGI("*******  PlayScene.onMakeChoice");
+    mChoiceSkipped = false;
     mReplayCallback->onPlayerAction(mCurrentReplayPlayer, mCurrentReplayAction);
     mReplayCallback->execute();
 }
@@ -283,20 +322,14 @@ void PlayScene::onGameAction(int action){
             break;
             
         case GAME_ACTION::GAME_ACTION_REPLAY_PAUSE:
-            if (mReplayPaused) {
-                mReplayPaused = false;
-                onMakeChoice();
-            }else{
-                mReplayPaused = true;
-            }
+            mReplayPaused = true;
             break;
         case GAME_ACTION::GAME_ACTION_REPLAY_RESUME:
-            mReplayPaused = true;
+            mReplayPaused = false;
             onMakeChoice();
             break;
         case GAME_ACTION::GAME_ACTION_REPLAY_EXIT:
-            mReplayPaused = true;
-            onFinished();
+            finishReplay();
             break;
         case GAME_ACTION::GAME_ACTION_REPLAY_FAST:
             if (mReplayInterval >= 0.2) {
@@ -306,6 +339,25 @@ void PlayScene::onGameAction(int action){
         case GAME_ACTION::GAME_ACTION_REPLAY_SLOW:
             if (mReplayInterval <= 5) {
                 mReplayInterval *= 2;
+            }
+            break;
+        case GAME_ACTION::GAME_ACTION_REPLAY_NEXT:
+            if (mReplayMode && mReplayPaused) {
+                mReplayPaused = false;
+                onMakeChoice();
+                mReplayPaused = true;
+            }
+            break;
+        case GAME_ACTION::GAME_ACTION_REPLAY_PREV:
+            if (mGame->getCurrentCardIndex() > 0) {
+                mReplayPaused = false;
+                replayGame(mGame->getCurrentCardIndex() - 1);
+                if (mChoiceSkipped) {
+                    onMakeChoice();
+                }
+                mReplayPaused = true;
+                mReplayLayer->updateReplay(true);
+                mGameLayer->invalidate();
             }
             break;
             
@@ -324,7 +376,7 @@ void PlayScene::menuRestart(Ref* pSender){
 
 
 void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* card2){
-    LOGI("PlayScene.onActionExecuted  action=[%x] player=[%d] c1=[%s] c2=[%s]", action, player->getTag(), card1 == NULL? "" : card1->getDisplay().c_str(), card2 == NULL? "" : card2->getDisplay().c_str());
+    LOGI("*****  PlayScene.onActionExecuted  action=[%x] player=[%d] c1=[%s] c2=[%s]", action, player->getTag(), card1 == NULL? "" : card1->getDisplay().c_str(), card2 == NULL? "" : card2->getDisplay().c_str());
     
     float delayTime;
     string message = getActionExecutedMessage(action, player);
@@ -343,16 +395,19 @@ void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* 
         }
     }
     
-    mGameLayer->invalidate();
-    
-    DelayTime * delayAction = DelayTime::create(delayTime);
-//    CC_CALLBACK_0(PlayScene::onAction, this);
-    CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
-    this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+    LOGI("*******  PlayScene.onActionExecuted.2   mReplayStartCardIndex=[%d]  mGame.index=[%d]", mReplayStartCardIndex, mGame->getCurrentCardIndex());
+    if(mReplayStartCardIndex > mGame->getCurrentCardIndex()){
+        onAction();
+    }else{
+        mGameLayer->invalidate();
+        DelayTime * delayAction = DelayTime::create(delayTime);
+        CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
+        this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+    }
 }
                                            
 void PlayScene::onAction(){
-    LOGI("PlayScene.onAction");
+    LOGI("*****  PlayScene.onAction.DO");
     mGame->next();
 }
 

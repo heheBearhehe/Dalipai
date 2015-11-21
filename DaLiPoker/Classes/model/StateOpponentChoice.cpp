@@ -21,6 +21,7 @@ StateOpponentChoice::~StateOpponentChoice(){
 }
 
 bool StateOpponentChoice::enter(){
+    LOGI("******* StateOpponentChoice::enter()");
     Player* oppenentPlayer = mGame->oppenentPlayer();
     
     Card* card = mGame->currentCard();
@@ -46,6 +47,7 @@ bool StateOpponentChoice::enter(){
 }
 
 bool StateOpponentChoice::execute(){
+    LOGI("******* StateOpponentChoice::execute()");
     int action = mGame->mPlayerAction;
     if ((action & mAvailableAction) < 0) {
         return false;
@@ -69,12 +71,13 @@ bool StateOpponentChoice::execute(){
     default:
         break;
     }
+    bool ret = StateBase::execute();
     mGame->onActionExecuted(action, oppenentPlayer, currentCard, lastCard);
-    
-    return StateBase::execute();
+    return ret;
 }
 
 bool StateOpponentChoice::next(){
+    LOGI("******* StateOpponentChoice::execute()");
     if (!mExecuted) {
         return true;
     }
