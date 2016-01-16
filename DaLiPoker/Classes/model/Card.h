@@ -25,6 +25,7 @@ typedef enum type{
 static string SUIT_DISPLAY_LIST[] = {"♠️", "❤️", "♦️", "♣️"};
 static string RANK_DISPLAY_LIST[] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
 
+
 class Card {
 public:
     Card(int rank, int suit);

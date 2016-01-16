@@ -131,7 +131,8 @@ void PlayScene::startGame(){
         
         mGame->setPlayer1ChoiceListener(this);
 //        mGame->setPlayer1ChoiceListener(new AIPlayer(mGame));
-        mAi2 = new AIPlayer(mGame);
+        mAi2 = new AIPlayer(mGame->getMinRank(), mGame->getMaxRank());
+        mAi2->setTag(2);
         if (Settings::getInstance()->giveProb >= 0) {
             mAi2->setGiveProb(Settings::getInstance()->giveProb);
         }
@@ -284,7 +285,7 @@ void PlayScene::onMakeChoice(){
 
 bool PlayScene::onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard){
     LOGI("UI. onChoiceMade  player=[%d] choice=[%d] current=[%s] last=[%s]",
-         player->getTag(), choice, currentCard->getDisplay().c_str(), lastCard == NULL? "" : lastCard->getDisplay().c_str());
+         player->getTag(), choice, currentCard == NULL? "" : currentCard->getDisplay().c_str(), lastCard == NULL? "" : lastCard->getDisplay().c_str());
     return false;
 }
 

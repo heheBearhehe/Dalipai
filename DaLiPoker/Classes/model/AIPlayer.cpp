@@ -11,19 +11,40 @@
 #include "Card.h"
 
 
-AIPlayer::AIPlayer(Game* game):mGame(game){
+AIPlayer::AIPlayer(int rankMin, int rankMax):mCardRandMin(rankMin),mCardRandMax(rankMax){
     mStrategy = 3;
     mKeepStrategyWeight = NULL;
     mKeepStrategyWeight = new int[3] {100, 200, 100};
     mGiveStrategy = 2;
     mGiveCount = 0;
     mGiveProb = 0;
+    mTag = 0;
+    mCardRandMax = 12;
+    mCardRandMin = 0;
+    mDiscardCardList = new vector<Card *>();
+    mMyCardList = new vector<Card *>();
+    mOpponentCardList = new vector<CountCard *>();
+    reset();
 }
 
 AIPlayer::~AIPlayer(){
-    
+    delete mDiscardCardList;
+    delete mMyCardList;
+    vector<CountCard *>::iterator iter;
+    for (iter = mOpponentCardList->begin(); iter != mOpponentCardList->end(); iter++){
+        delete (*iter);
+    }
+    delete mOpponentCardList;
 }
 
+void AIPlayer::reset(){
+    mDiscardCardList->clear();
+    mMyCardList->clear();
+    mOpponentCardList->clear();
+    mOpponentUpProb = 50;
+    mOpponentDownProb = 50;
+    mMyLastGiveCard = NULL;
+}
 
 int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback){
     return makeChoice(player, card, availableChoice, callback, mStrategy);
@@ -85,7 +106,7 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
         {
             
             if ((availableChoice & Player::PLAYER_CHOICE_KEEP) > 0) {
-                vector<Card *>* cardList = player->getCardList();
+                vector<Card *>* cardList = mMyCardList;
                 int size = (int)cardList->size();
                 if (size <= 2) {
                     return Player::PLAYER_CHOICE_KEEP;
@@ -108,8 +129,8 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
                 int currentRank = card->getRank();
                 int lastRank = last->getRank();
                 int last2Rank = last2->getRank();
-                int minRank = mGame->getMinRank();
-                int maxRank = mGame->getMaxRank();
+                int minRank = mCardRandMin;
+                int maxRank = mCardRandMax;
                 int rankCount = maxRank - minRank + 1;
                 int* totalScore = new int[rankCount];
                 
@@ -166,7 +187,7 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
             
             if (mGiveStrategy > 0 && mStrategy > 0 && (availableChoice & Player::PLAYER_CHOICE_GIVE) > 0){
                 int curSeq = card->getSeq();
-                vector<Card *>* discardList = mGame->getDiscardCardList();
+                vector<Card *>* discardList = mDiscardCardList;
                 Card* lastOpponentDiscardCard = NULL;
                 if (discardList != NULL && !discardList->empty()) {
                     vector<Card *>::iterator iter;
@@ -231,6 +252,54 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
     return Player::PLAYER_CHOICE_AUTO;
 }
 
-bool AIPlayer::onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard){
+bool AIPlayer::onChoiceMade(Player* player, int choice, Card* currentCard, Card* lasetCard){
+    LOGF("AIPlayer.onChoiceMade AI.tag=[%d] player=[%d] choice=[%d] current=[%s] last=[%s]",
+         mTag, player->getTag(), choice, currentCard == NULL? "" : currentCard->getDisplay().c_str(), lasetCard == NULL? "" : lasetCard->getDisplay().c_str());
+    
+    if (player == NULL) {
+        return true;
+    }
+    
+    if (choice == Player::PLAYER_CHOICE_DISCARD) {
+        mDiscardCardList->push_back(currentCard);
+    }
+    if (choice == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE) {
+        if (lasetCard != NULL) {
+            mDiscardCardList->push_back(lasetCard);
+        }
+        if (currentCard != NULL) {
+            mDiscardCardList->push_back(currentCard);
+        }
+    }
+    
+    if (player->getTag() == mTag && currentCard != NULL) {
+        if (choice == Player::PLAYER_CHOICE_KEEP || choice == Player::PLAYER_CHOICE_KEEP_FOR_GIVE) {
+            mMyCardList->push_back(currentCard);
+        }else if (choice == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE) {
+            if (mMyCardList->size() > 1) {
+                mMyCardList->pop_back();
+            }
+        }else if(choice == Player::PLAYER_CHOICE_GIVE){
+            mMyLastGiveCard = currentCard;
+        }
+    }else if(player->getTag() != mTag){
+        if (choice == Player::PLAYER_CHOICE_KEEP) {
+            mOpponentCardList->push_back(new CountCard());
+        }else if(choice == Player::PLAYER_CHOICE_KEEP_FOR_GIVE){
+            CountCard* card = new CountCard();
+            if (mMyLastGiveCard != NULL) {
+                card->rank = mMyLastGiveCard->getRank();
+                card->prob = 100;
+                mMyLastGiveCard = NULL;
+            }
+            mOpponentCardList->push_back(card);
+        }
+        else if (choice == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE) {
+            if (mOpponentCardList->size() > 1) {
+                mOpponentCardList->pop_back();
+            }
+        }
+    }
+    
     return true;
 }

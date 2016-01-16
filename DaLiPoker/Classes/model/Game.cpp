@@ -70,6 +70,13 @@ void Game::reset(){
     mCurrentState = getState(STATE::INIT);
     mCurrentCardIndex = 0;
     mDiscardCardList->clear();
+    
+    if (mPlayerChoiceListener != NULL) {
+        mPlayerChoiceListener->reset();
+    }
+    if (mPlayer2ChoiceListener != NULL) {
+        mPlayer2ChoiceListener->reset();
+    }
 }
 
 bool Game::init(){
@@ -102,6 +109,7 @@ bool Game::init(){
 }
 
 void Game::initCards(){
+    enableLog(false);
     int numMin = 0;
     int numMax = 12;
     if (mGameMode == GAME_MODE::SMALL) {
@@ -114,7 +122,7 @@ void Game::initCards(){
         Card* card = new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT);
         
         // for test
-//        if (card->getSuit() != SUIT::DIAMOND || card->getSuit() == SUIT::CLUB) {
+//        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB || card->getSuit() == SUIT::HEART) {
 //            delete card;
 //            continue;
 //        }
@@ -124,6 +132,9 @@ void Game::initCards(){
     
     mMinRank = numMin;
     mMaxRank = numMax;
+    mCardCountToPlay = mCardList->size();
+    
+//    mCardCountToPlay = 12;
 }
 
 void Game::dumpCards(){
@@ -167,7 +178,7 @@ bool Game::start(){
     }
     
     if (mPlayer2ChoiceListener == NULL) {
-        mPlayer2ChoiceListener = new AIPlayer(this);
+        mPlayer2ChoiceListener = new AIPlayer(mMinRank, mMaxRank);
         mPlayer2->setChoiceListener(mPlayer2ChoiceListener);
     }
     
@@ -338,6 +349,18 @@ void Game::nextState(STATE nextState){
 void Game::onActionExecuted(int action, Player* player, Card* card1, Card* card2){
     if (mGameStateListener != NULL) {
         mGameStateListener->onActionExecuted(action, player, card1, card2);
+    }
+    if (action < ACTION_START_GAME_STATE && action > 0) {
+        if (player->getTag() == 1) {
+            mPlayerChoiceListener->onChoiceMade(player, action, card1, card2);
+            mPlayer2ChoiceListener->onChoiceMade(player, action, action == Player::PLAYER_CHOICE_KEEP ? NULL : card1, card2);
+        }else if (player->getTag() == 2){
+            mPlayer2ChoiceListener->onChoiceMade(player, action, card1, card2);
+            mPlayerChoiceListener->onChoiceMade(player, action, action == Player::PLAYER_CHOICE_KEEP ? NULL : card1, card2);
+        }
+    }else if(action == ACTION_START_GAME_STATE + state::INIT){
+        mPlayerChoiceListener->onChoiceMade(player, action, card1, card2);
+        mPlayer2ChoiceListener->onChoiceMade(player, action, card1, card2);
     }
 }
 

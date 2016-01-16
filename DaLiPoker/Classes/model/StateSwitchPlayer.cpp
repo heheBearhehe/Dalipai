@@ -38,7 +38,7 @@ bool StateSwitchPlayer::next(){
     }
     
     ++mGame->mCurrentCardIndex;
-    if (mGame->mCurrentCardIndex >= mGame->mCardList->size()) {
+    if (mGame->mCurrentCardIndex >= mGame->mCardCountToPlay) {
         mGame->nextState(STATE::FINISH);
     }else{
         mGame->nextState(STATE::PLAYER_DEAL);

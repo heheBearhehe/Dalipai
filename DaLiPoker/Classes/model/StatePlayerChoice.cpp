@@ -35,7 +35,7 @@ bool StatePlayerChoice::enter(){
         choice = Player::PLAYER_CHOICE_KEEP;
         mAvailableAction = choice;
         mGame->onPlayerAction(currentPlayer, choice);
-        mGame->onActionExecuted(Player::PLAYER_CHOICE_KEEP, currentPlayer, card, NULL);
+//        mGame->onActionExecuted(Player::PLAYER_CHOICE_KEEP, currentPlayer, card, NULL);
     }else{
         if(std::abs(float(lastCard->getRank()) - card->getRank()) <= 1){
             action = Player::PLAYER_CHOICE_DISCARD | Player::PLAYER_CHOICE_GIVE;

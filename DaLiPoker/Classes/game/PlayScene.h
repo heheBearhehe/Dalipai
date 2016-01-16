@@ -43,6 +43,7 @@ public:
     virtual void onGameAction(int action);
 private:
     
+    virtual void reset() {};
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback);
     virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard);
     void hideOppenentCardAndOnAction();

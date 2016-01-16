@@ -74,6 +74,7 @@ public:
 
 class PlayerChoiceListener{
 public:
+    virtual void reset() = 0;
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback) = 0;
     virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard) = 0;
 };
@@ -178,6 +179,7 @@ private:
     int             mPlayerAction;
     int             mMinRank;
     int             mMaxRank;
+    int             mCardCountToPlay;
 };
 
 

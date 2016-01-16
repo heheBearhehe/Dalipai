@@ -85,8 +85,11 @@ void testGameForKeep(){
 }
 
 void testGameForKeep2(int weight1, int weight2, int count){
-    AIPlayer* ai1 = new AIPlayer(NULL);
-    AIPlayer* ai2 = new AIPlayer(NULL);
+    AIPlayer* ai1 = new AIPlayer();
+    AIPlayer* ai2 = new AIPlayer();
+    ai1->setTag(1);
+    ai2->setTag(2);
+    
     ai1->setStrategy(3);
     ai1->setGiveStrategy(weight1);
     ai1->setGiveProb(weight2);
@@ -110,8 +113,8 @@ void testGameForKeep2(int weight1, int weight2, int count){
 
 void testGameForKeep(int weight1, int weight2, int count){
     
-    AIPlayer* ai1 = new AIPlayer(NULL);
-    AIPlayer* ai2 = new AIPlayer(NULL);
+    AIPlayer* ai1 = new AIPlayer();
+    AIPlayer* ai2 = new AIPlayer();
     ai1->setStrategy(3);
     ai2->setStrategy(3);
     
@@ -137,8 +140,8 @@ void testGameForKeep(int weight1, int weight2, int count){
 }
 
 void testGame(int p1Strategy, int p2Strategy){
-    AIPlayer* ai1 = new AIPlayer(NULL);
-    AIPlayer* ai2 = new AIPlayer(NULL);
+    AIPlayer* ai1 = new AIPlayer();
+    AIPlayer* ai2 = new AIPlayer();
     ai1->setStrategy(p1Strategy);
     ai2->setStrategy(p2Strategy);
     testGame(ai1, ai2, 10000);
@@ -162,8 +165,6 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
         Game* game = new Game(GAME_MODE::SMALL);
         Player* player1 = new Player();
         Player* player2 = new Player();
-        ai1->setGame(game);
-        ai2->setGame(game);
         
         player1->setTag(1);
         player2->setTag(2);

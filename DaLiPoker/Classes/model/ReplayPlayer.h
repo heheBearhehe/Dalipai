@@ -19,6 +19,8 @@ class ReplayPlayer : public PlayerChoiceListener
 public:
     ReplayPlayer(Game* game);
     virtual ~ReplayPlayer();
+    
+    virtual void reset() {};
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback);
     virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard);
     
