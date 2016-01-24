@@ -42,12 +42,22 @@ public:
     int getGiveProb() { return mGiveProb; }
     void setGiveStrategy(int strategy){ mGiveStrategy = strategy; }
     int getGiveStrategy() { return mGiveStrategy; }
+    void setGiveStrategyOffset(int offset){ mGiveStrategyOffset = offset; }
+    int getGiveStrategyOffset() { return mGiveStrategyOffset; }
     int getGiveCount() { return mGiveCount; }
     void setTag(int tag) { mTag = tag; };
     int getTag() { return mTag; }
     
+    int getGuessedUpProb() { return mOpponentUpProb; }
+    vector<CountCard *>* getGuessedOpponentCardList() { return mOpponentCardList; };
+    void dumpStat();
+    
 protected:
     int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback, int strategy);
+    
+    int guessUpProb(int choice, Card* currentCard, Card* lastCard);
+    bool shouldKeepCard(Card* card, Card* last, Card* last2);
+    bool shouldGiveCard(Card* card);
 private:
     int mCardRandMin;
     int mCardRandMax;
@@ -59,12 +69,19 @@ private:
     int mStrategy;
     int* mKeepStrategyWeight;
     int mGiveStrategy;
+    int mGiveStrategyOffset;
     int mGiveCount;
     int mGiveProb;
     int mTag;
+    
     Card* mMyLastGiveCard;
+    Card* mLastOpponentDiscardCard;
     int mOpponentUpProb;
     int mOpponentDownProb;
+    
+    
+    int mStatCount[13*13];
+    int mStatKeep[13*13];
 };
 
 #endif /* defined(__dalipoker__AIPlayer__) */

@@ -13,7 +13,7 @@
 void testGame();
 void testGameForKeep();
 void testGameForKeep(int weight1, int weight2, int count);
-void testGameForKeep2(int weight1, int weight2, int count);
+void testGameForKeep2(int weight1, int weight2, int weight3, int count);
 void testGame(int p1Strategy, int p2Stategy);
 void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount);
 
@@ -25,8 +25,13 @@ int main(int argc, const char * argv[]) {
     
 //        enableLog(true);
     testGameForKeep();
+//    testGameForKeep2(0, 0, 10000);
     //    testGame(3, 0, 1);
     std::cout << "Finish!\n";
+    
+    int hhh;
+    std::cin >> hhh;
+    std::cout << hhh;
     return 0;
 }
 
@@ -76,27 +81,33 @@ void testGameForKeep(){
 //        for (int j = min; j <= max; j+=delta) {
 //            testGameForKeep2(i , j, 10000);
 //        }
-//    }
-    for (int i = 1; i <= 3; i++) {
-        for(int j = 0; j <= 100; j+=10){
-            testGameForKeep2(i , j, 10000);
+    //    }
+    
+//    testGameForKeep2(2 , 50, 10000);
+    for (int i = 4; i <= 4; i++) {
+        for(int j = 0; j <= 5; j++){
+            for (int k = 0; k < 1; k++) {
+                testGameForKeep2(i , j*20, k, 10000);
+            }
         }
     }
 }
 
-void testGameForKeep2(int weight1, int weight2, int count){
+void testGameForKeep2(int weight1, int weight2, int weight3, int count){
     AIPlayer* ai1 = new AIPlayer();
     AIPlayer* ai2 = new AIPlayer();
     ai1->setTag(1);
     ai2->setTag(2);
     
     ai1->setStrategy(3);
-    ai1->setGiveStrategy(weight1);
-    ai1->setGiveProb(weight2);
+    ai1->setGiveStrategy(0);
+//    ai1->setGiveStrategy(2);
+    ai1->setGiveProb(0);
     ai2->setStrategy(3);
-    ai2->setGiveStrategy(0);
-//    ai2->setGiveStrategy(2);
-//    ai2->setGiveProb(weight2);
+//    ai2->setGiveStrategy(0);
+    ai2->setGiveStrategy(weight1);
+    ai2->setGiveProb(weight2);
+    ai2->setGiveStrategyOffset(weight3);
     
     
     int s1[3]={100, 200, 100};
@@ -159,10 +170,15 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     int totalPts2 = 0;
     int totalGiveCount = 0;
     
+    int p2ActionCountTotal = 0;
+    int p2GuessCountTotal = 0;
+    int p2GuessCountCorrect = 0;
+    int p2GuessCountScore = 0;
+    
     std::vector<int>* p1PtsList = new std::vector<int>();
     std::vector<int>* p2PtsList = new std::vector<int>();
     for (int i = 0; i < gameCount; i++) {
-        Game* game = new Game(GAME_MODE::SMALL);
+        Game* game = new Game(GAME_MODE::NORMAL);
         Player* player1 = new Player();
         Player* player2 = new Player();
         
@@ -178,10 +194,15 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
         p1PtsList->push_back(player1->getPoints());
         p2PtsList->push_back(player2->getPoints());
         
+//        game->dumpPlayerGuessStat();
+        p2ActionCountTotal += game->getP2ActionCountTotal();
+        p2GuessCountTotal += game->getP2GuessCountTotal();
+        p2GuessCountCorrect += game->getP2GuessCountCorrect();
+        p2GuessCountScore += game->getP2GuessCountScore();
         delete player1;
         delete player2;
         delete game;
-        totalGiveCount += ai1->getGiveCount();
+        totalGiveCount += ai2->getGiveCount();
     }
     
     int* p1Pts = new int[gameCount];
@@ -219,6 +240,9 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
 //        }
     }
     
+    
+//    LOGF("--------- p2 games=[%d] guess=[%d/%d/%d] guess=[%5.2f%%] guess.correct=[%5.2f%%] score=[%d]", gameCount, p2GuessCountCorrect, p2GuessCountTotal, p2ActionCountTotal, (float)p2GuessCountTotal / p2ActionCountTotal * 100,(float)p2GuessCountCorrect / p2GuessCountTotal * 100,p2GuessCountScore / gameCount);
+    
 //    float avg1 = totalPts1 / gameCount;
 //    float sum = 0;
 //    for (int i = 0; i < gameCount; i++) {
@@ -236,8 +260,10 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     strategyPoints[ai1->getStategy()] += (float)win * 100 / gameCount * 3 + (float)draw * 100 / gameCount;
     strategyPoints[ai2->getStategy()] += (float)lose * 100 / gameCount * 3 + (float)draw * 100 / gameCount;
     
+    ai2->dumpStat();
+    
     LOGF("%d\t%d\t%5.2f\t%5.2f\t%5.2f\t%5.1f%%\t%5.1f%%\t%5.1f%%",
-         ai1->getGiveStrategy(), ai1->getGiveProb(), (float)totalGiveCount / gameCount,
+         ai2->getGiveStrategy(), ai2->getGiveProb(), (float)totalGiveCount / gameCount,
          (float)totalPts1 / gameCount, (float)totalPts2 / gameCount,
          (float)win * 100 / gameCount, (float)draw * 100 / gameCount, (float)lose * 100 / gameCount);
 }

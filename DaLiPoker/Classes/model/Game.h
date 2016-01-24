@@ -138,6 +138,11 @@ public:
     void setRecorder(Recorder* recorder) { mRecorder = recorder; }
     Recorder* getRecorder() { return mRecorder; };
     
+    void dumpPlayerGuessStat();
+    int getP2ActionCountTotal() { return mP2ActionCountTotal; }
+    int getP2GuessCountTotal() { return mP2GuessCountTotal; }
+    int getP2GuessCountCorrect() { return mP2GuessCountCorrect; }
+    int getP2GuessCountScore() { return mP2GuessCountScore; }
     
     
 protected:
@@ -180,6 +185,16 @@ private:
     int             mMinRank;
     int             mMaxRank;
     int             mCardCountToPlay;
+    
+    int             mP1ActionCountTotal;
+    int             mP1GuessCountTotal;
+    int             mP1GuessCountCorrect;
+    int             mP1GuessCountScore;
+    
+    int             mP2ActionCountTotal;
+    int             mP2GuessCountTotal;
+    int             mP2GuessCountCorrect;
+    int             mP2GuessCountScore;
 };
 
 

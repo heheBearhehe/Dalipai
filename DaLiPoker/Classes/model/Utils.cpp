@@ -45,7 +45,7 @@ bool getRandomSelect(int prob){
 }
 
 int getRandomProb(){
-    return RANDOM_MIN + rand() % (RANDOM_MAX + RANDOM_MIN);
+    return RANDOM_MIN + rand() % (RANDOM_MAX - RANDOM_MIN);
 }
 
 int getRandom(int max){

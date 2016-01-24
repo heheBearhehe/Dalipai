@@ -77,6 +77,15 @@ void Game::reset(){
     if (mPlayer2ChoiceListener != NULL) {
         mPlayer2ChoiceListener->reset();
     }
+    
+    mP1ActionCountTotal = 0;
+    mP1GuessCountTotal = 0;
+    mP1GuessCountCorrect = 0;
+    mP1GuessCountScore = 0;
+    mP2ActionCountTotal = 0;
+    mP2GuessCountTotal = 0;
+    mP2GuessCountCorrect = 0;
+    mP2GuessCountScore = 0;
 }
 
 bool Game::init(){
@@ -121,7 +130,7 @@ void Game::initCards(){
     for (int i = 0; i < numCount * SUIT::COUNT; i++) {
         Card* card = new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT);
         
-        // for test
+//        // for test
 //        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB || card->getSuit() == SUIT::HEART) {
 //            delete card;
 //            continue;
@@ -354,6 +363,28 @@ void Game::onActionExecuted(int action, Player* player, Card* card1, Card* card2
         if (player->getTag() == 1) {
             mPlayerChoiceListener->onChoiceMade(player, action, card1, card2);
             mPlayer2ChoiceListener->onChoiceMade(player, action, action == Player::PLAYER_CHOICE_KEEP ? NULL : card1, card2);
+            if (player->getTrend() != PlayerTrend::NONE) {
+                mP2ActionCountTotal++;
+                bool correct = false;
+                AIPlayer* ai = (AIPlayer *)mPlayer2ChoiceListener;
+                if (ai != NULL && ai->getGuessedUpProb() != 50) {
+                    mP2GuessCountTotal++;
+                    if (player->getTrend() == PlayerTrend::UP && ai->getGuessedUpProb() > 50) {
+                        correct = true;
+                        mP2GuessCountScore += ai->getGuessedUpProb();
+                    }else if(player->getTrend() == PlayerTrend::DOWN && ai->getGuessedUpProb() < 50){
+                        correct = true;
+                        mP2GuessCountScore += 100 - ai->getGuessedUpProb();
+                    }
+                    
+                    if (correct) {
+                        mP2GuessCountCorrect++;
+                    }
+                    
+                    LOGI("*** P2.guess=[%s] player.trend=[%s] correct=[%d]", ai->getGuessedUpProb() > 50? "UP" : "DOWN",
+                         player->getTrend() == PlayerTrend::UP? "UP" : "DOWN", correct);
+                }
+            }
         }else if (player->getTag() == 2){
             mPlayer2ChoiceListener->onChoiceMade(player, action, card1, card2);
             mPlayerChoiceListener->onChoiceMade(player, action, action == Player::PLAYER_CHOICE_KEEP ? NULL : card1, card2);
@@ -379,6 +410,11 @@ Card* Game::currentCard(){
 
 void Game::makeChoice(Player* player, Card* card, int availableChoice){
     
+}
+
+
+void Game::dumpPlayerGuessStat(){
+    LOGF("--------- p2 guess=[%d/%d/%d] guess=[%5.2f%%] guess.correct=[%5.2f%%] score=[%d]", mP2GuessCountCorrect, mP2GuessCountTotal, mP2ActionCountTotal, (float)mP2GuessCountTotal / mP2ActionCountTotal * 100,(float)mP2GuessCountCorrect / mP2GuessCountTotal * 100,mP2GuessCountScore);
 }
 
 

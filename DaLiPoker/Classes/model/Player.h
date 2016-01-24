@@ -19,6 +19,12 @@ class Card;
 class PlayerActionCallBack;
 class PlayerChoiceListener;
 
+typedef enum trend{
+    NONE = 0,
+    UP,
+    DOWN,
+}PlayerTrend;
+
 class Player {
     
 public:
@@ -51,6 +57,7 @@ public:
     
     Card* getLastCard();
     
+    int             getTrend();
     vector<Card *>* getCardList() { return mKeepCardList; }
     int             getPoints() { return calcPoints(); };
     int             calcPoints();

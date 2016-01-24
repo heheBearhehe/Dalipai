@@ -40,6 +40,23 @@ Card* Player::getLastCard(){
     return NULL;
 }
 
+int Player::getTrend(){
+    if (mKeepCardList->size() <= 1) {
+        return PlayerTrend::NONE;
+    }
+    
+    Card* lastCard = mKeepCardList->at(mKeepCardList->size() - 1);
+    Card* last2Card = mKeepCardList->at(mKeepCardList->size() - 2);
+    
+    if (lastCard->getRank() < 2) {
+        return PlayerTrend::UP;
+    } else if (lastCard->getRank() > 10) {
+        return PlayerTrend::DOWN;
+    }
+    
+    return lastCard->getRank() > last2Card->getRank() ? PlayerTrend::UP : PlayerTrend::DOWN;
+}
+
 void Player::addCard(Card* card){
     LOGI("%s# addCard   card=[%s]", getDumpPrefix().c_str(), card->getDisplay().c_str());
     mKeepCardList->push_back(card);
