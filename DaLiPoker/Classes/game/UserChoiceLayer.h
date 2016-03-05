@@ -34,6 +34,7 @@ public:
     void show(Card* card, Card* card2, int options, PlayerActionCallBack* callback);
     void showOppenentCard(Card* card, Card* card2);
     void hideOppenentCard();
+    void setPause(bool pause) { mPaused = pause; }
     
     
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
@@ -53,6 +54,7 @@ private:
     Player* mPlayer;
     int mAction;
     int mCardIndex;
+    bool mPaused;
     
 };
 

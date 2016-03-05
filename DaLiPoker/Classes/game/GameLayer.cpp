@@ -14,6 +14,7 @@ using namespace std;
 using namespace cocos2d::ui;
 USING_NS_CC;
 
+static const int TAG_LABEL_MESSAGE   = 1000;
 
 bool GameLayer::init(){
     if (!Layer::init()){
@@ -100,7 +101,9 @@ void GameLayer::drawText(const string& text, const Vec2& position, const Size & 
 }
 
 void GameLayer::updateMesage(){
-    this->removeChildByTag(1000);
+    if(this->getChildByTag(TAG_LABEL_MESSAGE) != NULL){
+        this->removeChildByTag(TAG_LABEL_MESSAGE);
+    }
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -113,13 +116,15 @@ void GameLayer::updateMesage(){
     label->setSystemFontSize(30);
     label->setColor(Color3B::BLACK);
     label->setPosition(Vec2(posX,posY));
-    label->setTag(1000);
+    label->setTag(TAG_LABEL_MESSAGE);
     this->addChild(label, 1);
 }
 
 void GameLayer::clearMessage(){
     mMessage = "";
-    this->removeChildByTag(1000);
+    if(this->getChildByTag(TAG_LABEL_MESSAGE) != NULL){
+        this->removeChildByTag(TAG_LABEL_MESSAGE);
+    }
     updateMesage();
 }
 

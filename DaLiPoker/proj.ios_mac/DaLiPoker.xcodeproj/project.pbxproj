@@ -44,11 +44,11 @@
 		4169E6831B88773D00331C75 /* StateSwitchPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6811B88773D00331C75 /* StateSwitchPlayer.cpp */; };
 		4169E6891B887B7900331C75 /* StateFinish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6871B887B7900331C75 /* StateFinish.cpp */; };
 		419847621B6E5FF000F8A29B /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419847611B6E5FF000F8A29B /* HelloWorldScene.cpp */; };
-		41A810501BD249930038905C /* CalcScoreLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A8104E1BD249930038905C /* CalcScoreLayer.cpp */; settings = {ASSET_TAGS = (); }; };
-		41A810531BD280910038905C /* SettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810511BD280910038905C /* SettingsScene.cpp */; settings = {ASSET_TAGS = (); }; };
-		41A810561BD3D2A00038905C /* Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810541BD3D2A00038905C /* Settings.cpp */; settings = {ASSET_TAGS = (); }; };
-		41A810591BD3E1E50038905C /* ReplayLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810571BD3E1E50038905C /* ReplayLayer.cpp */; settings = {ASSET_TAGS = (); }; };
-		41A8105C1BD3E43B0038905C /* ReplayPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A8105A1BD3E43B0038905C /* ReplayPlayer.cpp */; settings = {ASSET_TAGS = (); }; };
+		41A810501BD249930038905C /* CalcScoreLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A8104E1BD249930038905C /* CalcScoreLayer.cpp */; };
+		41A810531BD280910038905C /* SettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810511BD280910038905C /* SettingsScene.cpp */; };
+		41A810561BD3D2A00038905C /* Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810541BD3D2A00038905C /* Settings.cpp */; };
+		41A810591BD3E1E50038905C /* ReplayLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A810571BD3E1E50038905C /* ReplayLayer.cpp */; };
+		41A8105C1BD3E43B0038905C /* ReplayPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41A8105A1BD3E43B0038905C /* ReplayPlayer.cpp */; };
 		41E941681B7F399400A98625 /* game_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41E941641B7F399400A98625 /* game_bg.jpg */; };
 		41E941691B7F399400A98625 /* poker_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941651B7F399400A98625 /* poker_back.png */; };
 		41E9416A1B7F399400A98625 /* poker_discard.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941661B7F399400A98625 /* poker_discard.png */; };
@@ -775,7 +775,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hanxiong Wang (SR8YE8438U)";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -812,7 +812,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hanxiong Wang (RAG5RFUBYC)";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -941,7 +941,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0d32729d-8584-47ab-91e5-d60de933d7b8";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -972,7 +972,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "acaa22ab-f827-4234-882b-2db584b7bf73";
+				PROVISIONING_PROFILE = "a10d89a9-bd58-4e25-b117-2e5eef5fb771";
 				SDKROOT = macosx;
 				VALIDATE_PRODUCT = YES;
 			};

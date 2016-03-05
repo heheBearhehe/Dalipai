@@ -166,7 +166,7 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
     cocos2d::ui::Button* btn = (cocos2d::ui::Button*)ref;
     LOGI("UI. touchEvent  tag=[%d]", btn->getTag());
     
-    if (btn->getTag() <= 0) {
+    if (btn->getTag() <= 0 || mPaused) {
         return;
     }
     

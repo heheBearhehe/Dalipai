@@ -105,9 +105,9 @@ void testGameForKeep2(int weight1, int weight2, int weight3, int count){
     ai1->setGiveProb(0);
     ai2->setStrategy(3);
 //    ai2->setGiveStrategy(0);
-    ai2->setGiveStrategy(weight1);
-    ai2->setGiveProb(weight2);
-    ai2->setGiveStrategyOffset(weight3);
+//    ai2->setGiveStrategy(weight1);
+//    ai2->setGiveProb(weight2);
+//    ai2->setGiveStrategyOffset(weight3);
     
     
     int s1[3]={100, 200, 100};

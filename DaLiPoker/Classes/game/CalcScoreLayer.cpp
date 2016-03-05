@@ -50,6 +50,7 @@ void CalcScoreLayer::invalidate(){
     }
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
+    visibleSize = Director::getInstance()->getWinSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     float buttonWidth = 80;

@@ -74,6 +74,7 @@ bool PlayScene::init(){
     
     mGameLayer->setVisible(true);
     mPauseLayer->setVisible(false);
+    mUserChoiceLayer->setPause(false);
     mUserChoiceLayer->setVisible(false);
     mReplayLayer->setVisible(false);
     
@@ -306,15 +307,18 @@ void PlayScene::onGameAction(int action){
         case GAME_ACTION::GAME_ACTION_PAUSE:
             mPauseLayer->setVisible(true);
             mPauseLayer->show(mGame, this);
+            mUserChoiceLayer->setPause(true);
             break;
         case GAME_ACTION::GAME_ACTION_RESUME:
             mPauseLayer->setVisible(false);
+            mUserChoiceLayer->setPause(false);
             break;
         case GAME_ACTION::GAME_ACTION_RECALC_SCORE:
             onFinished();
             break;
         case GAME_ACTION::GAME_ACTION_RESTART:
             mPauseLayer->setVisible(false);
+            mUserChoiceLayer->setPause(false);
             mUserChoiceLayer->setVisible(false);
             startGame();
             break;
