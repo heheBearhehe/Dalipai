@@ -118,7 +118,7 @@ bool Game::init(){
 }
 
 void Game::initCards(){
-    enableLog(true);
+    enableLog(false);
     int numMin = 0;
     int numMax = 12;
     if (mGameMode == GAME_MODE::SMALL) {
@@ -131,7 +131,7 @@ void Game::initCards(){
         Card* card = new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT);
         
 //        // for test
-//        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB || card->getSuit() == SUIT::HEART) {
+//        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB /*|| card->getSuit() == SUIT::HEART*/) {
 //            delete card;
 //            continue;
 //        }

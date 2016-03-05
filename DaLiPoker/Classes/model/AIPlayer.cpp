@@ -16,6 +16,11 @@ AIPlayer::AIPlayer(int rankMin, int rankMax):mCardRandMin(rankMin),mCardRandMax(
     mGiveStrategy = 4;
     mGiveProb = 100;
     mGiveStrategyOffset = 3;
+    mDetect = true;
+    mAttack = true;
+    mAttackM = 50;
+    mAttackL = 90;
+    mGiveMid = false;
     
     mKeepStrategyWeight = NULL;
     mKeepStrategyWeight = new int[3] {100, 200, 100};
@@ -166,24 +171,24 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
     return Player::PLAYER_CHOICE_AUTO;
 }
 
-bool AIPlayer::onChoiceMade(Player* player, int choice, Card* currentCard, Card* lasetCard){
+bool AIPlayer::onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard){
     LOGI("AIPlayer.onChoiceMade AI.tag=[%d] player=[%d] choice=[%d] current=[%s] last=[%s]",
-         mTag, player->getTag(), choice, currentCard == NULL? "" : currentCard->getDisplay().c_str(), lasetCard == NULL? "" : lasetCard->getDisplay().c_str());
+         mTag, player->getTag(), choice, currentCard == NULL? "" : currentCard->getDisplay().c_str(), lastCard == NULL? "" : lastCard->getDisplay().c_str());
     
     if (player == NULL) {
         return true;
     }
     
     if (player->getTag() != mTag) {
-        mOpponentUpProb = guessUpProb(choice, currentCard, lasetCard);
+        mOpponentUpProb = guessUpProb(mOpponentUpProb, choice, currentCard, lastCard);
     }
     
     if (choice == Player::PLAYER_CHOICE_DISCARD) {
         mDiscardCardList->push_back(currentCard);
     }
     if (choice == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE) {
-        if (lasetCard != NULL) {
-            mDiscardCardList->push_back(lasetCard);
+        if (lastCard != NULL) {
+            mDiscardCardList->push_back(lastCard);
         }
         if (currentCard != NULL) {
             mDiscardCardList->push_back(currentCard);
@@ -382,6 +387,52 @@ bool AIPlayer::shouldGiveCard(Card* card){
                 }
             }
         }
+        
+        int upProbIfGive = guessUpProb(mOpponentUpProb, Player::PLAYER_CHOICE_KEEP_FOR_GIVE, card, NULL);
+        if (mDetect && abs(mOpponentUpProb - 50) <= 5) {
+            if (abs(upProbIfGive - 100) <= 20) {
+                if (card->getRank() >= 1 && card->getRank() <= 11) {
+                    return true;
+                }
+            }
+            
+            if (mGiveMid && card->getRank() >= 5 && card->getRank() <= 7) {
+                return true;
+            }
+        }
+        
+        if(mAttack){
+            int opponentCardSize = (int)mOpponentCardList->size();
+            int last2 = 0;
+            if(opponentCardSize > 1){
+                CountCard* last2Card = mOpponentCardList->at(opponentCardSize - 2);
+                if (last2Card->prob == 100) {
+                    last2 = last2Card->rank + 1;
+                }
+            }
+            
+            if (last2 > 0) {
+                if (abs(card->getRank() - (last2 - 1)) <= 2) {
+                    return true;
+                }
+            }else if(last2 == 0){
+                if (mOpponentUpProb > 50) {
+                    if (mOpponentUpProb > mAttackM && upProbIfGive < mAttackL) {
+                        return true;
+                    }
+                    
+                }else if(mOpponentUpProb < 50){
+                    if (mOpponentUpProb < 100 - mAttackM && upProbIfGive > 100 - mAttackL) {
+                        return true;
+                    }
+                }
+                
+//                if ((mOpponentUpProb > mAttackM && upProbIfGive < mAttackL)
+//                    || (mOpponentUpProb < 100 - mAttackM && upProbIfGive > 100 - mAttackL)) {
+//                    return true;
+//                }
+            }
+        }
     }
     
     if (lastOpponentDiscardCard != NULL && lastOpponentDiscardCard->getSeq() == curSeq - 1) {
@@ -399,30 +450,114 @@ bool AIPlayer::shouldGiveCard(Card* card){
 }
 
 
-int AIPlayer::guessUpProb(int choice, Card* currentCard, Card* lastCard){
+int AIPlayer::guessUpProb(int originProb, int choice, Card* currentCard, Card* lastCard){
     int upProb = 50;
-    int midRank = (mCardRandMin + mCardRandMax) / 2;
-    if (choice == Player::PLAYER_CHOICE_DISCARD) {
-        if (currentCard->getRank() <= mCardRandMin + 1) {
-            upProb = 100;
-        }
-//        else if(currentCard->getRank() > mCardRandMin + 1 && currentCard->getRank() < midRank){
-//            upProb = 50 + 50 * (midRank - currentCard->getRank()) / (midRank - 1);
-//        }
-        
-        if (currentCard->getRank() >= mCardRandMax - 1) {
-            upProb = 0;
-        }
-//        else if(currentCard->getRank() < mCardRandMax - 1 && midRank < currentCard->getRank()){
-//            upProb = 50 - 50 * (currentCard->getRank() - midRank) / (midRank - 1);
-//        }
+    
+    int current = 0;
+    int last = 0;
+    int last2 = 0;
+    if (currentCard != NULL) {
+        current = currentCard->getRank() + 1;
     }
     
+    int opponentCardSize = (int)mOpponentCardList->size();
+    if (opponentCardSize > 0) {
+        CountCard* lastCard = mOpponentCardList->at(opponentCardSize - 1);
+        if (lastCard->prob == 100) {
+            last = lastCard->rank + 1;
+        }
+        
+        if(opponentCardSize > 1){
+            CountCard* last2Card = mOpponentCardList->at(opponentCardSize - 2);
+            if (last2Card->prob == 100) {
+                last2 = last2Card->rank + 1;
+            }
+        }
+    }
+    
+    upProb = guessUpProb(originProb, choice, current, last, last2);
+
     if (upProb != 50) {
         LOGI("* ai.%d upProb=[%d]", this->getTag(), upProb);
     }
     
     return upProb;
+}
+
+int AIPlayer::getValueForLimit(int originValue, int limitValue, bool greater){
+    if (greater) {
+        return std::max(originValue, limitValue);
+    }else{
+        return std::min(originValue, limitValue);
+    }
+}
+
+int AIPlayer::guessUpProb(int originProb, int choice, int x, int a, int b){
+    int prob = -1;
+    int probDelta = 0;
+    if (choice == Player::PLAYER_CHOICE_KEEP_FOR_GIVE) { // 给对方牌
+        if (a > 0) {
+            if (x > a) {
+                prob = 100;
+            }else{
+                prob = 0;
+            }
+        }else if(a == 0){
+            if (b == 0) {
+                prob = 100 * getValueForLimit(x - 2, 0, true) / 10;
+            }else if(x < b){
+                prob = 100 * getValueForLimit(x - 2, 0, true)
+                / (13 - getValueForLimit(
+                                         (getValueForLimit(b + 1, 13, false))
+                                         - getValueForLimit(x - 1, 0, true)
+                                         + 1,
+                                         6, false));
+                
+            }else{ // x >= b
+                
+                prob = 100 - 100 * getValueForLimit(13 - x - 1, 0, true)
+                / (13 - getValueForLimit(
+                                         (getValueForLimit(x + 1, 13, false))
+                                         - getValueForLimit(b - 1, 0, true)
+                                         + 1,
+                                         6, false));
+            }
+        }
+        
+    }else if(choice == Player::PLAYER_CHOICE_DISCARD || choice == Player::PLAYER_CHOICE_GIVE){
+        if (a > 0) {
+            if (abs(x - a) > 1) {
+                if (a - x <= 3 && a -x > 1) {
+                    probDelta += 30;
+                }else if(a - x <= 5 && a - x > 3){
+                    probDelta += 10;
+                }else if(x - a <= 3 && x - a > 1){
+                    probDelta -= 30;
+                }else if(x - a <= 5 && x - a > 3){
+                    probDelta -= 10;
+                }
+            }
+        }else if(b > 0){
+            // TODO
+        }
+        
+        prob = (originProb += probDelta);
+    }else if(choice == Player::PLAYER_CHOICE_KEEP){
+        if (a > 0) {
+            prob = 100 * getValueForLimit(13 - a - 1, 0, true) / 10;
+        }else{
+            if (originProb > 50) {
+                prob = getValueForLimit(originProb - 20, 50, true);
+            }else{
+                prob = getValueForLimit(originProb + 20, 50, false);
+            }
+        }
+    }
+    
+    prob = std::max(prob, 0);
+    prob = std::min(prob, 100);
+    
+    return prob;
 }
 
 void AIPlayer::dumpStat(){

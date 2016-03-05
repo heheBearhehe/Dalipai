@@ -48,6 +48,12 @@ public:
     void setTag(int tag) { mTag = tag; };
     int getTag() { return mTag; }
     
+    void setDetect(bool detect){ mDetect = detect; }
+    void setAttack(bool attack, int m, int l){ mAttack = attack; mAttackM = m; mAttackL = l;}
+    int getAttackM() { return mAttackM; }
+    int getAttackL() { return mAttackL; }
+    void setGiveMid(bool giveMid){ mGiveMid = giveMid; }
+    
     int getGuessedUpProb() { return mOpponentUpProb; }
     vector<CountCard *>* getGuessedOpponentCardList() { return mOpponentCardList; };
     void dumpStat();
@@ -55,9 +61,15 @@ public:
 protected:
     int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback, int strategy);
     
-    int guessUpProb(int choice, Card* currentCard, Card* lastCard);
+    int guessUpProb(int originProb, int choice, Card* currentCard, Card* lastCard);
     bool shouldKeepCard(Card* card, Card* last, Card* last2);
     bool shouldGiveCard(Card* card);
+    
+    
+    
+    int getValueForLimit(int originValue, int limitValue, bool greater);
+    int guessUpProb(int originProb, int choice, int x, int a, int b);
+    
 private:
     int mCardRandMin;
     int mCardRandMax;
@@ -73,6 +85,11 @@ private:
     int mGiveCount;
     int mGiveProb;
     int mTag;
+    bool mDetect;
+    bool mAttack;
+    int mAttackM;
+    int mAttackL;
+    bool mGiveMid;
     
     Card* mMyLastGiveCard;
     Card* mLastOpponentDiscardCard;

@@ -25,15 +25,24 @@ int main(int argc, const char * argv[]) {
     
 //        enableLog(true);
     testGameForKeep();
-//    testGameForKeep2(0, 0, 10000);
+//    testGameForKeep2(0, 0, 0, 10000);
     //    testGame(3, 0, 1);
+    
+    
+//    testGuessUpProb();
+    
     std::cout << "Finish!\n";
     
     int hhh;
     std::cin >> hhh;
     std::cout << hhh;
+    
+
+    
+    
     return 0;
 }
+
 
 #define STRATEGY_COUNT 4
 
@@ -84,11 +93,9 @@ void testGameForKeep(){
     //    }
     
 //    testGameForKeep2(2 , 50, 10000);
-    for (int i = 4; i <= 4; i++) {
-        for(int j = 0; j <= 5; j++){
-            for (int k = 0; k < 1; k++) {
-                testGameForKeep2(i , j*20, k, 10000);
-            }
+    for (int i = 5; i <= 10; i++) {
+        for(int j = 5; j <= 10; j++){
+            testGameForKeep2(i * 10 , j*10, 0, 10000);
         }
     }
 }
@@ -101,9 +108,15 @@ void testGameForKeep2(int weight1, int weight2, int weight3, int count){
     
     ai1->setStrategy(3);
     ai1->setGiveStrategy(0);
+    ai1->setDetect(false);
+    ai1->setAttack(false, 0, 0);
+    ai1->setGiveMid(false);
 //    ai1->setGiveStrategy(2);
     ai1->setGiveProb(0);
     ai2->setStrategy(3);
+    ai2->setDetect(true);
+    ai2->setAttack(true, weight1, weight2);
+    ai2->setGiveMid(false);
 //    ai2->setGiveStrategy(0);
 //    ai2->setGiveStrategy(weight1);
 //    ai2->setGiveProb(weight2);
@@ -262,8 +275,8 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     
     ai2->dumpStat();
     
-    LOGF("%d\t%d\t%5.2f\t%5.2f\t%5.2f\t%5.1f%%\t%5.1f%%\t%5.1f%%",
-         ai2->getGiveStrategy(), ai2->getGiveProb(), (float)totalGiveCount / gameCount,
+    LOGF("%d\t%d\t%d\t%d\t%5.2f\t%5.2f\t%5.2f\t%5.1f%%\t%5.1f%%\t%5.1f%%",
+         ai2->getGiveStrategy(), ai2->getAttackM(), ai2->getAttackL(), ai2->getGiveProb(), (float)totalGiveCount / gameCount,
          (float)totalPts1 / gameCount, (float)totalPts2 / gameCount,
          (float)win * 100 / gameCount, (float)draw * 100 / gameCount, (float)lose * 100 / gameCount);
 }
