@@ -39,6 +39,7 @@ public:
     
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
     cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
+    cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag, bool enable);
     
 protected:
     void test();

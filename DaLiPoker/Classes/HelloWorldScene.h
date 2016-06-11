@@ -6,10 +6,14 @@
 
 
 typedef enum buttons{
-    PLAY = 0,
+    OPEN = 0,
+    CLOSE,
+    PLAY,
     HELP,
     STATISTIC,
     SETTINGS,
+    MENU_BG,
+    MENU_BG_OPENED,
 }MAIN_BUTTONS;
 
 class HelloWorld : public cocos2d::Layer
@@ -29,7 +33,8 @@ public:
     
 private:
     
-    cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
+    cocos2d::ui::Button* createButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
+    cocos2d::ui::Button* createMenuButton(const std::string picPath, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
     
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
 };

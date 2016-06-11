@@ -13,7 +13,7 @@ Scene* HelloWorld::createScene()
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    auto bg = Sprite::create("game_bg.jpg");
+    auto bg = Sprite::create("launch.jpg");
     bg->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
     scene->addChild(bg, 0);
     
@@ -40,56 +40,82 @@ bool HelloWorld::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     
-    Sprite* pSprite = Sprite::create("game_bg.jpg");
+    Sprite* pSprite = Sprite::create("launch.jpg");
     pSprite->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
     this->addChild(pSprite, 0);
-    
-    
-    auto label = Label::create();
-    label->setString("大李牌");
-    label->setSystemFontSize(30);
-    label->setColor(Color3B::BLACK);
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-    this->addChild(label, 1);
-    
-    float buttonWidth = visibleSize.width / 4;
-    float buttonHeight = 60;
-    float buttonMargin = 20;
 
-    addButton("开始玩牌",
-              Size(buttonWidth, buttonHeight),
-              Vec2(origin.x + visibleSize.width/2 - buttonWidth/2, origin.y + visibleSize.height / 2 + buttonHeight + buttonMargin),
-              MAIN_BUTTONS::PLAY);
-    addButton("规则介绍",
-              Size(buttonWidth, buttonHeight),
-              Vec2(origin.x + visibleSize.width/2 - buttonWidth/2, origin.y + visibleSize.height / 2),
-              MAIN_BUTTONS::HELP);
-    addButton("统计",
-              Size(buttonWidth / 2, buttonHeight),
-              Vec2(origin.x + visibleSize.width/2 - buttonWidth / 2, origin.y + visibleSize.height / 2 - buttonHeight - buttonMargin),
-              MAIN_BUTTONS::STATISTIC);
-    addButton("设置",
-              Size(buttonWidth / 2, buttonHeight),
-              Vec2(origin.x + visibleSize.width/2 + buttonWidth / 2, origin.y + visibleSize.height / 2 - buttonHeight - buttonMargin),
-              MAIN_BUTTONS::SETTINGS);
+    auto btnStart = createButton("开始游戏",
+              Size(visibleSize.width/2 + 100, 120),
+              Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height / 2 - 250),
+                                 MAIN_BUTTONS::PLAY);
+    this->addChild(btnStart);
+    
+    float buttonWidth = 74;
+    float buttonHeight = 74;
+    float buttonMargin = 20;
+    {
+        auto menuBg = cocos2d::ui::ImageView::create("menu_bg.png");
+        menuBg->setPosition(Vec2(origin.x + menuBg->getContentSize().width / 2, origin.y + visibleSize.height - menuBg->getContentSize().height / 2 + 500));
+        
+        auto btnOpen = createMenuButton("menu_open.png", Size(buttonWidth,buttonHeight), Vec2(origin.x + menuBg->getContentSize().width / 2, 60), MAIN_BUTTONS::OPEN);
+        menuBg->addChild(btnOpen);
+        menuBg->setTag(MAIN_BUTTONS::MENU_BG);
+        this->addChild(menuBg);
+    }
+    
+    {
+        auto menuBg = cocos2d::ui::ImageView::create("menu_bg.png");
+        menuBg->setPosition(Vec2(origin.x + menuBg->getContentSize().width / 2, origin.y + visibleSize.height + menuBg->getContentSize().height / 2));
+        
+        float posX = menuBg->getContentSize().width / 2;
+        float posY = menuBg->getContentSize().height - 150;
+        float gap = 120;
+        auto btnHelp = createMenuButton("menu_rule.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY), MAIN_BUTTONS::HELP);
+        auto btnSetting = createMenuButton("menu_settings.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap), MAIN_BUTTONS::SETTINGS);
+        auto btnStatistic = createMenuButton("menu_stat.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap * 2), MAIN_BUTTONS::STATISTIC);
+        auto btnClose = createMenuButton("menu_close.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap * 3), MAIN_BUTTONS::CLOSE);
+        
+        menuBg->addChild(btnHelp);
+        menuBg->addChild(btnSetting);
+        menuBg->addChild(btnStatistic);
+        menuBg->addChild(btnClose);
+        menuBg->setTag(MAIN_BUTTONS::MENU_BG_OPENED);
+        this->addChild(menuBg);
+    }
     
     std::cout << this->getChildrenCount() << std::endl;
     return true;
 }
 
-cocos2d::ui::Button* HelloWorld::addButton(const std::string& text, const Size & size, const Vec2& position, int tag){
-    auto btn = cocos2d::ui::Button::create();
+cocos2d::ui::Button* HelloWorld::createButton(const std::string& text, const Size & size, const Vec2& position, int tag){
+    auto btn = cocos2d::ui::Button::create("btn_choice.png", "btn_choice_h.png", "", cocos2d::ui::TextureResType::LOCAL);
+//    auto btn = cocos2d::ui::Button::create();
+    btn->setScale9Enabled(true);
+    
+    btn->setUnifySizeEnabled(true);
     btn->setTag(tag);
     btn->setTitleText(text);
     
     btn->setTouchEnabled(true);
-    btn->setTitleColor(Color3B::BLACK);
-    btn->setTitleFontSize(40);
+    btn->setTitleColor(R::COLOR_TEXT_CHOICE);
+    btn->setTitleFontSize(50);
     btn->setContentSize(size);
     btn->setPosition(position);
     btn->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(HelloWorld::touchEvent,this)));
-    this->addChild(btn, 1);
+    
+    return btn;
+}
+
+cocos2d::ui::Button* HelloWorld::createMenuButton(const std::string picPath, const Size & size, const Vec2& position, int tag){
+    auto btn = cocos2d::ui::Button::create(picPath, picPath, "", cocos2d::ui::TextureResType::LOCAL);
+    //    btn->setUnifySizeEnabled(false);
+    btn->setTag(tag);
+    btn->setCapInsets(Rect(50, 30, 20, 20));
+    
+    btn->setTouchEnabled(true);
+    btn->setContentSize(size);
+    btn->setPosition(position);
+    btn->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(HelloWorld::touchEvent,this)));
     return btn;
 }
 
@@ -108,7 +134,40 @@ void HelloWorld::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
+            break;
+        case cocos2d::ui::Widget::TouchEventType::MOVED:
+            break;
+        case cocos2d::ui::Widget::TouchEventType::ENDED:
             switch (btn->getTag()) {
+                case MAIN_BUTTONS::OPEN:
+                {
+                    auto menuBg = this->getChildByTag(MAIN_BUTTONS::MENU_BG);
+                    auto menuBgOpened = this->getChildByTag(MAIN_BUTTONS::MENU_BG_OPENED);
+                    
+                    Size visibleSize = Director::getInstance()->getVisibleSize();
+                    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+                    MoveTo * moveTo = MoveTo::create(0.1,
+                                                     Vec2(menuBgOpened->getContentSize().width / 2,
+                                                          origin.y + visibleSize.height - menuBgOpened->getContentSize().height / 2 + 100));
+                    menuBgOpened->runAction(moveTo);
+                    
+                    menuBg->setVisible(false);
+                }
+                    break;
+                case MAIN_BUTTONS::CLOSE:
+                {
+                    auto menuBg = this->getChildByTag(MAIN_BUTTONS::MENU_BG);
+                    auto menuBgOpened = this->getChildByTag(MAIN_BUTTONS::MENU_BG_OPENED);
+                    
+                    Size visibleSize = Director::getInstance()->getVisibleSize();
+                    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+                    MoveTo * moveTo = MoveTo::create(0.1,
+                                                     Vec2(menuBgOpened->getContentSize().width / 2,
+                                                          origin.y + visibleSize.height + menuBgOpened->getContentSize().height / 2));
+                    menuBgOpened->runAction(moveTo);
+                    menuBg->setVisible(true);
+                }
+                    break;
                 case MAIN_BUTTONS::PLAY:
                     Director::getInstance()->pushScene(PlayScene::create());
                     break;
@@ -123,10 +182,7 @@ void HelloWorld::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
                     break;
             }
             
-            break;
-        case cocos2d::ui::Widget::TouchEventType::MOVED:
-            break;
-        case cocos2d::ui::Widget::TouchEventType::ENDED:
+
             break;
         case cocos2d::ui::Widget::TouchEventType::CANCELED:
             break;

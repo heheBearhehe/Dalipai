@@ -23,6 +23,7 @@ bool GameLayer::init(){
     
 //    test();
     mShouldShowOppnentCard = false;
+    initBG();
     invalidate();
     
     return true;
@@ -33,15 +34,30 @@ void GameLayer::setMessage(const std::string& message){
     updateMesage();
 }
 
+void GameLayer::initBG(){
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto avatarMe = Sprite::create("avatar_boy.png");
+    auto avatarOppo = Sprite::create("avatar_girl.png");
+    
+    avatarMe->setPosition(Vec2(origin.x + avatarMe->getContentSize().width / 2, origin.y + avatarMe->getContentSize().height / 2 + 20));
+    avatarOppo->setPosition(Vec2(origin.x + visibleSize.width - avatarOppo->getContentSize().width / 2, origin.y + visibleSize.height - avatarMe->getContentSize().height / 2 - 10));
+    
+    this->addChild(avatarMe);
+    this->addChild(avatarOppo);
+}
+
 void GameLayer::invalidate(){
     this->removeAllChildren();
     if (mGame == NULL) {
         return;
     }
     
+    initBG();
     updateMyCard(mGame->getMyPlayerCardList());
     updateOpponentCard(mGame->getOpponentCardsList());
-    updateResetCard(mGame->getResetCardsCount());
+//    updateResetCard(mGame->getResetCardsCount());
     updateDiscardCards(mGame->getDiscardCardList());
     updateDealCard();
     updateGameInfo(mGame->getMyPlayerPoints(), mGame->getOpponentPoints());
@@ -95,29 +111,38 @@ void GameLayer::drawText(const string& text, const Vec2& position, const Size & 
     label->setContentSize(size);
     label->setString(text);
     label->setSystemFontSize(30);
-    label->setColor(Color3B::BLACK);
+    label->setColor(R::COLOR_TEXT);
+    
     label->setPosition(position);
     this->addChild(label, 1);
 }
 
 void GameLayer::updateMesage(){
-    if(this->getChildByTag(TAG_LABEL_MESSAGE) != NULL){
-        this->removeChildByTag(TAG_LABEL_MESSAGE);
-    }
-    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     int posX = origin.x + visibleSize.width / 2;
-    int posY = origin.y + visibleSize.height - 240;
+    int posY = origin.y + visibleSize.height - 250;
+    
+    auto bg = ImageView::create("action_message.png");
+    bg->setPosition(Vec2(posX, posY));
+    bg->setTag(TAG_LABEL_MESSAGE);
+    bg->setVisible(mMessage.size() > 0);
     
     auto label = Label::create();
     label->setContentSize(Size(100, 40));
     label->setString(mMessage);
-    label->setSystemFontSize(30);
-    label->setColor(Color3B::BLACK);
-    label->setPosition(Vec2(posX,posY));
-    label->setTag(TAG_LABEL_MESSAGE);
-    this->addChild(label, 1);
+    label->setSystemFontSize(35);
+    label->setColor(R::COLOR_TEXT_ACTION_DESC);
+    label->setPosition(Vec2(bg->getContentSize().width / 2, bg->getContentSize().height / 2));
+    
+    this->addChild(bg, 1);
+    bg->addChild(label, 1);
+    
+}
+
+void GameLayer::onMessageRemoved(){
+    this->removeChildByTag(TAG_LABEL_MESSAGE);
+    updateMesage();
 }
 
 void GameLayer::clearMessage(){
@@ -131,11 +156,11 @@ void GameLayer::clearMessage(){
 void GameLayer::updateMyCard(vector<Card*>* cards){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    float cardWidth = 80;
-    float cardHeight = 120;
-    float delta = cardWidth / 5;
-    int posX = origin.x + 20 + cardWidth / 2;
-    int posY = origin.y + 20 + cardHeight / 2;
+    float cardWidth = 134;
+    float cardHeight = 167;
+    float delta = 15;
+    int posX = origin.x + 20 + cardWidth / 2 + 100;
+    int posY = origin.y + 20 + cardHeight / 2 + 100;
     int visibleCardCount = 3;
     int size = cards->size();
     
@@ -149,6 +174,10 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
             delta = card->getContentSize().width / 2;
         }
         
+        if (posX + 2 * cardWidth >= visibleSize.width && i < size - visibleCardCount) {
+            continue;
+        }
+        
         card->setPosition(Vec2(posX, posY));
         this->addChild(card);
         
@@ -156,19 +185,19 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
     }
     
     posX += cardWidth + 20;
-    stringstream ss;
-    ss << cards->size();
-    drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
+//    stringstream ss;
+//    ss << cards->size();
+//    drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
 }
 
 void GameLayer::updateOpponentCard(vector<Card*>* cards){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    float cardWidth = 80;
-    float cardHeight = 120;
+    float cardWidth = 134;
+    float cardHeight = 167;
     float delta = cardWidth / 3;
-    int posX = origin.x + 20 + cardWidth / 2;
-    int posY = origin.y + visibleSize.height - 80 - cardHeight / 2;
+    int posX = origin.x + 20 + cardWidth / 2 + 100;
+    int posY = origin.y + visibleSize.height - 100 - cardHeight / 2;
     int visibleCardCount = 3;
     int size = cards->size();
     
@@ -196,10 +225,14 @@ void GameLayer::updateOpponentCard(vector<Card*>* cards){
         posX += delta;
     }
     
-    posX += delta + 20;
-    stringstream ss;
-    ss << size;
-    drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
+    posX += delta + 20 + cardHeight;
+    
+    posX = visibleSize.width - 150;
+    posY -= cardHeight / 2 + 10;
+    
+//    stringstream ss;
+//    ss << size;
+//    drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
 }
 
 void GameLayer::updateResetCard(int count){
@@ -268,12 +301,12 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
         this->addChild(card);
     }
     
-    if (cards->size() > 0) {
-        posX += 20;
-        stringstream ss;
-        ss << cards->size();
-        drawText(ss.str(), Vec2(maxX + cardWidth, posY), Size(cardWidth, cardHeight));
-    }
+//    if (cards->size() > 0) {
+//        posX += 20;
+//        stringstream ss;
+//        ss << cards->size();
+//        drawText(ss.str(), Vec2(maxX + cardWidth, posY), Size(cardWidth, cardHeight));
+//    }
 }
 
 
@@ -287,42 +320,89 @@ void GameLayer::updateDealCard(){
     float cardWidth = visibleSize.width / 10;
     float cardHeight = cardWidth * 1.5;
     int posX = origin.x + visibleSize.width / 2;
-    int posY = mDealCard->getTag() == 1 ? origin.y + 150 + cardHeight : origin.y + visibleSize.height - 300;
+    int posY = mDealCard->getTag() == 1 ? origin.y + 370 : origin.y + visibleSize.height - 350;
     
     Widget* card = createPokerFront(mDealCard);
     card->setPosition(Vec2(posX, posY));
     this->addChild(card);
 }
 
+//void GameLayer::updateGameInfo(int myPoints, int opponentPoints){
+//    Size visibleSize = Director::getInstance()->getVisibleSize();
+//    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+//    
+//    stringstream ss;
+//    ss << "总分: " << myPoints;
+//    
+//    auto label = Label::create();
+//    label->setContentSize(Size(100, 40));
+//    label->setString(ss.str());
+//    label->setSystemFontSize(30);
+//    label->setColor(R::COLOR_TEXT);
+//    label->setPosition(Vec2(origin.x + visibleSize.width - label->getContentSize().width,
+//                            origin.y + label->getContentSize().height / 2 + 50));
+//    this->addChild(label, 1);
+//    
+//    if (mShouldShowOppnentCard && opponentPoints >= 0) {
+//        stringstream ss;
+//        ss << "总分: " << opponentPoints;
+//        
+//        auto label = Label::create();
+//        label->setContentSize(Size(100, 40));
+//        label->setString(ss.str());
+//        label->setSystemFontSize(30);
+//        label->setColor(R::COLOR_TEXT);
+//        label->setPosition(Vec2(origin.x + visibleSize.width - label->getContentSize().width,
+//                                origin.y + label->getContentSize().height + visibleSize.height - 160));
+//        this->addChild(label, 1);
+//    }
+//}
+
 void GameLayer::updateGameInfo(int myPoints, int opponentPoints){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    stringstream ss;
-    ss << "总分: " << myPoints;
+    auto bg = ImageView::create("game_info_bg.png");
+    Size contentSize = bg->getContentSize();
+    float bottomHeight = 88;
+    float marginRight = 130;
     
-    auto label = Label::create();
-    label->setContentSize(Size(100, 40));
-    label->setString(ss.str());
-    label->setSystemFontSize(30);
-    label->setColor(Color3B::BLACK);
-    label->setPosition(Vec2(origin.x + visibleSize.width - label->getContentSize().width,
-                            origin.y + label->getContentSize().height / 2 + 50));
-    this->addChild(label, 1);
-    
-    if (mShouldShowOppnentCard && opponentPoints >= 0) {
+    {
         stringstream ss;
-        ss << "总分: " << opponentPoints;
-        
-        auto label = Label::create();
-        label->setContentSize(Size(100, 40));
-        label->setString(ss.str());
-        label->setSystemFontSize(30);
-        label->setColor(Color3B::BLACK);
-        label->setPosition(Vec2(origin.x + visibleSize.width - label->getContentSize().width,
-                                origin.y + label->getContentSize().height + visibleSize.height - 160));
-        this->addChild(label, 1);
+        ss << "剩余牌数: " << mGame->getResetCardsCount() << "张";
+        addGameInfoLabel(ss.str(), R::COLOR_TEXT_CARDS_TOTAL, Vec2(origin.x + 130 + contentSize.width / 2, origin.y + visibleSize.height - bottomHeight / 2));
     }
+    
+    {
+        stringstream ss;
+        ss << "牌数: " << mGame->getOpponentCardsList()->size() << "张";
+        addGameInfoLabel(ss.str(), R::COLOR_TEXT_CARDS_INFO, Vec2(origin.x + visibleSize.width - marginRight - contentSize.width / 2, origin.y + visibleSize.height - bottomHeight / 2));
+    }
+    
+    {
+        stringstream ss;
+        ss << "牌数: " << mGame->getMyPlayerCardList()->size() << "张";
+        addGameInfoLabel(ss.str(), R::COLOR_TEXT_CARDS_INFO, Vec2(origin.x + 150 + contentSize.width / 2, bottomHeight / 2));
+    }
+    
+    {
+        stringstream ss;
+        ss << "得分: " << mGame->getMyPlayerPoints() << "分";
+        addGameInfoLabel(ss.str(), R::COLOR_TEXT_CARDS_INFO, Vec2(origin.x + visibleSize.width - 30 - contentSize.width / 2, bottomHeight / 2));
+    }
+}
+
+void GameLayer::addGameInfoLabel(const std::string& text, cocos2d::Color3B textColor, const cocos2d::Vec2& position){
+    auto bg = ImageView::create("game_info_bg.png");
+    bg->setPosition(position);
+    auto label = Label::create();
+    label->setContentSize(bg->getContentSize());
+    label->setString(text);
+    label->setSystemFontSize(30);
+    label->setColor(textColor);
+    label->setPosition(position);
+    this->addChild(bg);
+    this->addChild(label);
 }
 
 void GameLayer::onFinished(){
@@ -350,26 +430,33 @@ void GameLayer::onFinished(){
 cocos2d::ui::Widget* GameLayer::createPokerFront(Card* card){
     auto btnCard = ImageView::create("poker_front.png");
     btnCard->ignoreContentAdaptWithSize(false);
-    btnCard->setContentSize(Size(80, 120));
+    btnCard->setContentSize(Size(134, 167));
     
     if (card != NULL) {
         Size contentSize = btnCard->getContentSize();
-        float numTextSize = 20;
-        float suitTextSize = 10;
-        auto cardDisplay = createPokerDisplay(card, numTextSize, suitTextSize);
+        float numTextSize = 30;
+        float suitTextSize = 20;
+        auto cardDisplay = createPokerDisplay(card, numTextSize, suitTextSize, contentSize);
         cardDisplay->setPosition(Vec2(numTextSize, contentSize.height - numTextSize * 2));
         btnCard->addChild(cardDisplay);
         
-        auto cardDisplayReverse = cardDisplay->clone();
-        cardDisplayReverse->setRotation(180);
-        cardDisplayReverse->setPosition(Vec2(contentSize.width - numTextSize, numTextSize * 2));
-        btnCard->addChild(cardDisplayReverse);
+        auto btnCardSuitMain = cocos2d::ui::Button::create();
+        btnCardSuitMain->setTitleText(card->getDisplaySuit());
+        btnCardSuitMain->setTitleColor(Color3B::BLACK);
+        btnCardSuitMain->setTitleFontSize(suitTextSize + 30);
+        btnCardSuitMain->setPosition(Vec2(contentSize.width - 40, 40));
+        btnCard->addChild(btnCardSuitMain);
+        
+//        auto cardDisplayReverse = cardDisplay->clone();
+//        cardDisplayReverse->setRotation(180);
+//        cardDisplayReverse->setPosition(Vec2(contentSize.width - numTextSize, numTextSize * 2));
+//        btnCard->addChild(cardDisplayReverse);
     }
     
     return btnCard;
 }
 
-cocos2d::ui::Widget* GameLayer::createPokerDisplay(Card* card, float numTextSize, float suitTextSize){
+cocos2d::ui::Widget* GameLayer::createPokerDisplay(Card* card, float numTextSize, float suitTextSize, const Size contentSize){
     auto widget = Widget::create();
     
     auto btnCardText = cocos2d::ui::Button::create();
@@ -378,7 +465,6 @@ cocos2d::ui::Widget* GameLayer::createPokerDisplay(Card* card, float numTextSize
     btnCardText->setTitleFontSize(numTextSize);
     btnCardText->setPosition(Vec2(0, numTextSize));
     widget->addChild(btnCardText);
-    
     
     auto btnCardSuit = cocos2d::ui::Button::create();
     btnCardSuit->setTitleText(card->getDisplaySuit());
@@ -393,7 +479,7 @@ cocos2d::ui::Widget* GameLayer::createPokerDisplay(Card* card, float numTextSize
 cocos2d::ui::Widget* GameLayer::createPokerBack(Card* card){
     auto btnCard = ImageView::create("poker_back.png");
     btnCard->ignoreContentAdaptWithSize(false);
-    btnCard->setContentSize(Size(80, 120));
+    btnCard->setContentSize(Size(134, 167));
     return btnCard;
 }
 

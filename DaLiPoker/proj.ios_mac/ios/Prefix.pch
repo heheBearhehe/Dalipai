@@ -9,4 +9,5 @@
 
 #ifdef __cplusplus
 	#include "cocos2d.h"
+    #include "R.h"
 #endif

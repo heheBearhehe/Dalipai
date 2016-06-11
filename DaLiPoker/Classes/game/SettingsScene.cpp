@@ -46,7 +46,7 @@ void SettingsScene::drawText(const string& text, const Size & size, const Vec2& 
     label->setContentSize(size);
     label->setString(text);
     label->setSystemFontSize(30);
-    label->setColor(Color3B::BLACK);
+    label->setColor(R::COLOR_TEXT);
     label->setPosition(position);
     label->setTag(tag);
     this->addChild(label, 1);

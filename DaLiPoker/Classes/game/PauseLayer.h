@@ -27,9 +27,7 @@ public:
     void invalidate();
     
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
-    cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
-    void drawText(const std::string& text, const cocos2d::Vec2& position, const cocos2d::Size & size);
-    
+    cocos2d::ui::Button* createButton(const std::string picPath, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
     
 private:
     Game* mGame;

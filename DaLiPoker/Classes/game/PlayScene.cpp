@@ -22,7 +22,8 @@ using namespace std;
 
 USING_NS_CC;
 
-static const int TAG_BTN_PAUSE   = 1000;
+static const int TAG_BTN_PAUSE    = 1000;
+static const int TAG_PAUSE_BG     = 1001;
 
 
 bool PlayScene::init(){
@@ -30,33 +31,7 @@ bool PlayScene::init(){
         return false;
     }
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto bg = Sprite::create("game_bg.jpg");
-    bg->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
-    this->addChild(bg, 0);
-    
-//    auto label = Label::create();
-//    label->setString("大李牌");
-//    label->setSystemFontSize(30);
-//    label->setColor(Color3B::BLACK);
-//    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-//                            origin.y + visibleSize.height - label->getContentSize().height));
-//    this->addChild(label, 1);
-    
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(PlayScene::menuRestart, this));
-    
-    closeItem->setPosition(Vec2(origin.x + closeItem->getContentSize().width/2 ,
-                                origin.y + visibleSize.height - closeItem->getContentSize().height/2));
-    
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    menu->setTag(TAG_BTN_PAUSE);
-    this->addChild(menu, 1);
+    initBG();
     
     mReplayerPlayer = NULL;
     mReplayInterval = 1;
@@ -83,6 +58,71 @@ bool PlayScene::init(){
     return true;
 }
 
+
+
+void PlayScene::initBG(){
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto bg = Sprite::create("game_bg.jpg");
+    bg->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
+    this->addChild(bg, 0);
+
+    auto bgLeft = Sprite::create("bg_left.png");
+    auto bgRight = Sprite::create("bg_left.png");
+    auto bgBottom = Sprite::create("bg_bottom.png");
+    auto bgTop = Sprite::create("bg_bottom.png");
+    auto bgLeftBottom = Sprite::create("bg_bottom_left.png");
+    auto bgRightTop = Sprite::create("bg_top_right.png");
+    
+    float leftWidth = 16;
+    float bottomHeight = 88;
+    bgLeft->setContentSize(Size(leftWidth, visibleSize.height - bottomHeight * 2));
+    bgLeft->setPosition(Vec2(origin.x + leftWidth / 2, origin.y + visibleSize.height / 2));
+    
+    bgRight->setContentSize(Size(leftWidth, visibleSize.height - bottomHeight * 2));
+    bgRight->setPosition(Vec2(origin.x + visibleSize.width - leftWidth / 2, origin.y + visibleSize.height / 2));
+    
+    bgTop->setContentSize(Size(visibleSize.width, bottomHeight));
+    bgTop->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - bottomHeight / 2));
+    
+    bgBottom->setContentSize(Size(visibleSize.width, bottomHeight));
+    bgBottom->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + bottomHeight / 2));
+    
+    bgLeftBottom->setPosition(Vec2(origin.x + bgLeftBottom->getContentSize().width / 2, origin.y + bgLeftBottom->getContentSize().height / 2));
+    
+    bgRightTop->setPosition(Vec2(origin.x + visibleSize.width - bgRightTop->getContentSize().width / 2, origin.y + visibleSize.height - bgRightTop->getContentSize().height / 2));
+    
+    this->addChild(bgLeft);
+    this->addChild(bgRight);
+    this->addChild(bgTop);
+    this->addChild(bgBottom);
+    this->addChild(bgLeftBottom);
+    this->addChild(bgRightTop);
+    
+    
+    auto menuBg = cocos2d::ui::ImageView::create("menu_bg.png");
+    menuBg->setPosition(Vec2(origin.x + menuBg->getContentSize().width / 2, origin.y + visibleSize.height - menuBg->getContentSize().height / 2 + 500));
+    menuBg->setTag(TAG_PAUSE_BG);
+    this->addChild(menuBg);
+    
+    
+    auto closeItem = MenuItemImage::create(
+                                           "menu_open.png",
+                                           "menu_open.png",
+                                           CC_CALLBACK_1(PlayScene::menuRestart, this));
+    
+    closeItem->setPosition(Vec2(origin.x + menuBg->getContentSize().width/2 ,
+                                origin.y + visibleSize.height - closeItem->getContentSize().height/2));
+    
+    auto menu = Menu::create(closeItem, NULL);
+    menu->setPosition(Vec2::ZERO);
+    menu->setTag(TAG_BTN_PAUSE);
+    this->addChild(menu, 1);
+    
+}
+
 void PlayScene::startGame(){
     mReplayMode = false;
     mReplayPaused = false;
@@ -93,6 +133,7 @@ void PlayScene::startGame(){
     mReplayLayer->setVisible(false);
     
     getChildByTag(TAG_BTN_PAUSE)->setVisible(true);
+    getChildByTag(TAG_PAUSE_BG)->setVisible(true);
     
     bool testReplay = false;
     
@@ -162,6 +203,7 @@ void PlayScene::replayGame(int startCardIndex){
     mChoiceSkipped = false;
     mReplayStartCardIndex = startCardIndex;
     this->getChildByTag(TAG_BTN_PAUSE)->setVisible(false);
+    this->getChildByTag(TAG_PAUSE_BG)->setVisible(false);
     
     mGameLayer->setVisible(true);
     mCalcScoreLayer->setVisible(false);
@@ -298,6 +340,7 @@ void PlayScene::onFinished(){
     
     mGameLayer->setVisible(false);
     this->getChildByTag(TAG_BTN_PAUSE)->setVisible(false);
+    this->getChildByTag(TAG_PAUSE_BG)->setVisible(false);
     mCalcScoreLayer->setVisible(true);
     mCalcScoreLayer->show(mGame, this);
 }

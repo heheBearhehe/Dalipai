@@ -32,6 +32,7 @@ public:
     bool shouldShowOppnentCard() { return mShouldShowOppnentCard; }
     
 protected:
+    void initBG();
     void updateMesage();
     void updateMyCard(std::vector<Card*>* cards);
     void updateOpponentCard(std::vector<Card*>* cards);
@@ -42,10 +43,14 @@ protected:
     
     cocos2d::ui::Widget* createPokerFront(Card* card);
     cocos2d::ui::Widget* createPokerBack(Card* card);
-    cocos2d::ui::Widget* createPokerDisplay(Card* card, float numTextSize, float suitTextSize);
+    cocos2d::ui::Widget* createPokerDisplay(Card* card, float numTextSize, float suitTextSize, const cocos2d::Size contentSize);
+    
+    void onMessageRemoved();
     
     void drawText(const std::string& text, const cocos2d::Vec2& position, const cocos2d::Size & size);
     void drawCard(Card* card, const cocos2d::Vec2& position, const cocos2d::Size & size);
+    
+    void addGameInfoLabel(const std::string& text, cocos2d::Color3B textColor, const cocos2d::Vec2& position);
     
     void test();
     

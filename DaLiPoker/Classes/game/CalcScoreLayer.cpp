@@ -53,25 +53,25 @@ void CalcScoreLayer::invalidate(){
     visibleSize = Director::getInstance()->getWinSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    float buttonWidth = 80;
-    float buttonHeight = 50;
-    float posY = origin.y + 200;
+    float buttonWidth = 200;
+    float buttonHeight = 86;
+    float posY = origin.y + 240;
     
     {
         auto btn = addButton("重数", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2 - 160, posY), GAME_ACTION::GAME_ACTION_RECALC_SCORE);
-        btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width * 5 / 4, posY));
+        btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width - 30, posY));
     }
     {
         auto btn = addButton("再来一局", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2, posY), GAME_ACTION::GAME_ACTION_RESTART);
-        btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width / 4, posY));
+        btn->setPosition(Vec2(origin.x + visibleSize.width / 2, posY));
     }
     {
         auto btn = addButton("复盘", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2 + 160, posY), GAME_ACTION::GAME_ACTION_REPLAY);
-        btn->setPosition(Vec2(origin.x + visibleSize.width / 2 + btn->getContentSize().width * 3 / 4, posY));
+        btn->setPosition(Vec2(origin.x + visibleSize.width / 2 + btn->getContentSize().width + 30, posY));
     }
     {
         auto btn = addButton("退出", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2, posY), GAME_ACTION::GAME_ACTION_EXIT);
-        btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width / 4, posY - 100));
+        btn->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - 100));
     }
     
     mCurrentCardIndex = 0;
@@ -79,7 +79,7 @@ void CalcScoreLayer::invalidate(){
 }
 
 void CalcScoreLayer::scheduleNextCard(){
-    DelayTime * delayAction = DelayTime::create(0.2);
+    DelayTime * delayAction = DelayTime::create(0.4);
     CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(CalcScoreLayer::calcNextCard, this));
     this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
 }
@@ -91,8 +91,8 @@ void CalcScoreLayer::calcNextCard(){
     updateGameInfo(calcPoints(mGame->getMyPlayerCardList(), mCurrentCardIndex + 1),
                    calcPoints(mGame->getOpponentCardsList(), mCurrentCardIndex + 1));
     
-    updateCard(mGame->getMyPlayerCardList(), mCurrentCardIndex, origin.y + 350, TAG_CALC_MYCARD_START);
-    updateCard(mGame->getOpponentCardsList(), mCurrentCardIndex, origin.y + visibleSize.height - 100, TAG_CALC_OPPCARD_START);
+    updateCard(mGame->getMyPlayerCardList(), mCurrentCardIndex, origin.y + 400, TAG_CALC_MYCARD_START);
+    updateCard(mGame->getOpponentCardsList(), mCurrentCardIndex, origin.y + visibleSize.height - 200, TAG_CALC_OPPCARD_START);
     
     updatePointsLine(mGame->getMyPlayerCardList(), mCurrentCardIndex, origin.y + visibleSize.height / 2 - 50, TAG_CALC_MYLINE_START);
     updatePointsLine(mGame->getOpponentCardsList(), mCurrentCardIndex, origin.y + visibleSize.height / 2 + 300, TAG_CALC_OPPLINE_START);
@@ -115,10 +115,10 @@ void CalcScoreLayer::updateCard(std::vector<Card*>* cards, int cardIndex, int po
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    float cardWidth = 80;
-    float cardHeight = 120;
-    float delta = cardWidth / 5;
-    int posX = origin.x + 20 + cardWidth / 2;
+    float cardWidth = 134;
+    float cardHeight = 167;
+    float delta = 15;
+    int posX = origin.x + 20 + cardWidth / 2 + 20;
     int visibleCardCount = 3;
     int size = MIN(cards->size(), cardIndex);
     
@@ -133,6 +133,10 @@ void CalcScoreLayer::updateCard(std::vector<Card*>* cards, int cardIndex, int po
                 delta = card->getContentSize().width / 2;
             }
             
+            if (posX + 2 * cardWidth >= visibleSize.width && i < size - visibleCardCount) {
+                continue;
+            }
+            
             card->setPosition(Vec2(posX, posY));
             this->addChild(card);
         }
@@ -143,7 +147,7 @@ void CalcScoreLayer::updateCard(std::vector<Card*>* cards, int cardIndex, int po
     if (cardIndex < cards->size()) {
         Widget* lastCard = createPokerFront(cards->at(cardIndex));
         lastCard->setTag(tagStart + TAG_CALC_CARD_LAST_OFFSET);
-        lastCard->setPosition(Vec2(origin.x + visibleSize.width - 100 - cardWidth / 2, posY));
+        lastCard->setPosition(Vec2(origin.x + visibleSize.width - 80 - cardWidth / 2, posY));
         this->addChild(lastCard);
     }
 }
@@ -173,10 +177,10 @@ void CalcScoreLayer::updatePointsLine(std::vector<Card*>* cards, int cardIndex, 
             if (i > 0) {
                 Card* lastCard = cards->at(i - 1);
                 int posYStart = lastCard->getIndex() * yStep + minY;
-                node->drawSegment(Vec2(posX - delta, posYStart), Vec2(posX , posYEnd), 3, Color4F(0,0,0,1));
-                node->drawDot(Vec2(posX - delta, posYStart), 10, lastCard->getScored() ? Color4F(1,1,1,1) : Color4F(0,0,0,1));
+                node->drawSegment(Vec2(posX - delta, posYStart), Vec2(posX , posYEnd), 3, Color4F(0.349,0.56,0.447,1));
+                node->drawDot(Vec2(posX - delta, posYStart), 10, lastCard->getScored() ? Color4F(1,0.8235,0.2078,1) : Color4F(0.588,0.376,0,1));
             }
-            node->drawDot(Vec2(posX, posYEnd), 10, card->getScored() ? Color4F(1,1,1,1) : Color4F(0,0,0,1));
+            node->drawDot(Vec2(posX, posYEnd), 10, card->getScored() ? Color4F(1,0.8235,0.2078,1) : Color4F(0.588,0.376,0,1));
             this->addChild(node);
         }
         
@@ -193,8 +197,8 @@ void CalcScoreLayer::updateGameInfo(int myPoints, int opponentPoints){
         if(label == NULL){
             label = Label::create();
             label->setContentSize(Size(100, 50));
-            label->setSystemFontSize(50);
-            label->setColor(Color3B::BLACK);
+            label->setSystemFontSize(40);
+            label->setColor(R::COLOR_TEXT);
             label->setPosition(Vec2(origin.x + 200, origin.y + visibleSize.height / 2  + 150));
             label->setTag(TAG_CALC_POINTS_OPP);
             this->addChild(label, 1);
@@ -202,7 +206,7 @@ void CalcScoreLayer::updateGameInfo(int myPoints, int opponentPoints){
         
         if (myPoints >= 0) {
             stringstream ss;
-            ss << opponentPoints;
+            ss << "对方得分: " << opponentPoints << "分";
             label->setString(ss.str());
             label->setVisible(true);
         }else{
@@ -214,15 +218,15 @@ void CalcScoreLayer::updateGameInfo(int myPoints, int opponentPoints){
         if(label == NULL){
             label = Label::create();
             label->setContentSize(Size(100, 50));
-            label->setSystemFontSize(50);
-            label->setColor(Color3B::BLACK);
+            label->setSystemFontSize(40);
+            label->setColor(R::COLOR_TEXT);
             label->setPosition(Vec2(origin.x + 200, origin.y + visibleSize.height / 2 + 50));
             label->setTag(TAG_CALC_POINTS_ME);
             this->addChild(label, 1);
         }
         if (myPoints >= 0) {
             stringstream ss;
-            ss << myPoints;
+            ss << "本方得分: " << myPoints << "分";
             label->setString(ss.str());
             label->setVisible(true);
         }else{
@@ -239,8 +243,8 @@ void CalcScoreLayer::updateResult(){
         label = Label::create();
         label->setContentSize(Size(100, 50));
         label->setSystemFontSize(80);
-        label->setColor(Color3B::BLACK);
-        label->setPosition(Vec2(origin.x + 400, origin.y + visibleSize.height / 2 + 100));
+        label->setColor(R::COLOR_TEXT);
+        label->setPosition(Vec2(origin.x + 500, origin.y + visibleSize.height / 2 + 100));
         label->setTag(TAG_CALC_RESULT);
         this->addChild(label, 1);
     }
@@ -297,7 +301,7 @@ void CalcScoreLayer::drawText(const string& text, const Vec2& position, const Si
     label->setContentSize(size);
     label->setString(text);
     label->setSystemFontSize(30);
-    label->setColor(Color3B::BLACK);
+    label->setColor(R::COLOR_TEXT);
     label->setPosition(position);
     this->addChild(label, 1);
 }
@@ -309,8 +313,8 @@ cocos2d::ui::Button* CalcScoreLayer::addButton(const std::string& text, const Si
     btn->setTitleText(text);
     
     btn->setTouchEnabled(true);
-    btn->setTitleColor(Color3B::BLACK);
-    btn->setTitleFontSize(40);
+    btn->setTitleColor(Color3B::WHITE);
+    btn->setTitleFontSize(35);
     btn->setContentSize(size);
     btn->setPosition(position);
     btn->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(CalcScoreLayer::touchEvent,this)));

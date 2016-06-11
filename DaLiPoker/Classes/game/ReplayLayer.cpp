@@ -58,7 +58,7 @@ void ReplayLayer::drawText(const string& text, const Vec2& position, const Size 
     label->setContentSize(size);
     label->setString(text);
     label->setSystemFontSize(30);
-    label->setColor(Color3B::BLACK);
+    label->setColor(R::COLOR_TEXT);
     label->setPosition(position);
     this->addChild(label, 1);
 }

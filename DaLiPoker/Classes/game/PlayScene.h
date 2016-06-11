@@ -42,7 +42,6 @@ public:
     void onMakeChoice();
     virtual void onGameAction(int action);
 private:
-    
     virtual void reset() {};
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback);
     virtual bool onChoiceMade(Player* player, int choice, Card* currentCard, Card* lastCard);
@@ -52,6 +51,8 @@ private:
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
     cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
     
+    
+    void initBG();
     void startGame();
     void replayGame();
     void replayGame(int startCardIndex);
