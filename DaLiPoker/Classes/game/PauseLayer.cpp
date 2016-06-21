@@ -58,15 +58,22 @@ void PauseLayer::invalidate(){
     float contentHeight = menuBg->getContentSize().height;
     float menuHeight = 400;
     float posX = menuBg->getContentSize().width / 2;
-    float posY = menuHeight - 80;
-    float gap = 120;
+    float posY = menuHeight - 50;
+    float gap = 140;
     auto btnReplay = createButton("menu_replay.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY), GAME_ACTION::GAME_ACTION_RESTART);
+    auto textReplay= createMenuText("重玩", Vec2(posX, posY - btnReplay->getContentSize().height / 2 - 20));
+    
     auto btnExit = createButton("menu_exit.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap), GAME_ACTION::GAME_ACTION_EXIT);
+    auto textExit = createMenuText("退出", Vec2(posX, posY - gap - btnExit->getContentSize().height / 2 - 20));
+    
     auto btnClose = createButton("menu_close.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap * 2), GAME_ACTION::GAME_ACTION_RESUME);
     
     menuBg->addChild(btnReplay);
     menuBg->addChild(btnExit);
     menuBg->addChild(btnClose);
+    
+    menuBg->addChild(textReplay);
+    menuBg->addChild(textExit);
     
     MoveTo * moveTo = MoveTo::create(0.1,
                                      Vec2(menuBg->getContentSize().width / 2,
@@ -86,6 +93,16 @@ cocos2d::ui::Button* PauseLayer::createButton(const std::string picPath, const S
     
     return btn;
 }
+
+Node* PauseLayer::createMenuText(const std::string& text, const Vec2& position){
+    auto label = Label::create();
+    label->setString(text);
+    label->setSystemFontSize(25);
+    label->setColor(R::COLOR_TEXT_MENU_TEXT);
+    label->setPosition(position);
+    return label;
+}
+
 
 void PauseLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     cocos2d::ui::Button* btn = (cocos2d::ui::Button*)ref;

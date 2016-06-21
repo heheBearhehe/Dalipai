@@ -131,10 +131,10 @@ void Game::initCards(){
         Card* card = new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT);
         
 //        // for test
-//        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB /*|| card->getSuit() == SUIT::HEART*/) {
-//            delete card;
-//            continue;
-//        }
+        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB /*|| card->getSuit() == SUIT::HEART*/) {
+            delete card;
+            continue;
+        }
         
         mCardList->push_back(card);
     }

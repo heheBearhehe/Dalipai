@@ -18,6 +18,7 @@ public:
     static const cocos2d::Color3B COLOR_TEXT_ACTION_DESC;
     static const cocos2d::Color3B COLOR_TEXT_CARDS_TOTAL;
     static const cocos2d::Color3B COLOR_TEXT_CARDS_INFO;
+    static const cocos2d::Color3B COLOR_TEXT_MENU_TEXT;
 };
 
 

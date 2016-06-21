@@ -381,6 +381,14 @@ bool AIPlayer::shouldGiveCard(Card* card){
                 }
             }
             
+            if(last->rank >= 0 && last->prob == 100){
+                if ((last->rank >= 11 && (last->rank - card->getRank() <= 5))
+                    || (last->rank <= 1  && (card->getRank() - last->rank ) <= 5)) {
+                    return false;
+                }
+            }
+            
+            
             if(mGiveStrategy > 3 && last2 != NULL && last2->rank > 0 && last2->prob == 100){
                 if (abs(last2->rank - card->getRank()) <= 3) {
                     return true;

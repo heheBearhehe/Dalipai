@@ -93,10 +93,14 @@ void testGameForKeep(){
     //    }
     
 //    testGameForKeep2(2 , 50, 10000);
-    for (int i = 5; i <= 10; i++) {
-        for(int j = 5; j <= 10; j++){
-            testGameForKeep2(i * 10 , j*10, 0, 10000);
-        }
+//    for (int i = 5; i <= 10; i++) {
+//        for(int j = 5; j <= 10; j++){
+//            testGameForKeep2(i * 10 , j*10, 0, 10000);
+//        }
+//    }
+//
+    for (int i = 0; i < 10; i++) {
+        testGameForKeep2(50 , 90, 0, 10000);
     }
 }
 

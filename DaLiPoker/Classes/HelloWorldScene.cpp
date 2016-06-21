@@ -69,16 +69,27 @@ bool HelloWorld::init()
         
         float posX = menuBg->getContentSize().width / 2;
         float posY = menuBg->getContentSize().height - 150;
-        float gap = 120;
+        float gap = 130;
         auto btnHelp = createMenuButton("menu_rule.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY), MAIN_BUTTONS::HELP);
+        auto textHelp = createMenuText("规则", Vec2(posX, posY - btnHelp->getContentSize().height / 2 - 20));
+        
         auto btnSetting = createMenuButton("menu_settings.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap), MAIN_BUTTONS::SETTINGS);
+        auto textSetting = createMenuText("设置", Vec2(posX, posY - gap - btnHelp->getContentSize().height / 2 - 20));
+        
         auto btnStatistic = createMenuButton("menu_stat.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap * 2), MAIN_BUTTONS::STATISTIC);
+        auto textStatistic = createMenuText("统计", Vec2(posX, posY - gap * 2 - btnHelp->getContentSize().height / 2 - 20));
+        
         auto btnClose = createMenuButton("menu_close.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap * 3), MAIN_BUTTONS::CLOSE);
         
         menuBg->addChild(btnHelp);
         menuBg->addChild(btnSetting);
         menuBg->addChild(btnStatistic);
         menuBg->addChild(btnClose);
+        
+        menuBg->addChild(textHelp);
+        menuBg->addChild(textSetting);
+        menuBg->addChild(textStatistic);
+        
         menuBg->setTag(MAIN_BUTTONS::MENU_BG_OPENED);
         this->addChild(menuBg);
     }
@@ -106,7 +117,7 @@ cocos2d::ui::Button* HelloWorld::createButton(const std::string& text, const Siz
     return btn;
 }
 
-cocos2d::ui::Button* HelloWorld::createMenuButton(const std::string picPath, const Size & size, const Vec2& position, int tag){
+cocos2d::ui::Button* HelloWorld::createMenuButton(const std::string& picPath, const Size & size, const Vec2& position, int tag){
     auto btn = cocos2d::ui::Button::create(picPath, picPath, "", cocos2d::ui::TextureResType::LOCAL);
     //    btn->setUnifySizeEnabled(false);
     btn->setTag(tag);
@@ -118,6 +129,16 @@ cocos2d::ui::Button* HelloWorld::createMenuButton(const std::string picPath, con
     btn->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(HelloWorld::touchEvent,this)));
     return btn;
 }
+
+Node* HelloWorld::createMenuText(const std::string& text, const Vec2& position){
+    auto label = Label::create();
+    label->setString(text);
+    label->setSystemFontSize(25);
+    label->setColor(R::COLOR_TEXT_MENU_TEXT);
+    label->setPosition(position);
+    return label;
+}
+
 
 void HelloWorld::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     cocos2d::ui::Button* btn = (cocos2d::ui::Button*)ref;

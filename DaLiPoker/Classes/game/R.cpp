@@ -19,5 +19,8 @@ const Color3B R::COLOR_TEXT_CHOICE       (255, 255, 255);
 const Color3B R::COLOR_TEXT_ACTION_DESC  (255, 255, 255);
 const Color3B R::COLOR_TEXT_CARDS_TOTAL  (78, 233, 122);
 const Color3B R::COLOR_TEXT_CARDS_INFO   (255, 210, 53);
+const Color3B R::COLOR_TEXT_MENU_TEXT    (255, 210, 53);
+
+
 
 

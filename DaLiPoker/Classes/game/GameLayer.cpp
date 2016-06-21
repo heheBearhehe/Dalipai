@@ -213,6 +213,10 @@ void GameLayer::updateOpponentCard(vector<Card*>* cards){
             cardToShow = cards->at(i);
         }
         
+        if (posX + cardWidth + 200 >= visibleSize.width && i < size - visibleCardCount) {
+            continue;
+        }
+        
         if (shouldShowOppnentCard()) {
             card = createPokerFront(cardToShow);
         }else{
