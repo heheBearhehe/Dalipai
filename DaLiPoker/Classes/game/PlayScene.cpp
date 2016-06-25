@@ -302,6 +302,10 @@ int PlayScene::makeChoice(Player* player, Card* card, int availableChoice, Playe
         mGameLayer->setDealCardForReplay(NULL);
         mGameLayer->invalidate();
         
+        mUserChoiceLayer->setMyNextCardRect(mGameLayer->getMyNextCardRect());
+        mUserChoiceLayer->setOpponentNextCardRect(mGameLayer->getOpponentNextCardRect());
+        mUserChoiceLayer->setDiscardNextCardRect(mGameLayer->getDiscardNextCardRect());
+        
         mUserChoiceLayer->setVisible(true);
         mUserChoiceLayer->show(card, player->getLastCard(), availableChoice, callback);
     }

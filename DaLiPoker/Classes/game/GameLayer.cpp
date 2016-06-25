@@ -161,16 +161,20 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
     float delta = 15;
     int posX = origin.x + 20 + cardWidth / 2 + 100;
     int posY = origin.y + 20 + cardHeight / 2 + 100;
-    int visibleCardCount = 3;
-    int size = cards->size();
+    int visibleCardCount = 3 + 1;
+    int size = (int)cards->size();
     
-    for(int i = 0; i < size; i++){
-        Widget* card;
-        if (i < size - visibleCardCount) {
+    Widget* card = NULL;
+    for(int i = 0; i < size + 1; i++){
+        if (i < size + 1 - visibleCardCount) {
             card = createPokerFront(NULL);
             delta = card->getContentSize().width / 6;
         }else{
-            card = createPokerFront(cards->at(i));
+            if (i == size) {
+                card = createPokerFront(NULL);
+            }else{
+                card = createPokerFront(cards->at(i));
+            }
             delta = card->getContentSize().width / 2;
         }
         
@@ -184,7 +188,13 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
         posX += delta;
     }
     
+    if (card != NULL) {
+        card->setVisible(false);
+        mMyNextCardRect = Rect(card->getPosition().x, card->getPosition().y, card->getContentSize().width, card->getContentSize().height);
+    }
+    
     posX += cardWidth + 20;
+    
 //    stringstream ss;
 //    ss << cards->size();
 //    drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
@@ -228,11 +238,13 @@ void GameLayer::updateOpponentCard(vector<Card*>* cards){
         this->addChild(card);
         posX += delta;
     }
+    mOpponentNextCardRect = Rect(origin.x + visibleSize.width / 2, posY, cardWidth, cardHeight);
     
     posX += delta + 20 + cardHeight;
     
     posX = visibleSize.width - 150;
     posY -= cardHeight / 2 + 10;
+    
     
 //    stringstream ss;
 //    ss << size;
@@ -285,8 +297,8 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
     int posY = minY;
     int size = cards->size();
     
+    Widget* card = NULL;
     for(int i = 0; i < size; i++){
-        Widget* card;
         card = createPokerFront(cards->at(i));
         if (i == size - 1) {
             posX = minX + (maxX - minX) / 2;
@@ -303,6 +315,10 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
         
         card->setPosition(Vec2(posX, posY));
         this->addChild(card);
+    }
+    
+    if (card != NULL) {
+        mDiscardNextCardRect = Rect(card->getPosition().x, card->getPosition().y, card->getContentSize().width, card->getContentSize().height);
     }
     
 //    if (cards->size() > 0) {
@@ -486,8 +502,6 @@ cocos2d::ui::Widget* GameLayer::createPokerBack(Card* card){
     btnCard->setContentSize(Size(134, 167));
     return btnCard;
 }
-
-
 
 
 

@@ -26,6 +26,12 @@
 		411512361BA579FC009274DA /* StatePlayerChoice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512261BA579FC009274DA /* StatePlayerChoice.cpp */; };
 		411512371BA579FC009274DA /* StateSwitchPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512281BA579FC009274DA /* StateSwitchPlayer.cpp */; };
 		411512381BA579FC009274DA /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4115122A1BA579FC009274DA /* Utils.cpp */; };
+		4120A3941D1E819400928C8C /* menu_replay_exit.png in Resources */ = {isa = PBXBuildFile; fileRef = 4120A38F1D1E819400928C8C /* menu_replay_exit.png */; };
+		4120A3951D1E819400928C8C /* menu_replay_fast.png in Resources */ = {isa = PBXBuildFile; fileRef = 4120A3901D1E819400928C8C /* menu_replay_fast.png */; };
+		4120A3961D1E819400928C8C /* menu_replay_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 4120A3911D1E819400928C8C /* menu_replay_pause.png */; };
+		4120A3971D1E819400928C8C /* menu_replay_slow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4120A3921D1E819400928C8C /* menu_replay_slow.png */; };
+		4120A3981D1E819400928C8C /* menu_replay_start.png in Resources */ = {isa = PBXBuildFile; fileRef = 4120A3931D1E819400928C8C /* menu_replay_start.png */; };
+		4120A39B1D1E8C8E00928C8C /* menu_replay_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 4120A39A1D1E8C8E00928C8C /* menu_replay_bg.png */; };
 		4132CF9B1B6FA07900F42F1A /* GameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF871B6FA07900F42F1A /* GameLayer.cpp */; };
 		4132CF9C1B6FA07900F42F1A /* PauseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF891B6FA07900F42F1A /* PauseLayer.cpp */; };
 		4132CF9D1B6FA07900F42F1A /* PlayScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF8B1B6FA07900F42F1A /* PlayScene.cpp */; };
@@ -185,6 +191,12 @@
 		411512291BA579FC009274DA /* StateSwitchPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateSwitchPlayer.h; sourceTree = "<group>"; };
 		4115122A1BA579FC009274DA /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
 		4115122B1BA579FC009274DA /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		4120A38F1D1E819400928C8C /* menu_replay_exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_replay_exit.png; sourceTree = "<group>"; };
+		4120A3901D1E819400928C8C /* menu_replay_fast.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_replay_fast.png; sourceTree = "<group>"; };
+		4120A3911D1E819400928C8C /* menu_replay_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_replay_pause.png; sourceTree = "<group>"; };
+		4120A3921D1E819400928C8C /* menu_replay_slow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_replay_slow.png; sourceTree = "<group>"; };
+		4120A3931D1E819400928C8C /* menu_replay_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_replay_start.png; sourceTree = "<group>"; };
+		4120A39A1D1E8C8E00928C8C /* menu_replay_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_replay_bg.png; sourceTree = "<group>"; };
 		4132CF871B6FA07900F42F1A /* GameLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLayer.cpp; sourceTree = "<group>"; };
 		4132CF881B6FA07900F42F1A /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
 		4132CF891B6FA07900F42F1A /* PauseLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PauseLayer.cpp; sourceTree = "<group>"; };
@@ -528,6 +540,12 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4120A39A1D1E8C8E00928C8C /* menu_replay_bg.png */,
+				4120A38F1D1E819400928C8C /* menu_replay_exit.png */,
+				4120A3901D1E819400928C8C /* menu_replay_fast.png */,
+				4120A3911D1E819400928C8C /* menu_replay_pause.png */,
+				4120A3921D1E819400928C8C /* menu_replay_slow.png */,
+				4120A3931D1E819400928C8C /* menu_replay_start.png */,
 				41DD75A51D0BE3CA008781B5 /* action_message.png */,
 				41DA48011D0B1D4700012DFF /* avatar_boy.png */,
 				41DA48021D0B1D4700012DFF /* avatar_girl.png */,
@@ -725,14 +743,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				41DA47F11D0AFD8B00012DFF /* bg_corner.png in Resources */,
+				4120A3971D1E819400928C8C /* menu_replay_slow.png in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				41E941691B7F399400A98625 /* poker_back.png in Resources */,
 				41DA48001D0B0E3100012DFF /* menu_bg.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				41E941681B7F399400A98625 /* game_bg.jpg in Resources */,
+				4120A3941D1E819400928C8C /* menu_replay_exit.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
+				4120A3961D1E819400928C8C /* menu_replay_pause.png in Resources */,
 				41DA48031D0B1D4700012DFF /* avatar_boy.png in Resources */,
 				41DA47F61D0AFD8B00012DFF /* launch.jpg in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
@@ -749,10 +770,12 @@
 				41DD75A81D0BE3CA008781B5 /* action_message.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				41E9417A1B7F440C00A98625 /* Default-667h@2x.png in Resources */,
+				4120A39B1D1E8C8E00928C8C /* menu_replay_bg.png in Resources */,
 				41DD75A91D0BE3CA008781B5 /* bg_bottom_left.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				41DD75AA1D0BE3CA008781B5 /* bg_right.png in Resources */,
 				41DA47F51D0AFD8B00012DFF /* game_info_bg.png in Resources */,
+				4120A3951D1E819400928C8C /* menu_replay_fast.png in Resources */,
 				41DA47FA1D0B0CDD00012DFF /* menu_open.png in Resources */,
 				41E941881B7F4E8E00A98625 /* poker_front_large.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
@@ -768,6 +791,7 @@
 				41E9418C1B7F685800A98625 /* card in Resources */,
 				41DD75B11D0BF4D4008781B5 /* menu_settings.png in Resources */,
 				41DA47FE1D0B0D8D00012DFF /* menu_replay.png in Resources */,
+				4120A3981D1E819400928C8C /* menu_replay_start.png in Resources */,
 				41DA47F31D0AFD8B00012DFF /* bg_left.png in Resources */,
 				41DA47F21D0AFD8B00012DFF /* bg_bottom.png in Resources */,
 				41DD75AD1D0BE3D3008781B5 /* bg_top_right.png in Resources */,

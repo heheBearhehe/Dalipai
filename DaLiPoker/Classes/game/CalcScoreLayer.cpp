@@ -53,6 +53,15 @@ void CalcScoreLayer::invalidate(){
     visibleSize = Director::getInstance()->getWinSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
+    auto avatarMe = Sprite::create("avatar_boy.png");
+    auto avatarOppo = Sprite::create("avatar_girl.png");
+    
+    avatarMe->setPosition(Vec2(origin.x + avatarMe->getContentSize().width / 2, origin.y + avatarMe->getContentSize().height / 2 + 20));
+    avatarOppo->setPosition(Vec2(origin.x + visibleSize.width - avatarOppo->getContentSize().width / 2, origin.y + visibleSize.height - avatarMe->getContentSize().height / 2 - 10));
+    
+    this->addChild(avatarMe);
+    this->addChild(avatarOppo);
+    
     float buttonWidth = 200;
     float buttonHeight = 86;
     float posY = origin.y + 240;
@@ -111,7 +120,7 @@ void CalcScoreLayer::updateCard(std::vector<Card*>* cards, int cardIndex, int po
         return;
     }
     
-    this->removeChildByTag(tagStart + TAG_CALC_CARD_LAST_OFFSET);
+//    this->removeChildByTag(tagStart + TAG_CALC_CARD_LAST_OFFSET);
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -144,12 +153,12 @@ void CalcScoreLayer::updateCard(std::vector<Card*>* cards, int cardIndex, int po
         posX += delta;
     }
     
-    if (cardIndex < cards->size()) {
-        Widget* lastCard = createPokerFront(cards->at(cardIndex));
-        lastCard->setTag(tagStart + TAG_CALC_CARD_LAST_OFFSET);
-        lastCard->setPosition(Vec2(origin.x + visibleSize.width - 80 - cardWidth / 2, posY));
-        this->addChild(lastCard);
-    }
+//    if (cardIndex < cards->size()) {
+//        Widget* lastCard = createPokerFront(cards->at(cardIndex));
+//        lastCard->setTag(tagStart + TAG_CALC_CARD_LAST_OFFSET);
+//        lastCard->setPosition(Vec2(origin.x + visibleSize.width - 80 - cardWidth / 2, posY));
+//        this->addChild(lastCard);
+//    }
 }
 
 void CalcScoreLayer::updatePointsLine(std::vector<Card*>* cards, int cardIndex, int posY, int tagStart){
@@ -163,8 +172,8 @@ void CalcScoreLayer::updatePointsLine(std::vector<Card*>* cards, int cardIndex, 
     float cardHeight = 120;
     float delta = cardWidth / 5 + 2;
     int posX = origin.x + 20 + cardWidth / 2;
-    int maxY = posY - 60;
-    int minY = maxY - 30;
+    int maxY = posY - 55;
+    int minY = maxY - 35;
     int yStep = (maxY - minY) / 12;
     int size = MIN(cards->size(), cardIndex);
     
@@ -177,10 +186,10 @@ void CalcScoreLayer::updatePointsLine(std::vector<Card*>* cards, int cardIndex, 
             if (i > 0) {
                 Card* lastCard = cards->at(i - 1);
                 int posYStart = lastCard->getIndex() * yStep + minY;
-                node->drawSegment(Vec2(posX - delta, posYStart), Vec2(posX , posYEnd), 3, Color4F(0.349,0.56,0.447,1));
-                node->drawDot(Vec2(posX - delta, posYStart), 10, lastCard->getScored() ? Color4F(1,0.8235,0.2078,1) : Color4F(0.588,0.376,0,1));
+                node->drawSegment(Vec2(posX - delta, posYStart), Vec2(posX , posYEnd), 2, Color4F(0.349,0.56,0.447,1));
+                node->drawDot(Vec2(posX - delta, posYStart), 8, lastCard->getScored() ? Color4F(1,0.8235,0.2078,1) : Color4F(0.588,0.376,0,1));
             }
-            node->drawDot(Vec2(posX, posYEnd), 10, card->getScored() ? Color4F(1,0.8235,0.2078,1) : Color4F(0.588,0.376,0,1));
+            node->drawDot(Vec2(posX, posYEnd), 8, card->getScored() ? Color4F(1,0.8235,0.2078,1) : Color4F(0.588,0.376,0,1));
             this->addChild(node);
         }
         
@@ -332,13 +341,13 @@ void CalcScoreLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType ty
     
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
-            if (mGameActionCallBack != NULL && !isCalculating()) {
-                mGameActionCallBack->onGameAction(btn->getTag());
-            }
             break;
         case cocos2d::ui::Widget::TouchEventType::MOVED:
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
+            if (mGameActionCallBack != NULL && !isCalculating()) {
+                mGameActionCallBack->onGameAction(btn->getTag());
+            }
             break;
         case cocos2d::ui::Widget::TouchEventType::CANCELED:
             break;

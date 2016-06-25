@@ -32,6 +32,9 @@ public:
     cocos2d::Node* createMenuText(const std::string& text, const cocos2d::Vec2& position);
     
 private:
+    void onMenuExit();
+    
+private:
     Game* mGame;
     GameActionCallBack* mGameActionCallBack;
     

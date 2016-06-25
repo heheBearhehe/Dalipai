@@ -44,6 +44,10 @@ static string sCardImagesFileName[] = {
 
 static const int TAG_OPPENENT_CARD_1     = 1000;
 static const int TAG_OPPENENT_CARD_2     = 1001;
+static const int TAG_LARGE_CARD          = 1002;
+static const int TAG_LARGE_CARD_2        = 1003;
+
+static const float CARD_ANIMATION_DURATION = 0.15;
 
 bool UserChoiceLayer::init(){
     if (!Layer::init()){
@@ -77,6 +81,7 @@ void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCal
     float posY = origin.y + visibleSize.height / 2 - 300;
     auto largeImg = createPokerFront(card, posY);
     largeImg->setTouchEnabled(false);
+    largeImg->setTag(TAG_LARGE_CARD);
     
     posY -= 10;
     
@@ -100,6 +105,7 @@ void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCal
         
         if (options == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE && card2 != NULL) {
             auto largeImg2 = createPokerFront(card2, posY);
+            largeImg2->setTag(TAG_LARGE_CARD_2);
             cocos2d::Vec2 oldPos = largeImg->getPosition();
             cocos2d::Size oldSize = largeImg->getContentSize();
             float scale = 0.7;
@@ -109,6 +115,7 @@ void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCal
             largeImg->setPosition(cocos2d::Vec2(oldPos.x - oldSize.width * scale / 2 - 10, oldPos.y));
             largeImg2->setPosition(cocos2d::Vec2(oldPos.x + oldSize.width * scale / 2 + 10, oldPos.y));
         }
+        
     }else{
         auto btnGive = addButton("给牌", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2 - 150, posY), Player::PLAYER_CHOICE_GIVE, (options & Player::PLAYER_CHOICE_GIVE) > 0);
         btnGive->setPosition(Vec2(origin.x + visibleSize.width / 2 - btnGive->getContentSize().width - 30, posY));
@@ -149,6 +156,25 @@ void UserChoiceLayer::showOppenentCard(Card* card, Card* card2){
 }
 
 void UserChoiceLayer::hideOppenentCard(){
+    if (mDiscardNextCardRect.size.width == 0) {
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+        Vec2 origin = Director::getInstance()->getVisibleOrigin();
+        mDiscardNextCardRect = Rect(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2, mMyNextCardRect.size.width, mMyNextCardRect.size.height);
+    }
+    
+    Widget* card1 = (Widget *)this->getChildByTag(TAG_OPPENENT_CARD_1);
+    if (card1 != NULL) {
+        animationForLargeCard(card1, mDiscardNextCardRect);
+    }
+    Widget* card2 = (Widget *)this->getChildByTag(TAG_OPPENENT_CARD_2);
+    if (card2 != NULL) {
+        animationForLargeCard(card2, mDiscardNextCardRect);
+    }
+    
+    this->scheduleOnce(schedule_selector(UserChoiceLayer::doHideOppenentCard), CARD_ANIMATION_DURATION);
+}
+
+void UserChoiceLayer::doHideOppenentCard(float dt){
     this->removeChildByTag(TAG_OPPENENT_CARD_1);
     this->removeChildByTag(TAG_OPPENENT_CARD_2);
 }
@@ -191,9 +217,12 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
             if (mPlayerActionCallBack != NULL) {
-                this->setVisible(false);
+                float delayTime = 0.01;
+                if(animationForAction(btn->getTag())){
+                    delayTime = CARD_ANIMATION_DURATION;
+                }
                 mAction = btn->getTag();
-                this->scheduleOnce(schedule_selector(UserChoiceLayer::onAction), 0.01f);
+                this->scheduleOnce(schedule_selector(UserChoiceLayer::onAction), delayTime);
             }
             break;
         case cocos2d::ui::Widget::TouchEventType::CANCELED:
@@ -205,6 +234,7 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
 }
 
 void UserChoiceLayer::onAction(float dt){
+    this->setVisible(false);
     if (mAction > 0) {
         mPlayerActionCallBack->onPlayerAction(mPlayer, mAction);
         mPlayerActionCallBack->execute();
@@ -288,3 +318,50 @@ std::string UserChoiceLayer::getCardImageTitle(std::string imageName){
     int suffixLength = string(".png").length();
     return imageName.substr(prefixLength, imageName.length() - prefixLength - suffixLength);
 }
+
+
+bool UserChoiceLayer::animationForAction(int action){
+    bool ret = false;
+    Rect nextCardRect;
+    
+    if (action == Player::PLAYER_CHOICE_KEEP || action == Player::PLAYER_CHOICE_KEEP_FOR_GIVE) {
+        nextCardRect = mMyNextCardRect;
+    }else if(action== Player::PLAYER_CHOICE_GIVE){
+        nextCardRect = mOpponentNextCardRect;
+    }else if(action == Player::PLAYER_CHOICE_DISCARD || action == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE ){
+        nextCardRect = mDiscardNextCardRect;
+    }
+    
+    if (nextCardRect.size.width != 0) {
+        auto largeCard = this->getChildByTag(TAG_LARGE_CARD);
+        if (largeCard != NULL) {
+            animationForLargeCard((cocos2d::ui::Widget*)largeCard, nextCardRect);
+            ret = true;
+        }
+        
+        auto largeCard2 = this->getChildByTag(TAG_LARGE_CARD_2);
+        if (largeCard2 != NULL) {
+            animationForLargeCard((cocos2d::ui::Widget*)largeCard2, nextCardRect);
+            ret = true;
+        }
+    }
+    
+    return ret;
+}
+
+void UserChoiceLayer::animationForLargeCard(cocos2d::ui::Widget* card, cocos2d::Rect toRect){
+    if (toRect.size.width == 0) {
+        return;
+    }
+    
+    float animTime = CARD_ANIMATION_DURATION;
+    ScaleTo* scaleTo = ScaleTo::create(animTime, toRect.size.width / card->getContentSize().width, toRect.size.height / card->getContentSize().height);
+    MoveTo * moveTo = MoveTo::create(animTime, Vec2(toRect.origin.x, toRect.origin.y));
+    FadeOut * fadein = FadeOut::create(animTime);
+    Spawn* spawn = Spawn::create(moveTo, scaleTo, fadein, nullptr);
+    card->runAction(spawn);
+    
+}
+
+
+

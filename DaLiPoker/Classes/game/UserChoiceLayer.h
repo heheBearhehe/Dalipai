@@ -41,6 +41,18 @@ public:
     cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
     cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag, bool enable);
     
+    void setMyNextCardRect(cocos2d::Rect cardRect)
+    {
+        mMyNextCardRect = cardRect;
+        mMyNextCardRect.origin.y += mMyNextCardRect.size.height;
+    }
+    void setOpponentNextCardRect(cocos2d::Rect cardRect)
+    {
+        mOpponentNextCardRect = cardRect;
+        mOpponentNextCardRect.origin.y -= mOpponentNextCardRect.size.height;
+    }
+    void setDiscardNextCardRect(cocos2d::Rect cardRect) { mDiscardNextCardRect = cardRect; };
+    
 protected:
     void test();
     
@@ -50,13 +62,20 @@ protected:
     std::string getCardImageName(Card* card);
     std::string getCardImageTitle(std::string imageName);
     
+    bool animationForAction(int action);
+    void animationForLargeCard(cocos2d::ui::Widget* card, cocos2d::Rect toRect);
+    
+    void doHideOppenentCard(float dt);
+    
 private:
     PlayerActionCallBack* mPlayerActionCallBack;
     Player* mPlayer;
     int mAction;
     int mCardIndex;
     bool mPaused;
-    
+    cocos2d::Rect mMyNextCardRect;
+    cocos2d::Rect mOpponentNextCardRect;
+    cocos2d::Rect mDiscardNextCardRect;
 };
 
 #endif /* defined(__DaLiPoker__UserChoiceLayer__) */

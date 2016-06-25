@@ -30,6 +30,9 @@ public:
     void onFinished();
     void setShouldShowOppnentCard(bool show) { mShouldShowOppnentCard = show; };
     bool shouldShowOppnentCard() { return mShouldShowOppnentCard; }
+    cocos2d::Rect getMyNextCardRect() { return mMyNextCardRect; };
+    cocos2d::Rect getOpponentNextCardRect() { return mOpponentNextCardRect; };
+    cocos2d::Rect getDiscardNextCardRect() { return mDiscardNextCardRect; };
     
 protected:
     void initBG();
@@ -59,7 +62,9 @@ protected:
     Card* mDealCard;
     std::string mMessage;
     bool mShouldShowOppnentCard;
-    
+    cocos2d::Rect mMyNextCardRect;
+    cocos2d::Rect mOpponentNextCardRect;
+    cocos2d::Rect mDiscardNextCardRect;
 };
 
 #endif /* defined(__DaLiPoker__GameLayer__) */

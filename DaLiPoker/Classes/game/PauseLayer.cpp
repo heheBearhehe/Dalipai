@@ -13,6 +13,8 @@ using namespace std;
 using namespace cocos2d::ui;
 USING_NS_CC;
 
+static const int TAG_MENU     = 1000;
+
 LayerColor * LayerColor::create(const cocos2d::Color4B& color){
     return cocos2d::LayerColor::create(color);
 }
@@ -54,6 +56,7 @@ void PauseLayer::invalidate(){
     auto menuBg = ImageView::create("menu_bg.png");
     menuBg->setPosition(Vec2(origin.x + menuBg->getContentSize().width / 2, origin.y + visibleSize.height + menuBg->getContentSize().height / 2));
     this->addChild(menuBg);
+    menuBg->setTag(TAG_MENU);
     
     float contentHeight = menuBg->getContentSize().height;
     float menuHeight = 400;
@@ -114,18 +117,44 @@ void PauseLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
-            if (mGameActionCallBack != NULL) {
-                mGameActionCallBack->onGameAction(btn->getTag());
-            }
             break;
         case cocos2d::ui::Widget::TouchEventType::MOVED:
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
+        {
+            if (btn->getTag() == GAME_ACTION::GAME_ACTION_RESUME) {
+                auto menuBg = this->getChildByTag(TAG_MENU);
+                if (menuBg != NULL) {
+                    Size visibleSize = Director::getInstance()->getVisibleSize();
+                    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+                    MoveTo * moveTo = MoveTo::create(0.1,
+                                                     Vec2(menuBg->getContentSize().width / 2,
+                                                          origin.y + visibleSize.height + menuBg->getContentSize().height / 2));
+                    CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PauseLayer::onMenuExit, this));
+                    
+                    menuBg->runAction(CCSequence::createWithTwoActions(moveTo, callFunc));
+                }else{
+                    onMenuExit();
+                }
+                
+            }else{
+                if (mGameActionCallBack != NULL) {
+                    mGameActionCallBack->onGameAction(btn->getTag());
+                }
+            }
+            
+        }
             break;
         case cocos2d::ui::Widget::TouchEventType::CANCELED:
             break;
             
         default:
             break;
+    }
+}
+
+void PauseLayer::onMenuExit(){
+    if (mGameActionCallBack != NULL) {
+        mGameActionCallBack->onGameAction(GAME_ACTION::GAME_ACTION_RESUME);
     }
 }
