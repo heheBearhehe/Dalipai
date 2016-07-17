@@ -382,6 +382,16 @@ bool AIPlayer::shouldGiveCard(Card* card){
             }
             
             if(last->rank >= 0 && last->prob == 100){
+                if (mOpponentUpProb >= 80) {
+                    if (card->getRank() > last->rank + 1) {
+                        return false;
+                    }
+                }else if(mOpponentUpProb <= 20){
+                    if (card->getRank() < last->rank - 1) {
+                        return false;
+                    }
+                }
+                
                 if ((last->rank >= 11 && (last->rank - card->getRank() <= 5))
                     || (last->rank <= 1  && (card->getRank() - last->rank ) <= 5)) {
                     return false;
