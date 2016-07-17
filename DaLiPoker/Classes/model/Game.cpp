@@ -26,8 +26,9 @@
 using std::cout;
 
 
-Game::Game(GAME_MODE mode, PLAY_MODE playMode){
+Game::Game(GAME_MODE mode, PLAY_MODE playMode, int firstPlayer){
     mPlayMode = playMode;
+    mFirstPlayer = firstPlayer;
     mCardList = new vector<Card *>();
     mDiscardCardList = new vector<Card *>();
     mGameMode = mode;
@@ -66,6 +67,13 @@ void Game::reset(){
     mPlayer2->reset();
     mCurrentPlayer = mPlayer1;
     mNextPlayer = mPlayer2;
+    if (mFirstPlayer == GAME_FIRST_PLAYER::PLAYER_2 || (mFirstPlayer == GAME_FIRST_PLAYER::RANDOM && getRandomSelect(50))) {
+        switchPlayer();
+        mIsPlayer1FirstPlay = false;
+    }else{
+        mIsPlayer1FirstPlay = true;
+    }
+    
     mState = STATE::INIT;
     mCurrentState = getState(STATE::INIT);
     mCurrentCardIndex = 0;

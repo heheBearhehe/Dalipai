@@ -57,7 +57,7 @@ void GameLayer::invalidate(){
     initBG();
     updateMyCard(mGame->getMyPlayerCardList());
     updateOpponentCard(mGame->getOpponentCardsList());
-//    updateResetCard(mGame->getResetCardsCount());
+    updateResetCard(mGame->getResetCardsCount());
     updateDiscardCards(mGame->getDiscardCardList());
     updateDealCard();
     updateGameInfo(mGame->getMyPlayerPoints(), mGame->getOpponentPoints());
@@ -258,10 +258,10 @@ void GameLayer::updateResetCard(int count){
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    float cardWidth = visibleSize.width / 10;
-    float cardHeight = cardWidth * 1.5;
-    float delta = cardHeight / 5;
-    int posX = origin.x + 50;
+    float cardWidth = 134;
+    float cardHeight = 167;
+    float delta = cardHeight / 8;
+    int posX = origin.x + cardWidth / 2 + 20;
     int posY = origin.y + visibleSize.height - 400;
     
     for(int i = 0; i < count; i++){
@@ -270,12 +270,12 @@ void GameLayer::updateResetCard(int count){
         this->addChild(card);
         
         posY -= delta;
-        if (i >= 15) {
+        if (i >= 20) {
             break;
         }
     }
     
-    posY -= (delta + 40);
+    posY -= (delta + 50);
     stringstream ss;
     ss << count;
     drawText(ss.str(), Vec2(posX, posY), Size(cardWidth, cardHeight));
@@ -389,14 +389,17 @@ void GameLayer::updateGameInfo(int myPoints, int opponentPoints){
     
     {
         stringstream ss;
-        ss << "剩余牌数: " << mGame->getResetCardsCount() << "张";
+        //        ss << "剩余牌数: " << mGame->getResetCardsCount() << "张";
+        ss << "牌数: " << mGame->getOpponentCardsList()->size() << "张";
         addGameInfoLabel(ss.str(), R::COLOR_TEXT_CARDS_TOTAL, Vec2(origin.x + 130 + contentSize.width / 2, origin.y + visibleSize.height - bottomHeight / 2));
     }
     
     {
-        stringstream ss;
-        ss << "牌数: " << mGame->getOpponentCardsList()->size() << "张";
-        addGameInfoLabel(ss.str(), R::COLOR_TEXT_CARDS_INFO, Vec2(origin.x + visibleSize.width - marginRight - contentSize.width / 2, origin.y + visibleSize.height - bottomHeight / 2));
+        if(mGame->getPlayMode() == PLAY_MODE::REPLAY){
+            stringstream ss;
+            ss << "得分: " << mGame->getOpponentPoints() << "分";
+            addGameInfoLabel(ss.str(), R::COLOR_TEXT_CARDS_INFO, Vec2(origin.x + visibleSize.width - marginRight - contentSize.width / 2, origin.y + visibleSize.height - bottomHeight / 2));
+        }
     }
     
     {

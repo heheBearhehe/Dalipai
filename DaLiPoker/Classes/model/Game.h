@@ -61,6 +61,13 @@ typedef enum action{
     GAME_ACTION_EXIT,
 }GAME_ACTION;
 
+
+typedef enum firstPlayer{
+    PLAYER_1,
+    PLAYER_2,
+    RANDOM,
+}GAME_FIRST_PLAYER;
+
 class GameActionCallBack{
 public:
     virtual void onGameAction(int action) = 0;
@@ -92,10 +99,11 @@ class Game : public PlayerActionCallBack{
     
 public:
     
-    Game(GAME_MODE mode = GAME_MODE::NORMAL, PLAY_MODE playMode = PLAY_MODE::AUTO);
+    Game(GAME_MODE mode = GAME_MODE::NORMAL, PLAY_MODE playMode = PLAY_MODE::AUTO, int firstPlayer = GAME_FIRST_PLAYER::PLAYER_1);
     ~Game();
     
     void setPlayMode(PLAY_MODE mode) { mPlayMode = mode; }
+    int getPlayMode() { return mPlayMode; }
     void reset();
     bool init();
     bool setPlayer(Player* player1, Player* player2);
@@ -143,6 +151,7 @@ public:
     int getP2GuessCountTotal() { return mP2GuessCountTotal; }
     int getP2GuessCountCorrect() { return mP2GuessCountCorrect; }
     int getP2GuessCountScore() { return mP2GuessCountScore; }
+    bool getIsPlayer1FirstPlay() { return mIsPlayer1FirstPlay; }
     
     
 protected:
@@ -163,6 +172,8 @@ protected:
 private:
     PLAY_MODE       mPlayMode;
     GAME_MODE       mGameMode;
+    int             mFirstPlayer;
+    
     STATE           mState;
     vector<Card *>* mCardList;
     int             mCurrentCardIndex;
@@ -195,6 +206,7 @@ private:
     int             mP2GuessCountTotal;
     int             mP2GuessCountCorrect;
     int             mP2GuessCountScore;
+    bool            mIsPlayer1FirstPlay;
 };
 
 
