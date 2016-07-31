@@ -67,8 +67,6 @@
 		41DA47FD1D0B0D8D00012DFF /* menu_exit.png in Resources */ = {isa = PBXBuildFile; fileRef = 41DA47FB1D0B0D8D00012DFF /* menu_exit.png */; };
 		41DA47FE1D0B0D8D00012DFF /* menu_replay.png in Resources */ = {isa = PBXBuildFile; fileRef = 41DA47FC1D0B0D8D00012DFF /* menu_replay.png */; };
 		41DA48001D0B0E3100012DFF /* menu_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 41DA47FF1D0B0E3100012DFF /* menu_bg.png */; };
-		41DA48031D0B1D4700012DFF /* avatar_boy.png in Resources */ = {isa = PBXBuildFile; fileRef = 41DA48011D0B1D4700012DFF /* avatar_boy.png */; };
-		41DA48041D0B1D4700012DFF /* avatar_girl.png in Resources */ = {isa = PBXBuildFile; fileRef = 41DA48021D0B1D4700012DFF /* avatar_girl.png */; };
 		41DD75A81D0BE3CA008781B5 /* action_message.png in Resources */ = {isa = PBXBuildFile; fileRef = 41DD75A51D0BE3CA008781B5 /* action_message.png */; };
 		41DD75A91D0BE3CA008781B5 /* bg_bottom_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 41DD75A61D0BE3CA008781B5 /* bg_bottom_left.png */; };
 		41DD75AA1D0BE3CA008781B5 /* bg_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 41DD75A71D0BE3CA008781B5 /* bg_right.png */; };
@@ -90,6 +88,10 @@
 		41E941871B7F4E8E00A98625 /* btn_choice.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941841B7F4E8E00A98625 /* btn_choice.png */; };
 		41E941881B7F4E8E00A98625 /* poker_front_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E941851B7F4E8E00A98625 /* poker_front_large.png */; };
 		41E9418C1B7F685800A98625 /* card in Resources */ = {isa = PBXBuildFile; fileRef = 41E9418B1B7F685800A98625 /* card */; };
+		41FFAA981D4DBD4300E4A3D4 /* avatar in Resources */ = {isa = PBXBuildFile; fileRef = 41FFAA971D4DBD4300E4A3D4 /* avatar */; };
+		41FFAA9C1D4DCAA900E4A3D4 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41FFAA9A1D4DCAA900E4A3D4 /* GameManager.cpp */; };
+		41FFAAA21D4DE3E200E4A3D4 /* poker_front_give.png in Resources */ = {isa = PBXBuildFile; fileRef = 41FFAAA11D4DE3E200E4A3D4 /* poker_front_give.png */; };
+		41FFAAA41D4E5F5100E4A3D4 /* poker_back_give.png in Resources */ = {isa = PBXBuildFile; fileRef = 41FFAAA31D4E5F5100E4A3D4 /* poker_back_give.png */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -256,8 +258,6 @@
 		41DA47FB1D0B0D8D00012DFF /* menu_exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_exit.png; sourceTree = "<group>"; };
 		41DA47FC1D0B0D8D00012DFF /* menu_replay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_replay.png; sourceTree = "<group>"; };
 		41DA47FF1D0B0E3100012DFF /* menu_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_bg.png; sourceTree = "<group>"; };
-		41DA48011D0B1D4700012DFF /* avatar_boy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar_boy.png; sourceTree = "<group>"; };
-		41DA48021D0B1D4700012DFF /* avatar_girl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar_girl.png; sourceTree = "<group>"; };
 		41DD75A51D0BE3CA008781B5 /* action_message.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = action_message.png; sourceTree = "<group>"; };
 		41DD75A61D0BE3CA008781B5 /* bg_bottom_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_bottom_left.png; sourceTree = "<group>"; };
 		41DD75A71D0BE3CA008781B5 /* bg_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_right.png; sourceTree = "<group>"; };
@@ -279,6 +279,11 @@
 		41E941841B7F4E8E00A98625 /* btn_choice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_choice.png; sourceTree = "<group>"; };
 		41E941851B7F4E8E00A98625 /* poker_front_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_front_large.png; sourceTree = "<group>"; };
 		41E9418B1B7F685800A98625 /* card */ = {isa = PBXFileReference; lastKnownFileType = folder; path = card; sourceTree = "<group>"; };
+		41FFAA971D4DBD4300E4A3D4 /* avatar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = avatar; sourceTree = "<group>"; };
+		41FFAA9A1D4DCAA900E4A3D4 /* GameManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameManager.cpp; sourceTree = "<group>"; };
+		41FFAA9B1D4DCAA900E4A3D4 /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
+		41FFAAA11D4DE3E200E4A3D4 /* poker_front_give.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_front_give.png; sourceTree = "<group>"; };
+		41FFAAA31D4E5F5100E4A3D4 /* poker_back_give.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poker_back_give.png; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		46880B8719C43A87006E1F66 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
@@ -489,6 +494,8 @@
 				41A810581BD3E1E50038905C /* ReplayLayer.h */,
 				416A57861CF18CB700C79AA8 /* R.cpp */,
 				416A57871CF18CB700C79AA8 /* R.h */,
+				41FFAA9A1D4DCAA900E4A3D4 /* GameManager.cpp */,
+				41FFAA9B1D4DCAA900E4A3D4 /* GameManager.h */,
 			);
 			path = game;
 			sourceTree = "<group>";
@@ -540,6 +547,9 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				41FFAAA31D4E5F5100E4A3D4 /* poker_back_give.png */,
+				41FFAAA11D4DE3E200E4A3D4 /* poker_front_give.png */,
+				41FFAA971D4DBD4300E4A3D4 /* avatar */,
 				4120A39A1D1E8C8E00928C8C /* menu_replay_bg.png */,
 				4120A38F1D1E819400928C8C /* menu_replay_exit.png */,
 				4120A3901D1E819400928C8C /* menu_replay_fast.png */,
@@ -547,8 +557,6 @@
 				4120A3921D1E819400928C8C /* menu_replay_slow.png */,
 				4120A3931D1E819400928C8C /* menu_replay_start.png */,
 				41DD75A51D0BE3CA008781B5 /* action_message.png */,
-				41DA48011D0B1D4700012DFF /* avatar_boy.png */,
-				41DA48021D0B1D4700012DFF /* avatar_girl.png */,
 				41DD75A61D0BE3CA008781B5 /* bg_bottom_left.png */,
 				41DA47EC1D0AFD8B00012DFF /* bg_bottom.png */,
 				41DA47EB1D0AFD8B00012DFF /* bg_corner.png */,
@@ -689,6 +697,9 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = RAG5RFUBYC;
+					};
 					411512081BA57636009274DA = {
 						CreatedOnToolsVersion = 6.4;
 					};
@@ -754,7 +765,7 @@
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				4120A3961D1E819400928C8C /* menu_replay_pause.png in Resources */,
-				41DA48031D0B1D4700012DFF /* avatar_boy.png in Resources */,
+				41FFAA981D4DBD4300E4A3D4 /* avatar in Resources */,
 				41DA47F61D0AFD8B00012DFF /* launch.jpg in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				41E9416B1B7F399400A98625 /* poker_front.png in Resources */,
@@ -767,9 +778,11 @@
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				41DA47FD1D0B0D8D00012DFF /* menu_exit.png in Resources */,
+				41FFAAA41D4E5F5100E4A3D4 /* poker_back_give.png in Resources */,
 				41DD75A81D0BE3CA008781B5 /* action_message.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				41E9417A1B7F440C00A98625 /* Default-667h@2x.png in Resources */,
+				41FFAAA21D4DE3E200E4A3D4 /* poker_front_give.png in Resources */,
 				4120A39B1D1E8C8E00928C8C /* menu_replay_bg.png in Resources */,
 				41DD75A91D0BE3CA008781B5 /* bg_bottom_left.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
@@ -786,7 +799,6 @@
 				41E941721B7F409C00A98625 /* HelloWorld.jpg in Resources */,
 				41E941861B7F4E8E00A98625 /* btn_choice_h.png in Resources */,
 				41E9417E1B7F448400A98625 /* Images.xcassets in Resources */,
-				41DA48041D0B1D4700012DFF /* avatar_girl.png in Resources */,
 				41E941791B7F440C00A98625 /* Default-568h@2x.png in Resources */,
 				41E9418C1B7F685800A98625 /* card in Resources */,
 				41DD75B11D0BF4D4008781B5 /* menu_settings.png in Resources */,
@@ -815,6 +827,7 @@
 				4169E6831B88773D00331C75 /* StateSwitchPlayer.cpp in Sources */,
 				4169E67A1B8876EF00331C75 /* StateDeal.cpp in Sources */,
 				4169E6741B8876CA00331C75 /* StateInit.cpp in Sources */,
+				41FFAA9C1D4DCAA900E4A3D4 /* GameManager.cpp in Sources */,
 				4169E6771B8876D800331C75 /* StateBase.cpp in Sources */,
 				41A810591BD3E1E50038905C /* ReplayLayer.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
@@ -874,7 +887,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hanxiong Wang (SR8YE8438U)";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1019,7 +1032,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hanxiong Wang (SR8YE8438U)";
 				COPY_PHASE_STRIP = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1052,7 +1065,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hanxiong Wang (RAG5RFUBYC)";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (

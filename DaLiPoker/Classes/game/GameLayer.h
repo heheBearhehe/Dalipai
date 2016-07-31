@@ -44,7 +44,7 @@ protected:
     void updateDealCard();
     void updateGameInfo(int myPoints, int opponentPoints);
     
-    cocos2d::ui::Widget* createPokerFront(Card* card);
+    cocos2d::ui::Widget* createPokerFront(Card* card, bool hasDetail, bool showGiveFlag);
     cocos2d::ui::Widget* createPokerBack(Card* card);
     cocos2d::ui::Widget* createPokerDisplay(Card* card, float numTextSize, float suitTextSize, const cocos2d::Size contentSize);
     

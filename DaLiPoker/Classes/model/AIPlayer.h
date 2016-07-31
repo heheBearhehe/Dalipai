@@ -47,11 +47,14 @@ public:
     int getGiveCount() { return mGiveCount; }
     void setTag(int tag) { mTag = tag; };
     int getTag() { return mTag; }
+    void setName(std::string name) { mName = name; };
+    std::string getName() { return mName; }
     
     void setDetect(bool detect){ mDetect = detect; }
     void setAttack(bool attack, int m, int l){ mAttack = attack; mAttackM = m; mAttackL = l;}
     int getAttackM() { return mAttackM; }
     int getAttackL() { return mAttackL; }
+    void setNeverGiveMid(bool give){ mNeverGiveMid = give; }
     void setGiveMid(bool giveMid){ mGiveMid = giveMid; }
     
     int getGuessedUpProb() { return mOpponentUpProb; }
@@ -85,11 +88,13 @@ private:
     int mGiveCount;
     int mGiveProb;
     int mTag;
+    std::string mName;
     bool mDetect;
     bool mAttack;
     int mAttackM;
     int mAttackL;
     bool mGiveMid;
+    bool mNeverGiveMid;
     
     Card* mMyLastGiveCard;
     Card* mLastOpponentDiscardCard;

@@ -57,8 +57,9 @@ int Player::getTrend(){
     return lastCard->getRank() > last2Card->getRank() ? PlayerTrend::UP : PlayerTrend::DOWN;
 }
 
-void Player::addCard(Card* card){
+void Player::addCard(Card* card, int source){
     LOGI("%s# addCard   card=[%s]", getDumpPrefix().c_str(), card->getDisplay().c_str());
+    card->setSource(source);
     mKeepCardList->push_back(card);
 }
 

@@ -9,6 +9,7 @@
 #include "GameLayer.h"
 #include "../model/def.h"
 #include <CocosGUI.h>
+#include "GameManager.h"
 
 using namespace std;
 using namespace cocos2d::ui;
@@ -38,8 +39,8 @@ void GameLayer::initBG(){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto avatarMe = Sprite::create("avatar_boy.png");
-    auto avatarOppo = Sprite::create("avatar_girl.png");
+    auto avatarMe = GameManager::getInstance()->getMyAvatar(0);
+    auto avatarOppo = GameManager::getInstance()->getOppenentAvatar(0);
     
     avatarMe->setPosition(Vec2(origin.x + avatarMe->getContentSize().width / 2, origin.y + avatarMe->getContentSize().height / 2 + 20));
     avatarOppo->setPosition(Vec2(origin.x + visibleSize.width - avatarOppo->getContentSize().width / 2, origin.y + visibleSize.height - avatarMe->getContentSize().height / 2 - 10));
@@ -167,13 +168,13 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
     Widget* card = NULL;
     for(int i = 0; i < size + 1; i++){
         if (i < size + 1 - visibleCardCount) {
-            card = createPokerFront(NULL);
+            card = createPokerFront(cards->at(i), false, true);
             delta = card->getContentSize().width / 6;
         }else{
             if (i == size) {
-                card = createPokerFront(NULL);
+                card = createPokerFront(NULL, false, false);
             }else{
-                card = createPokerFront(cards->at(i));
+                card = createPokerFront(cards->at(i), true, true);
             }
             delta = card->getContentSize().width / 2;
         }
@@ -220,15 +221,15 @@ void GameLayer::updateOpponentCard(vector<Card*>* cards){
             deltaRate = 6;
         }else{
             deltaRate = 2;
-            cardToShow = cards->at(i);
         }
+        cardToShow = cards->at(i);
         
         if (posX + cardWidth + 200 >= visibleSize.width && i < size - visibleCardCount) {
             continue;
         }
         
         if (shouldShowOppnentCard()) {
-            card = createPokerFront(cardToShow);
+            card = createPokerFront(cardToShow, true, true);
         }else{
             card = createPokerBack(cardToShow);
         }
@@ -299,7 +300,7 @@ void GameLayer::updateDiscardCards(vector<Card*>* cards){
     
     Widget* card = NULL;
     for(int i = 0; i < size; i++){
-        card = createPokerFront(cards->at(i));
+        card = createPokerFront(cards->at(i), true, false);
         if (i == size - 1) {
             posX = minX + (maxX - minX) / 2;
             posY = minY + (maxY - minY) / 2 - cardHeight / 2;
@@ -342,7 +343,7 @@ void GameLayer::updateDealCard(){
     int posX = origin.x + visibleSize.width / 2;
     int posY = mDealCard->getTag() == 1 ? origin.y + 370 : origin.y + visibleSize.height - 350;
     
-    Widget* card = createPokerFront(mDealCard);
+    Widget* card = createPokerFront(mDealCard, true, false);
     card->setPosition(Vec2(posX, posY));
     this->addChild(card);
 }
@@ -450,30 +451,40 @@ void GameLayer::onFinished(){
 }
 
 
-cocos2d::ui::Widget* GameLayer::createPokerFront(Card* card){
+cocos2d::ui::Widget* GameLayer::createPokerFront(Card* card, bool hasDetail, bool showGiveFlag){
     auto btnCard = ImageView::create("poker_front.png");
     btnCard->ignoreContentAdaptWithSize(false);
     btnCard->setContentSize(Size(134, 167));
     
     if (card != NULL) {
-        Size contentSize = btnCard->getContentSize();
-        float numTextSize = 30;
-        float suitTextSize = 20;
-        auto cardDisplay = createPokerDisplay(card, numTextSize, suitTextSize, contentSize);
-        cardDisplay->setPosition(Vec2(numTextSize, contentSize.height - numTextSize * 2));
-        btnCard->addChild(cardDisplay);
+        if (showGiveFlag && card->getSource() == CARD_SOURCE::GIVE) {
+            auto btnCardFrame = ImageView::create("poker_front_give.png");
+            btnCardFrame->ignoreContentAdaptWithSize(false);
+            btnCardFrame->setContentSize(Size(134, 167));
+            btnCardFrame->setPosition(Vec2(btnCard->getContentSize().width/2, btnCard->getContentSize().height/2));
+            btnCard->addChild(btnCardFrame);
+        }
         
-        auto btnCardSuitMain = cocos2d::ui::Button::create();
-        btnCardSuitMain->setTitleText(card->getDisplaySuit());
-        btnCardSuitMain->setTitleColor(Color3B::BLACK);
-        btnCardSuitMain->setTitleFontSize(suitTextSize + 30);
-        btnCardSuitMain->setPosition(Vec2(contentSize.width - 40, 40));
-        btnCard->addChild(btnCardSuitMain);
-        
-//        auto cardDisplayReverse = cardDisplay->clone();
-//        cardDisplayReverse->setRotation(180);
-//        cardDisplayReverse->setPosition(Vec2(contentSize.width - numTextSize, numTextSize * 2));
-//        btnCard->addChild(cardDisplayReverse);
+        if (hasDetail) {
+            Size contentSize = btnCard->getContentSize();
+            float numTextSize = 30;
+            float suitTextSize = 20;
+            auto cardDisplay = createPokerDisplay(card, numTextSize, suitTextSize, contentSize);
+            cardDisplay->setPosition(Vec2(numTextSize, contentSize.height - numTextSize * 2));
+            btnCard->addChild(cardDisplay);
+            
+            auto btnCardSuitMain = cocos2d::ui::Button::create();
+            btnCardSuitMain->setTitleText(card->getDisplaySuit());
+            btnCardSuitMain->setTitleColor(Color3B::BLACK);
+            btnCardSuitMain->setTitleFontSize(suitTextSize + 30);
+            btnCardSuitMain->setPosition(Vec2(contentSize.width - 40, 40));
+            btnCard->addChild(btnCardSuitMain);
+            
+            //        auto cardDisplayReverse = cardDisplay->clone();
+            //        cardDisplayReverse->setRotation(180);
+            //        cardDisplayReverse->setPosition(Vec2(contentSize.width - numTextSize, numTextSize * 2));
+            //        btnCard->addChild(cardDisplayReverse);
+        }
     }
     
     return btnCard;
@@ -503,6 +514,15 @@ cocos2d::ui::Widget* GameLayer::createPokerBack(Card* card){
     auto btnCard = ImageView::create("poker_back.png");
     btnCard->ignoreContentAdaptWithSize(false);
     btnCard->setContentSize(Size(134, 167));
+    
+    if (card != NULL && card->getSource() == CARD_SOURCE::GIVE) {
+        auto btnCardFrame = ImageView::create("poker_back_give.png");
+        btnCardFrame->ignoreContentAdaptWithSize(false);
+        btnCardFrame->setContentSize(Size(134, 167));
+        btnCardFrame->setPosition(Vec2(btnCard->getContentSize().width/2, btnCard->getContentSize().height/2));
+        btnCard->addChild(btnCardFrame);
+    }
+    
     return btnCard;
 }
 

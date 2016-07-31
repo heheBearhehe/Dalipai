@@ -58,7 +58,7 @@ bool StateOpponentChoice::execute(){
     Card* lastCard = NULL;
     switch (action) {
     case Player::PLAYER_CHOICE_KEEP_FOR_GIVE:
-        oppenentPlayer->addCard(currentCard);
+        oppenentPlayer->addCard(currentCard, CARD_SOURCE::GIVE);
         break;
         
     case Player::PLAYER_CHOICE_REMOVE_FOR_GIVE:

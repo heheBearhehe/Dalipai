@@ -72,7 +72,7 @@ bool StatePlayerChoice::execute(){
     
     switch (action) {
     case Player::PLAYER_CHOICE_KEEP:
-        currentPlayer->addCard(card);
+        currentPlayer->addCard(card, CARD_SOURCE::KEEP);
         break;
     case Player::PLAYER_CHOICE_DISCARD:
         mGame->mDiscardCardList->push_back(card);

@@ -17,14 +17,56 @@ void testGameForKeep2(int weight1, int weight2, int weight3, int count);
 void testGame(int p1Strategy, int p2Stategy);
 void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount);
 
+AIPlayer* createOppenentAIPlayer(int charactor);
+void testGameForAllCharactor(int gameCount);
+void testGameForCharactor(int p1, int p2, int gameCount);
+
+static const int CHARACTOR_GUO     = 1;
+static const int CHARACTOR_DAMI    = 2;
+static const int CHARACTOR_DAXIONG = 3;
+static const int CHARACTOR_DALI    = 4;
+static const int CHARACTOR_YUJIE   = 5;
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
     initUtils();
     enableLog(false);
     
+    int count = 10000;
+    testGameForAllCharactor(count);
+    
+//    int testCharactor = 3;
+//    for (int i = testCharactor; i <= 6; i++) {
+//        if (testCharactor == i) {
+//            continue;
+//        }
+//        testGameForCharactor(testCharactor, i, count);
+//    }
+//    
+//    testCharactor = 2;
+//    for (int i = testCharactor; i <= 6; i++) {
+//        if (testCharactor == i) {
+//            continue;
+//        }
+//        testGameForCharactor(testCharactor, i, count);
+//    }
+    
+    
+//    for (int i = 3; i <= 5; i++) {
+//        for (int j = 1; j <= 6; j++) {
+//            if(i == j){
+//                continue;
+//            }
+//            testGameForCharactor(i, j, count);
+//        }
+//    }
+    
+//    testGameForCharactor(1, 2, count);
+//    testGameForCharactor(1, 6, count);
+//    testGameForCharactor(2, 6, count);
 //        enableLog(true);
-    testGameForKeep();
+//    testGameForKeep();
 //    testGameForKeep2(0, 0, 0, 10000);
     //    testGame(3, 0, 1);
     
@@ -100,7 +142,7 @@ void testGameForKeep(){
 //    }
 //
     for (int i = 0; i < 10; i++) {
-        testGameForKeep2(50 , 90, 0, 10000);
+        testGameForKeep2(50 , 90, 0, 50000);
     }
 }
 
@@ -110,14 +152,23 @@ void testGameForKeep2(int weight1, int weight2, int weight3, int count){
     ai1->setTag(1);
     ai2->setTag(2);
     
-    ai1->setStrategy(3);
-    ai1->setGiveStrategy(0);
-    ai1->setDetect(false);
-    ai1->setAttack(false, 0, 0);
-    ai1->setGiveMid(false);
+    //    ai1->setGiveStrategy(0);
+//    ai1->setStrategy(3);
+//    ai1->setDetect(false);
+//    ai1->setAttack(false, 0, 0);
+//    ai1->setGiveMid(false);
 //    ai1->setGiveStrategy(2);
+    
     ai1->setGiveProb(0);
+    ai1->setStrategy(3);
+    ai1->setGiveStrategy(4);
+    ai1->setDetect(true);
+    ai1->setAttack(true, weight1, weight2);
+    ai1->setGiveMid(false);
+    
+    ai2->setGiveProb(0);
     ai2->setStrategy(3);
+    ai2->setGiveStrategy(4);
     ai2->setDetect(true);
     ai2->setAttack(true, weight1, weight2);
     ai2->setGiveMid(false);
@@ -175,6 +226,94 @@ void testGame(int p1Strategy, int p2Strategy){
     testGame(ai1, ai2, 10000);
 }
 
+
+void testGameForAllCharactor(int gameCount){
+    for (int i = 1; i <= 5; i++) {
+        for (int j = i + 1; j <= 5; j++) {
+            testGameForCharactor(i, j, gameCount);
+        }
+    }
+    
+//    for (int i = 1; i <= 6; i++) {
+//        for (int j = 1; j <= 6; j++) {
+//            if(i == j){
+//                continue;
+//            }
+//            testGameForCharactor(i, j, gameCount);
+//        }
+//    }
+}
+
+void testGameForCharactor(int p1, int p2, int gameCount){
+    AIPlayer* ai1 = createOppenentAIPlayer(p1);
+    ai1->setTag(1);
+    AIPlayer* ai2 = createOppenentAIPlayer(p2);
+    ai2->setTag(2);
+    
+    testGame(ai1, ai2, gameCount);
+    
+    delete ai1;
+    delete ai2;
+}
+
+AIPlayer* createOppenentAIPlayer(int charactor){
+    AIPlayer* player = new AIPlayer();
+    
+    int s0[3]={100, 200, 100};
+    int s1[3]={1, 4, 10};
+    int s2[3]={3, 9, 12};
+    switch (charactor) {
+        case CHARACTOR_GUO:
+            player->setStrategy(2);
+            player->setGiveStrategy(0);
+            player->setGiveProb(0);
+            player->setName(" GUO ");
+            break;
+            
+        case CHARACTOR_DAMI:
+            player->setGiveStrategy(1);
+            player->setGiveProb(5);
+            player->setKeepStrategyWeight(s1);
+            player->setNeverGiveMid(true);
+            player->setName("DAMI ");
+            break;
+            
+        case CHARACTOR_DAXIONG:
+            player->setGiveStrategy(3);
+            player->setGiveProb(10);
+            player->setName("BEAR ");
+            player->setKeepStrategyWeight(s2);
+            player->setDetect(false);
+            player->setAttack(false, 0, 0);
+            break;
+            
+        case CHARACTOR_DALI:
+            player->setGiveStrategy(4);
+            player->setGiveProb(30);
+            player->setName("DALI ");
+            player->setGiveMid(true);
+            break;
+            
+        case CHARACTOR_YUJIE:
+            player->setGiveStrategy(4);
+            player->setGiveProb(0);
+            player->setName("YUJIE");
+            break;
+            
+        case 6:
+            player->setGiveStrategy(0);
+            player->setGiveProb(0);
+            player->setName("KEEP");
+            player->setKeepStrategyWeight(s0);
+            break;
+            
+        default:
+            break;
+    }
+    
+    return player;
+}
+
 void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     
     int win = 0;
@@ -185,17 +324,19 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     int maxWin = 0;
     int totalPts1 = 0;
     int totalPts2 = 0;
-    int totalGiveCount = 0;
+    int totalGiveCountP1 = 0;
+    int totalGiveCountP2 = 0;
     
     int p2ActionCountTotal = 0;
     int p2GuessCountTotal = 0;
     int p2GuessCountCorrect = 0;
     int p2GuessCountScore = 0;
+    int p2FirstPlayCount = 0;
     
     std::vector<int>* p1PtsList = new std::vector<int>();
     std::vector<int>* p2PtsList = new std::vector<int>();
     for (int i = 0; i < gameCount; i++) {
-        Game* game = new Game(GAME_MODE::NORMAL);
+        Game* game = new Game(GAME_MODE::NORMAL, PLAY_MODE::AUTO, GAME_FIRST_PLAYER::RANDOM);
         Player* player1 = new Player();
         Player* player2 = new Player();
         
@@ -216,10 +357,14 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
         p2GuessCountTotal += game->getP2GuessCountTotal();
         p2GuessCountCorrect += game->getP2GuessCountCorrect();
         p2GuessCountScore += game->getP2GuessCountScore();
+        if (!game->getIsPlayer1FirstPlay()) {
+            p2FirstPlayCount++;
+        }
         delete player1;
         delete player2;
         delete game;
-        totalGiveCount += ai2->getGiveCount();
+        totalGiveCountP1 += ai1->getGiveCount();
+        totalGiveCountP2 += ai2->getGiveCount();
     }
     
     int* p1Pts = new int[gameCount];
@@ -279,8 +424,22 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     
     ai2->dumpStat();
     
-    LOGF("%d\t%d\t%d\t%d\t%5.2f\t%5.2f\t%5.2f\t%5.1f%%\t%5.1f%%\t%5.1f%%",
-         ai2->getGiveStrategy(), ai2->getAttackM(), ai2->getAttackL(), ai2->getGiveProb(), (float)totalGiveCount / gameCount,
+    LOGF("%s-%s" \
+         "\t%2d-%2d" \
+//         + "\t%d\t%d"
+         "\t%2d-%2d" \
+         "\t%3.2f" \
+         "\t%5.3f\t%5.3f" \
+         "\t%5.2f\t%5.2f" \
+         "\t%5.1f%%\t%5.1f%%\t%5.1f%%",
+         
+         ai1->getName().c_str(), ai2->getName().c_str(),
+         ai1->getGiveProb(), ai1->getGiveStrategy(),
+//         ai2->getAttackM(), ai2->getAttackL(),
+         ai2->getGiveProb(),ai2->getGiveStrategy(),
+         (float)p2FirstPlayCount / gameCount,
+         (float)totalGiveCountP1 / gameCount, (float)totalGiveCountP2 / gameCount,
          (float)totalPts1 / gameCount, (float)totalPts2 / gameCount,
          (float)win * 100 / gameCount, (float)draw * 100 / gameCount, (float)lose * 100 / gameCount);
 }
+

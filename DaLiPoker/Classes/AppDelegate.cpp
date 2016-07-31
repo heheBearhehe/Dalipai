@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "Utils.h"
+#include "Settings.h"
 
 USING_NS_CC;
 
@@ -31,6 +32,8 @@ static int register_all_packages()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
+    Settings::getInstance()->load();
+    
     initUtils();
     
     // initialize director

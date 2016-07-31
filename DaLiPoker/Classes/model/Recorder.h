@@ -27,16 +27,19 @@ public:
     ~Recorder();
     
     void setCardList(vector<Card *>* cardList);
+    void setPlayerFirstPlay(bool isPlayer1) { mIsPlayer1FirstPlay = isPlayer1; };
     void addPlayerAction(int playerTag, int action);
     
     vector<int>* getCardIndexList() { return mCardIndexList; }
     vector<int>* getActionList() { return mActionList; }
+    bool getIsPlayer1FirstPlay() { return mIsPlayer1FirstPlay; }
     
     int getAction(int index, int playerTag);
         
 private:
     vector<int>* mCardIndexList;
     vector<int>* mActionList;
+    bool mIsPlayer1FirstPlay;
     
 };
 

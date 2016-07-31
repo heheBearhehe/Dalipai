@@ -16,6 +16,7 @@ using namespace std;
 Recorder::Recorder(){
     mCardIndexList = NULL;
     mActionList = NULL;
+    mIsPlayer1FirstPlay = true;
 }
 
 Recorder::~Recorder(){

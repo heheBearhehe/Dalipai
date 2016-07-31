@@ -52,7 +52,7 @@ public:
 //    void deal(Card* card);
 //    void give(Card* card);
     
-    void addCard(Card* card);
+    void addCard(Card* card, int source);
     Card* removeLastCard();
     
     Card* getLastCard();

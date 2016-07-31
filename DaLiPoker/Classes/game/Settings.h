@@ -11,17 +11,25 @@
 
 #include <stdio.h>
 
+
+static const std::string SETTINGS_FILENAME  = "settings.json";
+
+
 class Settings
 {
 public:
     static Settings* getInstance();
     static void destroy();
     
+    void load();
+    void save();
+    
 public:
-    int card1Weight;
-    int card2Weight;
-    int card3Weight;
-    int giveProb;
+    int opponentCharacter;
+    int myAvatar;
+    int firstPlayer;
+    bool backgroundMusic;
+    bool soundEffect;
     
 private:
     Settings();

@@ -8,6 +8,7 @@
 
 #include "CalcScoreLayer.h"
 #include "../model/def.h"
+#include "GameManager.h"
 
 using namespace std;
 using namespace cocos2d::ui;
@@ -21,6 +22,9 @@ static const int TAG_CALC_OPPCARD_START    = 2000;
 static const int TAG_CALC_MYLINE_START     = 3000;
 static const int TAG_CALC_OPPLINE_START    = 4000;
 static const int TAG_CALC_CARD_LAST_OFFSET = 999;
+
+static const int TAG_AVATAR_OPPONENT = 10001;
+static const int TAG_AVATAR_ME       = 10002;
 
 bool CalcScoreLayer::init(){
     if (!GameLayer::init()){
@@ -53,14 +57,7 @@ void CalcScoreLayer::invalidate(){
     visibleSize = Director::getInstance()->getWinSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto avatarMe = Sprite::create("avatar_boy.png");
-    auto avatarOppo = Sprite::create("avatar_girl.png");
-    
-    avatarMe->setPosition(Vec2(origin.x + avatarMe->getContentSize().width / 2, origin.y + avatarMe->getContentSize().height / 2 + 20));
-    avatarOppo->setPosition(Vec2(origin.x + visibleSize.width - avatarOppo->getContentSize().width / 2, origin.y + visibleSize.height - avatarMe->getContentSize().height / 2 - 10));
-    
-    this->addChild(avatarMe);
-    this->addChild(avatarOppo);
+    updateAvatar(0, 0);
     
     float buttonWidth = 200;
     float buttonHeight = 86;
@@ -135,10 +132,10 @@ void CalcScoreLayer::updateCard(std::vector<Card*>* cards, int cardIndex, int po
         Widget* card = (Widget *)this->getChildByTag(tagStart);
         if (card == NULL) {
             if (i < size - visibleCardCount) {
-                card = createPokerFront(NULL);
+                card = createPokerFront(cards->at(i), false, true);
                 delta = card->getContentSize().width / 6;
             }else{
-                card = createPokerFront(cards->at(i));
+                card = createPokerFront(cards->at(i), true, true);
                 delta = card->getContentSize().width / 2;
             }
             
@@ -186,10 +183,19 @@ void CalcScoreLayer::updatePointsLine(std::vector<Card*>* cards, int cardIndex, 
             if (i > 0) {
                 Card* lastCard = cards->at(i - 1);
                 int posYStart = lastCard->getIndex() * yStep + minY;
-                node->drawSegment(Vec2(posX - delta, posYStart), Vec2(posX , posYEnd), 2, Color4F(0.349,0.56,0.447,1));
+                node->drawSegment(Vec2(posX - delta, posYStart), Vec2(posX , posYEnd), 2, Color4F(0.349,0.56,0.447,1)); // 0x598f72
+                if(lastCard->getSource() == CARD_SOURCE::GIVE){
+                    node->drawDot(Vec2(posX - delta, posYStart), 10, Color4F(0x7a/255.0, 0xf2/255.0, 0x21/255.0, 1)); // #7af221
+                }
                 node->drawDot(Vec2(posX - delta, posYStart), 8, lastCard->getScored() ? Color4F(1,0.8235,0.2078,1) : Color4F(0.588,0.376,0,1));
+                //  #ffd235 #966000
+            }
+            
+            if(card->getSource() == CARD_SOURCE::GIVE){
+                node->drawDot(Vec2(posX, posYEnd), 10, Color4F(0x7a/255.0, 0xf2/255.0, 0x21/255.0, 1)); // #7af221
             }
             node->drawDot(Vec2(posX, posYEnd), 8, card->getScored() ? Color4F(1,0.8235,0.2078,1) : Color4F(0.588,0.376,0,1));
+            
             this->addChild(node);
         }
         
@@ -269,14 +275,22 @@ void CalcScoreLayer::updateResult(){
     int myPts = mGame->getMyPlayerPoints();
     string msg;
     
+    int resultMe = 0;
+    int resultOppo = 0;
     if (myPts < oppPts) {
         msg = "落败";
+        resultMe = 2;
+        resultOppo = 1;
     }else if (myPts > oppPts) {
         msg = "胜利";
+        resultMe = 1;
+        resultOppo = 2;
     }else{
         msg = "平局";
     }
     label->setString(msg);
+    
+    updateAvatar(resultMe, resultOppo);
 }
 
 int CalcScoreLayer::calcPoints(vector<Card *>* cardsList, int calcSize){
@@ -359,4 +373,29 @@ void CalcScoreLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType ty
 
 bool CalcScoreLayer::isCalculating(){
     return mCurrentCardIndex <= MAX(mGame->getMyPlayerCardList()->size(), mGame->getOpponentCardsList()->size());
+}
+
+
+void CalcScoreLayer::updateAvatar(int resultMe, int resultOppo){
+    if (this->getChildByTag(TAG_AVATAR_OPPONENT) != NULL) {
+        this->removeChildByTag(TAG_AVATAR_OPPONENT);
+    }
+    if (this->getChildByTag(TAG_AVATAR_ME) != NULL) {
+        this->removeChildByTag(TAG_AVATAR_ME);
+    }
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    visibleSize = Director::getInstance()->getWinSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto avatarMe = GameManager::getInstance()->getMyAvatar(resultMe);
+    avatarMe->setTag(TAG_AVATAR_ME);
+    auto avatarOppo = GameManager::getInstance()->getOppenentAvatar(resultOppo);
+    avatarOppo->setTag(TAG_AVATAR_OPPONENT);
+    
+    avatarMe->setPosition(Vec2(origin.x + avatarMe->getContentSize().width / 2, origin.y + avatarMe->getContentSize().height / 2 + 20));
+    avatarOppo->setPosition(Vec2(origin.x + visibleSize.width - avatarOppo->getContentSize().width / 2, origin.y + visibleSize.height - avatarMe->getContentSize().height / 2 - 10));
+    
+    this->addChild(avatarMe);
+    this->addChild(avatarOppo);
 }

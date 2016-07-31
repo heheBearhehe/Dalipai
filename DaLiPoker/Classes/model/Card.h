@@ -22,6 +22,11 @@ typedef enum type{
     COUNT
 }SUIT;
 
+typedef enum source{
+    KEEP = 0,
+    GIVE = 1,
+}CARD_SOURCE;
+
 static string SUIT_DISPLAY_LIST[] = {"♠️", "❤️", "♦️", "♣️"};
 static string RANK_DISPLAY_LIST[] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
 
@@ -42,6 +47,8 @@ public:
     void setSeq(int seq) { mSeq = seq; }
     int getScored() { return mScored; }
     void setScored(bool scored) { mScored = scored; }
+    int getSource() { return mSource; }
+    void setSource(int source) { mSource = source; }
     
     string getDisplay();
     string getDisplaySuit();
@@ -53,6 +60,7 @@ private:
     int mTag;
     int mSeq;
     int mScored;
+    int mSource;
 };
 
 

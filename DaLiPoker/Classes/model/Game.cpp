@@ -67,7 +67,12 @@ void Game::reset(){
     mPlayer2->reset();
     mCurrentPlayer = mPlayer1;
     mNextPlayer = mPlayer2;
-    if (mFirstPlayer == GAME_FIRST_PLAYER::PLAYER_2 || (mFirstPlayer == GAME_FIRST_PLAYER::RANDOM && getRandomSelect(50))) {
+    
+    if (mFirstPlayer == GAME_FIRST_PLAYER::RANDOM && getRandomSelect(50)) {
+        mFirstPlayer = GAME_FIRST_PLAYER::PLAYER_2;
+    }
+    
+    if (mFirstPlayer == GAME_FIRST_PLAYER::PLAYER_2){
         switchPlayer();
         mIsPlayer1FirstPlay = false;
     }else{
@@ -139,7 +144,7 @@ void Game::initCards(){
         Card* card = new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT);
         
 //        // for test
-//        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB /*|| card->getSuit() == SUIT::HEART*/) {
+//        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB || card->getSuit() == SUIT::HEART) {
 //            delete card;
 //            continue;
 //        }

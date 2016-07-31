@@ -21,12 +21,9 @@ public:
     virtual bool init();
     
     CREATE_FUNC(SettingsScene);
-    cocos2d::ui::Slider* addSlider(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag, int value);
-    cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
+    cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag, bool enable);
     void drawText(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
-    void sliderEvent(cocos2d::Ref *pSender, cocos2d::ui::Slider::EventType type);
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
-    void updateSliderText(cocos2d::ui::Slider* slider);
 private:
     
 };

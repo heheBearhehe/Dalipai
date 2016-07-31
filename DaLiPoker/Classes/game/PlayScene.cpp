@@ -17,6 +17,7 @@
 #include "AIPlayer.h"
 #include "ReplayPlayer.h"
 #include "Settings.h"
+#include "GameManager.h"
 
 using namespace std;
 
@@ -143,7 +144,8 @@ void PlayScene::startGame(){
     delete mAi2;
     
     mReplayMode = testReplay;
-    mGame = new Game(GAME_MODE::NORMAL, mReplayMode ? PLAY_MODE::REPLAY : PLAY_MODE::AUTO);
+    mGame = new Game(GAME_MODE::NORMAL, mReplayMode ? PLAY_MODE::REPLAY : PLAY_MODE::AUTO, Settings::getInstance()->firstPlayer);
+    GameManager::getInstance()->initAvatar();
     
     mPlayer1 = new Player();
     mPlayer1->setTag(1);
@@ -172,16 +174,11 @@ void PlayScene::startGame(){
     }else{
         
         mGame->setPlayer1ChoiceListener(this);
-//        mGame->setPlayer1ChoiceListener(new AIPlayer(mGame));
-        mAi2 = new AIPlayer(mGame->getMinRank(), mGame->getMaxRank());
-        mAi2->setTag(2);
-        if (Settings::getInstance()->giveProb >= 0) {
-            mAi2->setGiveProb(Settings::getInstance()->giveProb);
-        }
-        if (Settings::getInstance()->card1Weight >= 0) {
-            mAi2->setKeepStrategyWeight((int[]){Settings::getInstance()->card1Weight, Settings::getInstance()->card2Weight, Settings::getInstance()->card3Weight});
-        }
         
+//        mGame->setPlayer1ChoiceListener(new AIPlayer(mGame->getMinRank(), mGame->getMaxRank()));
+        
+        mAi2 = GameManager::getInstance()->createOppenentAIPlayer(mGame);
+        mAi2->setTag(2);
         mGame->setPlayer2ChoiceListener(mAi2);
         mGameLayer->setShouldShowOppnentCard(false);
     }

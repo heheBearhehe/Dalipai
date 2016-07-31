@@ -63,9 +63,9 @@ typedef enum action{
 
 
 typedef enum firstPlayer{
+    RANDOM,
     PLAYER_1,
     PLAYER_2,
-    RANDOM,
 }GAME_FIRST_PLAYER;
 
 class GameActionCallBack{

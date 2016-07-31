@@ -32,12 +32,7 @@ bool SettingsScene::init(){
     float stepY = MIN(200, visibleSize.height / 5);
     float posY = origin.y + visibleSize.height * 4 / 5;
 
-    updateSliderText(this->addSlider("card1", Size(visibleSize.width / 2, 30), Vec2(300, posY), 0, Settings::getInstance()->card1Weight));
-    updateSliderText(this->addSlider("card2", Size(visibleSize.width / 2, 30), Vec2(300, posY - stepY), 1, Settings::getInstance()->card2Weight));
-    updateSliderText(this->addSlider("card3", Size(visibleSize.width / 2, 30), Vec2(300, posY - 2 * stepY), 2, Settings::getInstance()->card3Weight));
-    updateSliderText(this->addSlider("give",  Size(visibleSize.width / 2, 30), Vec2(300, posY - 3 * stepY), 3, Settings::getInstance()->giveProb));
-
-    addButton("返回", Size(visibleSize.width / 2, 50), Vec2(visibleSize.width / 2, MIN(origin.y + 100, posY - 4 * stepY)), TAG_BUTTON_START);
+    
     return true;
 }
 
@@ -52,13 +47,15 @@ void SettingsScene::drawText(const string& text, const Size & size, const Vec2& 
     this->addChild(label, 1);
 }
 
-cocos2d::ui::Button* SettingsScene::addButton(const std::string& text, const Size & size, const Vec2& position, int tag){
-    auto btn = cocos2d::ui::Button::create();
-    btn->setTag(tag);
-    btn->setTitleText(text);
+cocos2d::ui::Button* SettingsScene::addButton(const std::string& text, const Size & size, const Vec2& position, int tag, bool enable){
+    std::string picNormal = enable? "btn_choice.png" : "btn_choice_d.png";
+    auto btn = cocos2d::ui::Button::create(picNormal, "btn_choice_h.png", "", cocos2d::ui::TextureResType::LOCAL);
     
+    btn->setTag(enable? tag : 0);
+    btn->setTitleText(text);
+    btn->setEnabled(enable);
     btn->setTouchEnabled(true);
-    btn->setTitleColor(Color3B::BLACK);
+    btn->setTitleColor(R::COLOR_TEXT_CHOICE);
     btn->setTitleFontSize(40);
     btn->setContentSize(size);
     btn->setPosition(position);
@@ -66,33 +63,6 @@ cocos2d::ui::Button* SettingsScene::addButton(const std::string& text, const Siz
     this->addChild(btn, 1);
     return btn;
 }
-
-
-
-cocos2d::ui::Slider* SettingsScene::addSlider(const std::string& text, const Size & size, const Vec2& position, int tag, int value){
-    this->drawText(text, Size(100, 50), Vec2(position.x - size.width / 2 - 100, position.y), 0);
-    this->drawText("", Size(20, 50), Vec2(position.x + size.width / 2 + 20, position.y), TAG_TEXT_START + tag);
-    
-    auto slider = cocos2d::ui::Slider::create();
-    slider->setSize(size);
-    slider->setPosition(position);
-    slider->setScale9Enabled(true);
-    slider->loadBarTexture("btn_choice.png");
-    slider->loadSlidBallTextures("CloseNormal.png");
-    slider->loadProgressBarTexture("btn_choice_h.png");
-    slider->addEventListener(CC_CALLBACK_2(SettingsScene::sliderEvent, this));
-    slider->setTouchEnabled(true);
-    if (value >= 0) {
-        slider->setPercent(value);
-    }else{
-        slider->setPercent(50);
-    }
-    slider->setTag(tag);
-    this->addChild(slider);
-    
-    return slider;
-}
-
 
 void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     cocos2d::ui::Button* btn = (cocos2d::ui::Button*)ref;
@@ -114,41 +84,4 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
     }
 }
 
-void SettingsScene::sliderEvent(cocos2d::Ref *pSender, cocos2d::ui::Slider::EventType type)
-{
-    if (type == cocos2d::ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
-        cocos2d::ui::Slider* slider = dynamic_cast<cocos2d::ui::Slider*>(pSender);
-        updateSliderText(slider);
-        int percent = slider->getPercent();
-        switch (slider->getTag()) {
-            case 0:
-                Settings::getInstance()->card1Weight = percent;
-                break;
-            case 1:
-                Settings::getInstance()->card2Weight = percent;
-                break;
-            case 2:
-                Settings::getInstance()->card3Weight = percent;
-                break;
-            case 3:
-                Settings::getInstance()->giveProb = percent;
-                break;
-                
-            default:
-                break;
-        }
-        
-        LOGI("- percent=[%d] tag=[%d]", percent, slider->getTag());
-    }
-}
-
-
-void SettingsScene::updateSliderText(cocos2d::ui::Slider* slider){
-    cocos2d::Label* label  = (cocos2d::Label *)this->getChildByTag(TAG_TEXT_START + slider->getTag());
-    if (label != NULL) {
-        stringstream ss;
-        ss << slider->getPercent();
-        label->setString(ss.str());
-    }
-}
 

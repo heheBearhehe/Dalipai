@@ -40,6 +40,7 @@ protected:
     void updateResult();
     void scheduleNextCard();
     void calcNextCard();
+    void updateAvatar(int resultMe, int resultOppo);
     
     int calcPoints(std::vector<Card *>* cardsList, int calcSize);
     bool isCalculating();

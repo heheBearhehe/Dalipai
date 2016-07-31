@@ -12,6 +12,7 @@
 Card::Card(int rank, int suit):mRank(rank), mSuit(suit){
     mTag = 0;
     mSeq = -1;
+    mSource = CARD_SOURCE::KEEP;
 }
 
 Card::Card(int index){

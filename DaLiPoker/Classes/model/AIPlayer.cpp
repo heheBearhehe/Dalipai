@@ -21,6 +21,7 @@ AIPlayer::AIPlayer(int rankMin, int rankMax):mCardRandMin(rankMin),mCardRandMax(
     mAttackM = 50;
     mAttackL = 90;
     mGiveMid = false;
+    mNeverGiveMid = false;
     
     mKeepStrategyWeight = NULL;
     mKeepStrategyWeight = new int[3] {100, 200, 100};
@@ -139,7 +140,8 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
                 }
             }
             
-            if (mGiveStrategy > 0 && mStrategy > 0 && (availableChoice & Player::PLAYER_CHOICE_GIVE) > 0){
+            if (mGiveStrategy > 0 && mStrategy > 0 && (availableChoice & Player::PLAYER_CHOICE_GIVE) > 0
+                && !(mNeverGiveMid && card->getIndex() >= 5 && card->getIndex() <= 7 )){
                 if (shouldGiveCard(card)) {
                     mGiveCount++;
                     return Player::PLAYER_CHOICE_GIVE;
@@ -341,17 +343,20 @@ bool AIPlayer::shouldGiveCard(Card* card){
         }
     }
     
+    lastOpponentDiscardCard = mLastOpponentDiscardCard;
+    if (mGiveStrategy >= 1 && last2 != NULL) {
+        if (last->rank == CARD_RANK_UNKNOWN && last2->rank == CARD_RANK_UNKNOWN && mLastOpponentDiscardCard == NULL) {
+            int totalCardCount = (mCardRandMax - mCardRandMin + 1) * 4;
+            int usedCardCount = mMyCardList->size() + mOpponentCardList->size() + mDiscardCardList->size();
+            if(usedCardCount <= totalCardCount * 0.9 && getRandomSelect(mGiveProb)){
+                return true;
+            }
+        }
+    }
+    
     if (mGiveStrategy > 2) {
-        lastOpponentDiscardCard = mLastOpponentDiscardCard;
         
         if (last2 != NULL) {
-            if (last->rank == CARD_RANK_UNKNOWN && last2->rank == CARD_RANK_UNKNOWN && mLastOpponentDiscardCard == NULL) {
-                int totalCardCount = (mCardRandMax - mCardRandMin + 1) * 4;
-                int usedCardCount = mMyCardList->size() + mOpponentCardList->size() + mDiscardCardList->size();
-                if(usedCardCount <= totalCardCount * 0.9 && getRandomSelect(mGiveProb)){
-                    return true;
-                }
-            }
             
             if(mGiveStrategy == 3 && last->rank >= 0 && last->prob == 100){
                 int offset = 1;
@@ -381,7 +386,7 @@ bool AIPlayer::shouldGiveCard(Card* card){
                 }
             }
             
-            if(last->rank >= 0 && last->prob == 100){
+            if(mGiveStrategy > 1 && last->rank >= 0 && last->prob == 100){
                 if (mOpponentUpProb >= 80) {
                     if (card->getRank() > last->rank + 1) {
                         return false;
