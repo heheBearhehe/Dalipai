@@ -392,7 +392,7 @@ void GameLayer::updateGameInfo(int myPoints, int opponentPoints){
         stringstream ss;
         //        ss << "剩余牌数: " << mGame->getResetCardsCount() << "张";
         ss << "牌数: " << mGame->getOpponentCardsList()->size() << "张";
-        addGameInfoLabel(ss.str(), R::COLOR_TEXT_CARDS_TOTAL, Vec2(origin.x + 130 + contentSize.width / 2, origin.y + visibleSize.height - bottomHeight / 2));
+        addGameInfoLabel(ss.str(), R::COLOR_TEXT_CARDS_INFO, Vec2(origin.x + 130 + contentSize.width / 2, origin.y + visibleSize.height - bottomHeight / 2));
     }
     
     {

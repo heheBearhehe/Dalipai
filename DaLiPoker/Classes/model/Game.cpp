@@ -29,6 +29,7 @@ using std::cout;
 Game::Game(GAME_MODE mode, PLAY_MODE playMode, int firstPlayer){
     mPlayMode = playMode;
     mFirstPlayer = firstPlayer;
+//    firstPlayer = PLAYER_1;
     mCardList = new vector<Card *>();
     mDiscardCardList = new vector<Card *>();
     mGameMode = mode;
@@ -68,8 +69,14 @@ void Game::reset(){
     mCurrentPlayer = mPlayer1;
     mNextPlayer = mPlayer2;
     
-    if (mFirstPlayer == GAME_FIRST_PLAYER::RANDOM && getRandomSelect(50)) {
-        mFirstPlayer = GAME_FIRST_PLAYER::PLAYER_2;
+    if (mPlayMode == PLAY_MODE::REPLAY) {
+        mFirstPlayer = mRecorder->getIsPlayer1FirstPlay() ? GAME_FIRST_PLAYER::PLAYER_1 : GAME_FIRST_PLAYER::PLAYER_2;
+        LOGI("- choose first player. REPLAY.player=[%d]",mFirstPlayer);
+    }else{
+        if (mFirstPlayer == GAME_FIRST_PLAYER::RANDOM) {
+            mFirstPlayer = getRandomSelect(50)? GAME_FIRST_PLAYER::PLAYER_1 : GAME_FIRST_PLAYER::PLAYER_2;
+            LOGI("- choose first player. random.player=[%d]",mFirstPlayer);
+        }
     }
     
     if (mFirstPlayer == GAME_FIRST_PLAYER::PLAYER_2){
@@ -78,6 +85,7 @@ void Game::reset(){
     }else{
         mIsPlayer1FirstPlay = true;
     }
+    LOGI("- first player=[%d] isPlayer1FirstPlay=[%d] curruntPlayer=[%d]",mFirstPlayer, mIsPlayer1FirstPlay, mCurrentPlayer->getTag());
     
     mState = STATE::INIT;
     mCurrentState = getState(STATE::INIT);
@@ -107,6 +115,8 @@ bool Game::init(){
         shuffle();
         mRecorder = new Recorder();
         mRecorder->setCardList(mCardList);
+        mRecorder->setPlayerFirstPlay(mIsPlayer1FirstPlay);
+        LOGI("- setPlayerFirstPlay=[%d]",mIsPlayer1FirstPlay);
     }else if(mPlayMode == PLAY_MODE::REPLAY){
 //        vector<Card *>::iterator iter;
 //        for (iter = mCardList->begin(); iter != mCardList->end(); iter++){
@@ -119,9 +129,10 @@ bool Game::init(){
         vector<int>* cardIndexList = mRecorder->getCardIndexList();
         vector<int>::iterator iterIndex;
         int seq = 0;
+        int firstPlayOffset = mIsPlayer1FirstPlay? 0 : 1;
         for (iterIndex = cardIndexList->begin(); iterIndex != cardIndexList->end(); iterIndex++) {
             Card* card = new Card(*iterIndex);
-            card->setTag(seq % 2 + 1);
+            card->setTag((seq + firstPlayOffset) % 2 + 1);
             card->setSeq(seq++);
             mCardList->push_back(card);
         }
@@ -131,7 +142,7 @@ bool Game::init(){
 }
 
 void Game::initCards(){
-    enableLog(false);
+    enableLog(true);
     int numMin = 0;
     int numMax = 12;
     if (mGameMode == GAME_MODE::SMALL) {

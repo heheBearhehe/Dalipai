@@ -43,7 +43,7 @@ int ReplayPlayer::makeChoice(Player* player, Card* card, int availableChoice, Pl
     
     if (actionList->size() > actionIndex) {
         int action = mRecorder->getAction(actionIndex, player->getTag());
-        LOGI("- replay. tag=[%d] card=[%s]  action=[%d]", player->getTag(), card->getDisplay().c_str(), action);
+        LOGI("- replay. tag=[%d] index=[%d] card=[%s]  action=[%d]", player->getTag(), actionIndex, card->getDisplay().c_str(), action);
         return action;
     }else{
         return Player::PLAYER_CHOICE_AUTO;
