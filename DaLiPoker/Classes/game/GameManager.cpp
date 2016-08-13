@@ -37,6 +37,31 @@ static string sAvatarStatus[] = {
     "悲",
 };
 
+static string sCharactorName[] = {
+    "随机",
+    "郭老师",
+    "大米",
+    "大雄",
+    "大李",
+    "钰姐",
+};
+
+static string sMyAvatarName[] = {
+    "随机",
+    "男",
+    "女",
+};
+
+
+static string sCharactorDescription[] = {
+    "随机",
+    "呆萌的对手，个性内向，对胜负无欲无求，无论说相声还是玩儿牌都能给你带来最大的乐趣！",
+    "一般的对手，玩牌水平起伏不定，和她玩牌你必须做好应付高手的准备，才能享受虐菜的快感。",
+    "普通的对手，打牌时听天由命，赢了他也别骄傲，输了他……也可以换个人试试。",
+    "激进的对手，急性子中的战斗急！想方设法地要控制对手的得分，至于自己得分多少？只要能让对手不爽就够了。",
+    "高深的对手，步步为营，绵里藏针，手机AI根本不足以表现她的可怕，你和真人玩一把才会懂。",
+};
+
 
 GameManager* GameManager::sInstance = NULL;
 
@@ -71,12 +96,32 @@ void GameManager::initAvatar(){
     }
 }
 
+cocos2d::ui::ImageView* GameManager::getOppenentAvatar(int charactor, int status){
+    return getAvatar("avatar/" + sAvatarCharactor[charactor] + "-" + sAvatarStatus[status] + ".png");
+}
+
+cocos2d::ui::ImageView* GameManager::getMyAvatar(int charactor, int status){
+    return getAvatar("avatar/" + sAvatarMe[charactor] + "-" + sAvatarStatus[status] + ".png");
+}
+
+std::string getOppnentCharactorDescription(int charactor){
+    return sCharactorDescription[charactor];
+}
+
+std::string GameManager::getOppnentCharactorName(int charactor){
+    return sCharactorName[charactor];
+}
+
+std::string GameManager::getMyAvatarName(int charactor){
+    return sMyAvatarName[charactor];
+}
+
 cocos2d::ui::ImageView* GameManager::getOppenentAvatar(int status){
-    return getAvatar("avatar/" + sAvatarCharactor[mCurrentGameCharactor] + "-" + sAvatarStatus[status] + ".png");
+    return getOppenentAvatar(mCurrentGameCharactor, status);
 }
 
 cocos2d::ui::ImageView* GameManager::getMyAvatar(int status){
-    return getAvatar("avatar/" + sAvatarMe[mCurrentMyAvatar] + "-" + sAvatarStatus[status] + ".png");
+    return getMyAvatar(mCurrentMyAvatar, status);
 }
 
 cocos2d::ui::ImageView* GameManager::getAvatar(std::string path){

@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include "cocos2d.h"
 #include <CocosGUI.h>
+#include "cocos-ext.h"
+#include "GameManager.h"
 
 class SettingsScene : public cocos2d::Scene
 {
@@ -21,11 +23,28 @@ public:
     virtual bool init();
     
     CREATE_FUNC(SettingsScene);
-    cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag, bool enable);
-    void drawText(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
-    void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
-private:
+    cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
     
+    void initTopBar(std::string title);
+    cocos2d::ui::Widget* createAvatar(int charactor, bool oppnent);
+    cocos2d::Label* createLabel(const std::string& text);
+    
+    cocos2d::Layer* createPlayerDialog();
+    cocos2d::ui::Widget* createAvatarInDialog(int charactor, cocos2d::Vec2 position, cocos2d::Size size, bool selected);
+    
+    cocos2d::ui::Widget* getSwitcher(bool selected, int tag);
+    void onClickSwitcher(cocos2d::ui::Widget* switcher);
+    
+    cocos2d::ui::Widget* addItem(const std::string& title, int actionTag, cocos2d::Node* rightItem);
+    void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
+    
+    std::string getFirstPlayerDesc(int firstPlayer);
+    
+    void invalidate();
+private:
+    cocos2d::Layer* mDialog;
+    cocos2d::Label* mCharactorDesc;
+    cocos2d::ui::Widget* mCharactorFrame[CHARACTOR_COUNT];
 };
 
 

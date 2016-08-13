@@ -19,6 +19,18 @@ public:
     static const cocos2d::Color3B COLOR_TEXT_CARDS_TOTAL;
     static const cocos2d::Color3B COLOR_TEXT_CARDS_INFO;
     static const cocos2d::Color3B COLOR_TEXT_MENU_TEXT;
+    static const cocos2d::Color3B COLOR_TEXT_SETTINGS;
+    static const cocos2d::Color3B COLOR_TEXT_SETTINGS_TITLE;
+    
+    static const cocos2d::Color3B COLOR_SETTINGS_DIVIDER;
+    
+    static const cocos2d::Color3B COLOR_TEXT_CHARACTOR_DESC;
+    
+    static const cocos2d::Color3B COLOR_DIALOG_BG;
+    static const cocos2d::Color3B COLOR_AVATAR_BG;
+    static const cocos2d::Color3B COLOR_TEXT_DIALOG_ACTION;
+    
+    static const cocos2d::Color4B COLOR_BG_MASK;
 };
 
 

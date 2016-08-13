@@ -41,6 +41,13 @@ public:
     
     void initAvatar();
     
+    cocos2d::ui::ImageView* getOppenentAvatar(int charactor, int status);
+    cocos2d::ui::ImageView* getMyAvatar(int charactor, int status);
+    std::string getOppnentCharactorName(int charactor);
+    std::string getMyAvatarName(int charactor);
+    std::string getOppnentCharactorDescription(int charactor);
+    std::string getFirstPlayDescription(int charactor);
+    
     cocos2d::ui::ImageView* getOppenentAvatar(int status);
     cocos2d::ui::ImageView* getMyAvatar(int status);
     
