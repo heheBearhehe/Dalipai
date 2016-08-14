@@ -341,6 +341,17 @@ cocos2d::Layer* SettingsScene::createPlayerDialog(){
     btnOk->setTag(TAG_ACTION_PLAYER_SAVE);
     btnOk->setTouchEnabled(true);
     btnOk->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(SettingsScene::touchEvent,this)));
+    
+    auto btnOkHighlight = Layout::create();
+    btnOkHighlight->setContentSize(btnOk->getContentSize());
+    btnOkHighlight->setAnchorPoint(Vec2(0.5, 0.5));
+    btnOkHighlight->setPosition(Vec2(btnOk->getContentSize().width / 2, btnOk->getContentSize().height / 2));
+    btnOkHighlight->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
+    btnOkHighlight->setBackGroundColor(R::COLOR_DIALOG_BTN_H);
+    btnOkHighlight->setVisible(false);
+    mBtnH = btnOkHighlight;
+    btnOk->addChild(btnOkHighlight);
+    
     dialogBg->addChild(btnOk);
     
     auto labelSave = Label::create();
@@ -409,10 +420,14 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
     
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
+            if (btn->getTag() == TAG_ACTION_PLAYER_SAVE) {
+                mBtnH->setVisible(true);
+            }
             break;
         case cocos2d::ui::Widget::TouchEventType::MOVED:
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
+            mBtnH->setVisible(false);
             if (btn->getTag() == TAG_BUTTON_BACK) {
                 Director::getInstance()->popScene();
             }else if(btn->getTag() == TAG_ACTION_CHOOSE_OPPNENT){
@@ -458,6 +473,7 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
             
             break;
         case cocos2d::ui::Widget::TouchEventType::CANCELED:
+            mBtnH->setVisible(false);
             break;
             
         default:

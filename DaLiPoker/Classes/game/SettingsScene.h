@@ -45,6 +45,7 @@ private:
     cocos2d::Layer* mDialog;
     cocos2d::Label* mCharactorDesc;
     cocos2d::ui::Widget* mCharactorFrame[CHARACTOR_COUNT];
+    cocos2d::ui::Layout* mBtnH;
 };
 
 

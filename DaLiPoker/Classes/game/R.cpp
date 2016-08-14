@@ -26,6 +26,7 @@ const Color3B R::COLOR_SETTINGS_DIVIDER  (3, 82, 44);
 const Color3B R::COLOR_TEXT_CHARACTOR_DESC  (78, 233, 122);
 
 const Color3B R::COLOR_DIALOG_BG         (238, 144, 19);
+const Color3B R::COLOR_DIALOG_BTN_H      (214, 129, 18);
 const Color3B R::COLOR_AVATAR_BG         (123, 195, 253);
 const Color3B R::COLOR_TEXT_DIALOG_ACTION (255, 253, 112);
 

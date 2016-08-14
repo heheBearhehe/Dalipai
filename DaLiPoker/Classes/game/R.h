@@ -27,6 +27,7 @@ public:
     static const cocos2d::Color3B COLOR_TEXT_CHARACTOR_DESC;
     
     static const cocos2d::Color3B COLOR_DIALOG_BG;
+    static const cocos2d::Color3B COLOR_DIALOG_BTN_H;
     static const cocos2d::Color3B COLOR_AVATAR_BG;
     static const cocos2d::Color3B COLOR_TEXT_DIALOG_ACTION;
     

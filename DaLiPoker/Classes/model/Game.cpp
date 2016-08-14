@@ -159,6 +159,11 @@ void Game::initCards(){
 //            delete card;
 //            continue;
 //        }
+//        
+//        if (card->getRank() < 5) {
+//            delete card;
+//            continue;
+//        }
         
         mCardList->push_back(card);
     }

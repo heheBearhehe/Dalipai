@@ -14,32 +14,58 @@ using namespace cocos2d::ui;
 USING_NS_CC;
 
 static string sCardImagesFileName[] = {
-    "黑01-宽容.png",
+    "黑01-图书馆，不止于读书.png",
     "黑02-第二性.png",
     "黑03-上课代表.png",
-    "黑04-谈面子.png",
+    "黑04-自学成才.png",
     "黑05-乌鸦喝水.png",
     "黑06-换位教学.png",
     "黑07-深不见底.png",
-    "黑08-我要创业.png",
-    "黑09-小马过河.png",
-    "黑10-衣食住情.png",
-    "黑11-自学成才.png",
-    "黑12-距离.png",
-    "黑13-文学家.png",
-    "红01-学有所长.png",
-    "红02-等号.png",
+    "黑08-我要当学霸.png",
+    "黑09-盛宣怀办学.png",
+    "黑10-反正也是挣.png",
+    "黑11-智能制造.png",
+    "黑12-宽容.png",
+    "黑13-我要创业.png",
+    "红01-交大，不止于读书.png",
+    "红02-友情与爱情.png",
     "红03-天赐良缘.png",
-    "红04-朝三暮四.png",
-    "红05-锄禾日当午.png",
-    "红06-偶遇.png",
-    "红07-焦大武馆.png",
-    "红08-我要当学霸.png",
-    "红09-反正也是挣.png",
+    "红04-距离.png",
+    "红05-学有所长.png",
+    "红06-红绿灯.png",
+    "红07-我爱江川.png",
+    "红08-上有老下有小.png",
+    "红09-小马过河.png",
     "红10-他叫金十亿.png",
-    "红11-友情与爱情.png",
+    "红11-网girl快弟.png",
     "红12-略知一二.png",
     "红13-对影成三人.png",
+    "方01-交通大学.png",
+    "方02-等号.png",
+    "方03-上不起.png",
+    "方04-偶遇.png",
+    "方05-锄禾日当午.png",
+    "方06-六六大顺.png",
+    "方07-听MM的话（上）.png",
+    "方08-听MM的话（下）.png",
+    "方09-我要延毕.png",
+    "方10-有妹子远方来.png",
+    "方11-碰碰车.png",
+    "方12-朝三暮四.png",
+    "方13-感动.png",
+    "草01-大学生创业歌.png",
+    "草02-催命.png",
+    "草03-台球.png",
+    "草04-谈面子.png",
+    "草05-焦大武馆.png",
+    "草06-修炼.png",
+    "草07-文学家.png",
+    "草08-画饼充饥.png",
+    "草09-打台球.png",
+    "草10-衣食住情.png",
+    "草11-蛋画家.png",
+    "草12-数绵羊.png",
+    "草13-望子成凤.png",
 };
 
 static const int TAG_OPPENENT_CARD_1     = 1000;
@@ -299,11 +325,7 @@ cocos2d::ui::Widget* UserChoiceLayer::createPokerDisplay(Card* card, float numTe
 }
 
 std::string UserChoiceLayer::getCardImageName(Card* card){
-    int indexOffset = 0;
-    if (card->getSuit() == SUIT::HEART || card->getSuit() == SUIT::DIAMOND) {
-        indexOffset = sizeof(RANK_DISPLAY_LIST)/sizeof(RANK_DISPLAY_LIST[0]);
-    }
-    
+    int indexOffset = sizeof(RANK_DISPLAY_LIST)/sizeof(RANK_DISPLAY_LIST[0]) * card->getSuit();
     int imageCount = sizeof(sCardImagesFileName)/sizeof(sCardImagesFileName[0]);
     int index = indexOffset + card->getRank();
     if (index < 0 || index >= imageCount) {
