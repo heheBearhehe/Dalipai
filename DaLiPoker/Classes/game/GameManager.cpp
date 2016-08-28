@@ -100,6 +100,10 @@ void GameManager::initAvatar(){
     }
 }
 
+int GameManager::getCurrentCharacter(){
+    return mCurrentGameCharactor;
+}
+
 cocos2d::ui::ImageView* GameManager::getOppenentAvatar(int charactor, int status){
     return getAvatar("avatar/" + sAvatarCharactor[charactor] + "-" + sAvatarStatus[status] + ".png");
 }

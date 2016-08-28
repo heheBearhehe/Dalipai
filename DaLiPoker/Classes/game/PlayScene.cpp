@@ -344,6 +344,16 @@ void PlayScene::onFinished(){
     this->getChildByTag(TAG_PAUSE_BG)->setVisible(false);
     mCalcScoreLayer->setVisible(true);
     mCalcScoreLayer->show(mGame, this);
+    
+    
+    GameResult* gameResult = new GameResult();
+    gameResult->myPoints = mPlayer1->getPoints();
+    gameResult->oppoPoints = mPlayer2->getPoints();
+    gameResult->myMaxCombo = mPlayer1->getMaxCombo();
+    gameResult->oppoMaxCombo = mPlayer2->getMaxCombo();
+    gameResult->updateResult();
+    
+    Settings::getInstance()->addResult(GameManager::getInstance()->getCurrentCharacter(), gameResult);
 }
 
 void PlayScene::onGameAction(int action){
@@ -422,7 +432,6 @@ void PlayScene::onGameAction(int action){
 void PlayScene::menuRestart(Ref* pSender){
     onGameAction(GAME_ACTION::GAME_ACTION_PAUSE);
 }
-
 
 void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* card2){
     LOGI("*****  PlayScene.onActionExecuted  action=[%x] player=[%d] c1=[%s] c2=[%s]", action, player->getTag(), card1 == NULL? "" : card1->getDisplay().c_str(), card2 == NULL? "" : card2->getDisplay().c_str());

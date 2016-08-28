@@ -9,6 +9,7 @@
 #include <iostream>
 #include "def.h"
 #include<math.h>
+#include "GameStat.h"
 
 void testGame();
 void testGameForKeep();
@@ -34,8 +35,9 @@ int main(int argc, const char * argv[]) {
     enableLog(false);
     
     int count = 10000;
-    testGameForAllCharactor(count);
+//    testGameForAllCharactor(count);
     
+    testGameForCharactor(1, 5, 10000);
 //    int testCharactor = 3;
 //    for (int i = testCharactor; i <= 6; i++) {
 //        if (testCharactor == i) {
@@ -335,6 +337,7 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
     
     std::vector<int>* p1PtsList = new std::vector<int>();
     std::vector<int>* p2PtsList = new std::vector<int>();
+    std::vector<GameResult *>* gameResultList = new std::vector<GameResult *>();
     for (int i = 0; i < gameCount; i++) {
         Game* game = new Game(GAME_MODE::NORMAL, PLAY_MODE::AUTO, GAME_FIRST_PLAYER::RANDOM);
         Player* player1 = new Player();
@@ -360,12 +363,27 @@ void testGame(AIPlayer* ai1, AIPlayer* ai2, int gameCount){
         if (!game->getIsPlayer1FirstPlay()) {
             p2FirstPlayCount++;
         }
+        
+        GameResult* gameResult = new GameResult();
+        gameResult->myPoints = player1->getPoints();
+        gameResult->oppoPoints = player2->getPoints();
+        gameResult->myMaxCombo = player1->getMaxCombo();
+        gameResult->oppoMaxCombo = player2->getMaxCombo();
+        gameResult->updateResult();
+        
+        
+        gameResultList->push_back(gameResult);
+        
+        
         delete player1;
         delete player2;
         delete game;
         totalGiveCountP1 += ai1->getGiveCount();
         totalGiveCountP2 += ai2->getGiveCount();
     }
+    
+    GameStat* stat = new GameStat();
+    stat->calcStat(gameResultList);
     
     int* p1Pts = new int[gameCount];
     for (int i = 0; i < gameCount; i++) {

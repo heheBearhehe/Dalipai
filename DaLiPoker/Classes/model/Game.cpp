@@ -142,7 +142,7 @@ bool Game::init(){
 }
 
 void Game::initCards(){
-    enableLog(true);
+    enableLog(false);
     int numMin = 0;
     int numMax = 12;
     if (mGameMode == GAME_MODE::SMALL) {

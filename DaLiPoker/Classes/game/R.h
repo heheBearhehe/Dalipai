@@ -21,6 +21,7 @@ public:
     static const cocos2d::Color3B COLOR_TEXT_MENU_TEXT;
     static const cocos2d::Color3B COLOR_TEXT_SETTINGS;
     static const cocos2d::Color3B COLOR_TEXT_SETTINGS_TITLE;
+    static const cocos2d::Color3B COLOR_TEXT_STAT_NORMAL;
     
     static const cocos2d::Color3B COLOR_SETTINGS_DIVIDER;
     

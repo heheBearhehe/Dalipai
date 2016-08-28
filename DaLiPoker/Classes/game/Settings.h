@@ -10,10 +10,14 @@
 #define Settings_h
 
 #include <stdio.h>
+#include "GameManager.h"
+#include "GameStat.h"
 
 
 static const std::string SETTINGS_FILENAME  = "settings.json";
+static const std::string STATISTIC_FILENAME  = "stat.json";
 
+static const int CHARACTOR_TOTAL_COUNT   = CHARACTOR_COUNT + 1;
 
 class Settings
 {
@@ -24,12 +28,27 @@ public:
     void load();
     void save();
     
+    void loadAllStat();
+    void saveAllStat();
+    
+    void loadStat(int charactor);
+    void saveStat(int charactor);
+    
+    void addResult(int charactor, GameResult* gameResult);
+    GameStat& getGameStat(int charactor);
+    
+private:
+    std::string getStatFilePath(int charactor);
+    
 public:
     int opponentCharacter;
     int myAvatar;
     int firstPlayer;
     bool backgroundMusic;
     bool soundEffect;
+    
+    GameStat totalStatForCharacter[CHARACTOR_TOTAL_COUNT];
+    vector<GameResult *>* totalResultList[CHARACTOR_TOTAL_COUNT];
     
 private:
     Settings();

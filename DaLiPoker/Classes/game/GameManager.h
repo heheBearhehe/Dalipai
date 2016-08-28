@@ -51,7 +51,9 @@ public:
     cocos2d::ui::ImageView* getOppenentAvatar(int status);
     cocos2d::ui::ImageView* getMyAvatar(int status);
     
+    int getCurrentCharacter();
     AIPlayer* createOppenentAIPlayer(Game* game);
+    AIPlayer* createOppenentAIPlayer(Game* game, int charactor);
     
     
     void initTopBar(cocos2d::Node* node, std::string title);
@@ -63,7 +65,6 @@ private:
     
 private:
     cocos2d::ui::ImageView* getAvatar(std::string path);
-    AIPlayer* createOppenentAIPlayer(Game* game, int charactor);
     
     int  mCurrentGameCharactor;
     int  mCurrentMyAvatar;

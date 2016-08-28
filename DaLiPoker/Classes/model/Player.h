@@ -61,6 +61,7 @@ public:
     vector<Card *>* getCardList() { return mKeepCardList; }
     int             getPoints() { return calcPoints(); };
     int             calcPoints();
+    int             getMaxCombo() { return mMaxCombo; };
     
     
     friend class StatePlayerChoice;
@@ -72,7 +73,7 @@ protected:
     
 private:
     vector<Card *>* mKeepCardList;
-    int             mPoints;
+    int             mMaxCombo;
     int             mTag;
     
     PlayerActionCallBack* mCallback;

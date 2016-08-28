@@ -25,7 +25,7 @@ Player::~Player(){
 
 void Player::reset(){
     mKeepCardList->clear();
-    mPoints = 0;
+    mMaxCombo = 0;
 }
 
 string Player::getDumpPrefix(){
@@ -79,9 +79,12 @@ int Player::calcPoints(){
     }
     
     int points = 0;
+    int maxCombo = 0;
+    int currentCombo = 0;
     for(int i = 0; i < mKeepCardList->size(); i++){
         if(i == 0 || i == mKeepCardList->size() - 1){
             points++;
+            currentCombo++;
         }else{
             Card* prev = mKeepCardList->at(i - 1);
             Card* cur  = mKeepCardList->at(i);
@@ -89,9 +92,19 @@ int Player::calcPoints(){
             if ((prev->getRank() < cur->getRank() && cur->getRank() < next->getRank())
                 || (prev->getRank() > cur->getRank() && cur->getRank() > next->getRank())) {
                 points++;
+                currentCombo++;
+            }else{
+                if (currentCombo > maxCombo) {
+                    maxCombo = currentCombo;
+                }
+                currentCombo = 0;
             }
         }
     }
+    if (currentCombo > maxCombo) {
+        maxCombo = currentCombo;
+    }
+    mMaxCombo = maxCombo;
     
     return points;
 }
