@@ -10,8 +10,6 @@
 #define SettingsScene_h
 
 #include <stdio.h>
-
-#include <stdio.h>
 #include "cocos2d.h"
 #include <CocosGUI.h>
 #include "cocos-ext.h"
@@ -25,7 +23,6 @@ public:
     CREATE_FUNC(SettingsScene);
     cocos2d::ui::Button* addButton(const std::string& text, const cocos2d::Size & size, const cocos2d::Vec2& position, int tag);
     
-    void initTopBar(std::string title);
     cocos2d::ui::Widget* createAvatar(int charactor, bool oppnent);
     cocos2d::Label* createLabel(const std::string& text);
     

@@ -53,6 +53,10 @@ public:
     
     AIPlayer* createOppenentAIPlayer(Game* game);
     
+    
+    void initTopBar(cocos2d::Node* node, std::string title);
+    void touchEvent(cocos2d::Ref* ref, cocos2d::ui::Widget::TouchEventType type);
+    
 private:
     GameManager();
     static GameManager* sInstance;

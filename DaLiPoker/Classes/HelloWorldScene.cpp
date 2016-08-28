@@ -1,6 +1,8 @@
 #include "HelloWorldScene.h"
 #include "PlayScene.h"
 #include "SettingsScene.h"
+#include "HelpScene.h"
+#include "StatisticScene.h"
 #include <iostream>
 using namespace std;
 
@@ -49,6 +51,12 @@ bool HelloWorld::init()
               Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height / 2 - 250),
                                  MAIN_BUTTONS::PLAY);
     this->addChild(btnStart);
+    
+    auto btnHelp = createButton("规则介绍",
+                                 Size(visibleSize.width/2 + 100, 120),
+                                 Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height / 2 - 380),
+                                 MAIN_BUTTONS::HELP);
+    this->addChild(btnHelp);
     
     float buttonWidth = 74;
     float buttonHeight = 74;
@@ -193,8 +201,10 @@ void HelloWorld::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
                     Director::getInstance()->pushScene(PlayScene::create());
                     break;
                 case MAIN_BUTTONS::HELP:
+                    Director::getInstance()->pushScene(HelpScene::create());
                     break;
                 case MAIN_BUTTONS::STATISTIC:
+                    Director::getInstance()->pushScene(StatisticScene::create());
                     break;
                 case MAIN_BUTTONS::SETTINGS:
                     Director::getInstance()->pushScene(SettingsScene::create());

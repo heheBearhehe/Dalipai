@@ -15,6 +15,10 @@ using namespace std;
 using namespace cocos2d::ui;
 USING_NS_CC;
 
+static const int HEADER_HEIGHT = 120;
+
+static const int TAG_BUTTON_BACK        = 1000;
+
 
 static string sAvatarCharactor[] = {
     "",
@@ -185,4 +189,68 @@ AIPlayer* GameManager::createOppenentAIPlayer(Game* game, int charactor){
     
     return player;
 }
+
+
+void GameManager::initTopBar(Node* node, std::string title){
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto bg = Sprite::create("game_bg.jpg");
+    bg->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
+    node->addChild(bg, 0);
+    
+    auto bgTop = ImageView::create("bg_bottom.png");
+    bgTop->setScale9Enabled(true);
+    bgTop->ignoreContentAdaptWithSize(true);
+    bgTop->setContentSize(Size(visibleSize.width, HEADER_HEIGHT));
+    bgTop->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - HEADER_HEIGHT / 2));
+    node->addChild(bgTop);
+    
+    auto btnBack = Layout::create();
+    btnBack->setContentSize(Size(HEADER_HEIGHT, HEADER_HEIGHT));
+    btnBack->setAnchorPoint(Vec2(0.5, 0.5));
+    btnBack->setPosition(Vec2(40, HEADER_HEIGHT / 2));
+    btnBack->setTouchEnabled(true);
+    btnBack->setTag(TAG_BUTTON_BACK);
+    btnBack->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(GameManager::touchEvent,this)));
+    bgTop->addChild(btnBack);
+    
+    auto iconBack = ImageView::create("settings_back.png");
+    iconBack->setPosition(Vec2(btnBack->getContentSize().width / 2, btnBack->getContentSize().height / 2));
+    btnBack->addChild(iconBack);
+    
+    Label* labelSettings = Label::create();
+    labelSettings->setContentSize(bgTop->getContentSize());
+    labelSettings->setPosition(bgTop->getPosition());
+    labelSettings->setString(title);
+    labelSettings->setSystemFontSize(50);
+    labelSettings->setColor(R::COLOR_TEXT_SETTINGS_TITLE);
+    node->addChild(labelSettings);
+}
+
+void GameManager::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
+    cocos2d::ui::Button* btn = (cocos2d::ui::Button*)ref;
+    LOGI("UI. touchEvent  tag=[%d]", btn->getTag());
+    
+    if (btn->getTag() <= 0) {
+        return;
+    }
+    
+    switch (type) {
+        case cocos2d::ui::Widget::TouchEventType::BEGAN:
+            break;
+        case cocos2d::ui::Widget::TouchEventType::MOVED:
+            break;
+        case cocos2d::ui::Widget::TouchEventType::ENDED:
+            if (btn->getTag() == TAG_BUTTON_BACK) {
+                Director::getInstance()->popScene();
+            }
+            break;
+        case cocos2d::ui::Widget::TouchEventType::CANCELED:
+            break;
+        default:
+            break;
+    }
+}
+
 

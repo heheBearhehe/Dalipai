@@ -12,6 +12,8 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
+		410B580C1D71A02D00F95964 /* HelpScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 410B580A1D71A02D00F95964 /* HelpScene.cpp */; };
+		410B58101D71A03900F95964 /* StatisticScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 410B580E1D71A03900F95964 /* StatisticScene.cpp */; };
 		4115120C1BA57636009274DA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4115120B1BA57636009274DA /* main.cpp */; };
 		4115122C1BA579FC009274DA /* AIPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512111BA579FC009274DA /* AIPlayer.cpp */; };
 		4115122D1BA579FC009274DA /* Card.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411512131BA579FC009274DA /* Card.cpp */; };
@@ -171,6 +173,10 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
+		410B580A1D71A02D00F95964 /* HelpScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelpScene.cpp; sourceTree = "<group>"; };
+		410B580B1D71A02D00F95964 /* HelpScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpScene.h; sourceTree = "<group>"; };
+		410B580E1D71A03900F95964 /* StatisticScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StatisticScene.cpp; sourceTree = "<group>"; };
+		410B580F1D71A03900F95964 /* StatisticScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticScene.h; sourceTree = "<group>"; };
 		411512091BA57636009274DA /* GameTestCmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameTestCmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		4115120B1BA57636009274DA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		411512111BA579FC009274DA /* AIPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AIPlayer.cpp; sourceTree = "<group>"; };
@@ -510,6 +516,10 @@
 				416A57871CF18CB700C79AA8 /* R.h */,
 				41FFAA9A1D4DCAA900E4A3D4 /* GameManager.cpp */,
 				41FFAA9B1D4DCAA900E4A3D4 /* GameManager.h */,
+				410B580A1D71A02D00F95964 /* HelpScene.cpp */,
+				410B580B1D71A02D00F95964 /* HelpScene.h */,
+				410B580E1D71A03900F95964 /* StatisticScene.cpp */,
+				410B580F1D71A03900F95964 /* StatisticScene.h */,
 			);
 			path = game;
 			sourceTree = "<group>";
@@ -848,6 +858,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				410B58101D71A03900F95964 /* StatisticScene.cpp in Sources */,
 				419847621B6E5FF000F8A29B /* HelloWorldScene.cpp in Sources */,
 				4132CF9D1B6FA07900F42F1A /* PlayScene.cpp in Sources */,
 				4169E6801B88772D00331C75 /* StateOpponentChoice.cpp in Sources */,
@@ -864,6 +875,7 @@
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				4132CFA21B6FA07900F42F1A /* Recorder.cpp in Sources */,
+				410B580C1D71A02D00F95964 /* HelpScene.cpp in Sources */,
 				4169E67D1B88770000331C75 /* StatePlayerChoice.cpp in Sources */,
 				4132CF9C1B6FA07900F42F1A /* PauseLayer.cpp in Sources */,
 				4132CFA01B6FA07900F42F1A /* Game.cpp in Sources */,
@@ -1114,7 +1126,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cb3634a6-1104-49d4-8b1f-8c3a5ccbcc19";
 				SDKROOT = macosx;
 				VALIDATE_PRODUCT = YES;
 			};

@@ -64,7 +64,7 @@ bool SettingsScene::init(){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    initTopBar("设置");
+    GameManager::getInstance()->initTopBar(this, "设置");
     
     int posY = origin.y + visibleSize.height - HEADER_HEIGHT / 2;
     
@@ -88,43 +88,6 @@ bool SettingsScene::init(){
     this->addChild(mDialog);
     
     return true;
-}
-
-void SettingsScene::initTopBar(std::string title){
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto bg = Sprite::create("game_bg.jpg");
-    bg->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
-    this->addChild(bg, 0);
-    
-    auto bgTop = ImageView::create("bg_bottom.png");
-    bgTop->setScale9Enabled(true);
-    bgTop->ignoreContentAdaptWithSize(true);
-    bgTop->setContentSize(Size(visibleSize.width, HEADER_HEIGHT));
-    bgTop->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - HEADER_HEIGHT / 2));
-    this->addChild(bgTop);
-    
-    auto btnBack = Layout::create();
-    btnBack->setContentSize(Size(HEADER_HEIGHT, HEADER_HEIGHT));
-    btnBack->setAnchorPoint(Vec2(0.5, 0.5));
-    btnBack->setPosition(Vec2(40, HEADER_HEIGHT / 2));
-    btnBack->setTouchEnabled(true);
-    btnBack->setTag(TAG_BUTTON_BACK);
-    btnBack->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(SettingsScene::touchEvent,this)));
-    bgTop->addChild(btnBack);
-    
-    auto iconBack = ImageView::create("settings_back.png");
-    iconBack->setPosition(Vec2(btnBack->getContentSize().width / 2, btnBack->getContentSize().height / 2));
-    btnBack->addChild(iconBack);
-    
-    Label* labelSettings = Label::create();
-    labelSettings->setContentSize(bgTop->getContentSize());
-    labelSettings->setPosition(bgTop->getPosition());
-    labelSettings->setString("设置");
-    labelSettings->setSystemFontSize(50);
-    labelSettings->setColor(R::COLOR_TEXT_SETTINGS_TITLE);
-    this->addChild(labelSettings);
 }
 
 std::string SettingsScene::getFirstPlayerDesc(int firstPlayer){
@@ -428,9 +391,7 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
             mBtnH->setVisible(false);
-            if (btn->getTag() == TAG_BUTTON_BACK) {
-                Director::getInstance()->popScene();
-            }else if(btn->getTag() == TAG_ACTION_CHOOSE_OPPNENT){
+            if(btn->getTag() == TAG_ACTION_CHOOSE_OPPNENT){
                 mDialog->setVisible(true);
             }else if(btn->getTag() == TAG_ACTION_CHOOSE_MY_AVATAR){
                 int avatar = Settings::getInstance()->myAvatar;
