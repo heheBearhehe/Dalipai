@@ -136,14 +136,11 @@ void PlayScene::startGame(){
     getChildByTag(TAG_BTN_PAUSE)->setVisible(true);
     getChildByTag(TAG_PAUSE_BG)->setVisible(true);
     
-    bool testReplay = false;
-    
     delete mGame;
     delete mPlayer1;
     delete mPlayer2;
     delete mAi2;
     
-    mReplayMode = testReplay;
     mGame = new Game(GAME_MODE::NORMAL, mReplayMode ? PLAY_MODE::REPLAY : PLAY_MODE::AUTO, Settings::getInstance()->firstPlayer);
     GameManager::getInstance()->initAvatar();
     
@@ -335,6 +332,19 @@ bool PlayScene::onChoiceMade(Player* player, int choice, Card* currentCard, Card
 
 void PlayScene::onFinished(){
     LOGI("UI. onFinished");
+    calcScore();
+    if (!mReplayMode) {
+        GameResult* gameResult = new GameResult();
+        gameResult->myPoints = mPlayer1->getPoints();
+        gameResult->oppoPoints = mPlayer2->getPoints();
+        gameResult->myMaxCombo = mPlayer1->getMaxCombo();
+        gameResult->oppoMaxCombo = mPlayer2->getMaxCombo();
+        gameResult->updateResult();
+        Settings::getInstance()->addResult(GameManager::getInstance()->getCurrentCharacter(), gameResult);
+    }
+}
+
+void PlayScene::calcScore(){
     mGameLayer->onFinished();
     mUserChoiceLayer->setVisible(false);
     mReplayLayer->setVisible(false);
@@ -344,16 +354,6 @@ void PlayScene::onFinished(){
     this->getChildByTag(TAG_PAUSE_BG)->setVisible(false);
     mCalcScoreLayer->setVisible(true);
     mCalcScoreLayer->show(mGame, this);
-    
-    
-    GameResult* gameResult = new GameResult();
-    gameResult->myPoints = mPlayer1->getPoints();
-    gameResult->oppoPoints = mPlayer2->getPoints();
-    gameResult->myMaxCombo = mPlayer1->getMaxCombo();
-    gameResult->oppoMaxCombo = mPlayer2->getMaxCombo();
-    gameResult->updateResult();
-    
-    Settings::getInstance()->addResult(GameManager::getInstance()->getCurrentCharacter(), gameResult);
 }
 
 void PlayScene::onGameAction(int action){
@@ -368,7 +368,7 @@ void PlayScene::onGameAction(int action){
             mUserChoiceLayer->setPause(false);
             break;
         case GAME_ACTION::GAME_ACTION_RECALC_SCORE:
-            onFinished();
+            calcScore();
             break;
         case GAME_ACTION::GAME_ACTION_RESTART:
             mPauseLayer->setVisible(false);

@@ -242,8 +242,15 @@ cocos2d::Layer* SettingsScene::createPlayerDialog(){
     dialog->setColor(Color3B(0,0,0));
     dialog->setOpacity(128);
     dialog->setContentSize(visibleSize);
-    dialog->setTag(TAG_DIALOG_PLAYER);
     dialog->setVisible(false);
+    
+    auto dialogBgTouch = Layout::create();
+    dialogBgTouch->setTag(TAG_DIALOG_PLAYER);
+    dialogBgTouch->setContentSize(visibleSize);
+    dialogBgTouch->setAnchorPoint(Vec2(0.5, 0.5));
+    dialogBgTouch->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    dialogBgTouch->setTouchEnabled(true);
+    dialogBgTouch->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(SettingsScene::touchEvent,this)));
     
     auto dialogBg = Layout::create();
     dialogBg->setContentSize(Size(visibleSize.width - 50, 800));
@@ -324,6 +331,7 @@ cocos2d::Layer* SettingsScene::createPlayerDialog(){
     labelSave->setPosition(Vec2(btnOk->getContentSize().width / 2, btnOk->getContentSize().height / 2));
     btnOk->addChild(labelSave);
     
+    dialog->addChild(dialogBgTouch);
     dialog->addChild(dialogBg);
     dialog->addChild(dialogContent);
     

@@ -76,25 +76,21 @@ bool HelloWorld::init()
         menuBg->setPosition(Vec2(origin.x + menuBg->getContentSize().width / 2, origin.y + visibleSize.height + menuBg->getContentSize().height / 2));
         
         float posX = menuBg->getContentSize().width / 2;
-        float posY = menuBg->getContentSize().height - 150;
+        float posY = menuBg->getContentSize().height - 270;
         float gap = 130;
-        auto btnHelp = createMenuButton("menu_rule.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY), MAIN_BUTTONS::HELP);
-        auto textHelp = createMenuText("规则", Vec2(posX, posY - btnHelp->getContentSize().height / 2 - 20));
         
-        auto btnSetting = createMenuButton("menu_settings.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap), MAIN_BUTTONS::SETTINGS);
-        auto textSetting = createMenuText("设置", Vec2(posX, posY - gap - btnHelp->getContentSize().height / 2 - 20));
+        auto btnSetting = createMenuButton("menu_settings.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY), MAIN_BUTTONS::SETTINGS);
+        auto textSetting = createMenuText("设置", Vec2(posX, posY - btnHelp->getContentSize().height / 2 ));
         
-        auto btnStatistic = createMenuButton("menu_stat.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap * 2), MAIN_BUTTONS::STATISTIC);
-        auto textStatistic = createMenuText("统计", Vec2(posX, posY - gap * 2 - btnHelp->getContentSize().height / 2 - 20));
+        auto btnStatistic = createMenuButton("menu_stat.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap), MAIN_BUTTONS::STATISTIC);
+        auto textStatistic = createMenuText("统计", Vec2(posX, posY - gap - btnHelp->getContentSize().height / 2 ));
         
-        auto btnClose = createMenuButton("menu_close.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap * 3), MAIN_BUTTONS::CLOSE);
+        auto btnClose = createMenuButton("menu_close.png", Size(buttonWidth,buttonHeight), Vec2(posX, posY - gap * 2), MAIN_BUTTONS::CLOSE);
         
-        menuBg->addChild(btnHelp);
         menuBg->addChild(btnSetting);
         menuBg->addChild(btnStatistic);
         menuBg->addChild(btnClose);
         
-        menuBg->addChild(textHelp);
         menuBg->addChild(textSetting);
         menuBg->addChild(textStatistic);
         
@@ -177,7 +173,7 @@ void HelloWorld::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
                     Vec2 origin = Director::getInstance()->getVisibleOrigin();
                     MoveTo * moveTo = MoveTo::create(0.1,
                                                      Vec2(menuBgOpened->getContentSize().width / 2,
-                                                          origin.y + visibleSize.height - menuBgOpened->getContentSize().height / 2 + 100));
+                                                          origin.y + visibleSize.height - menuBgOpened->getContentSize().height / 2 + 200));
                     menuBgOpened->runAction(moveTo);
                     
                     menuBg->setVisible(false);
