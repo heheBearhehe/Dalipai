@@ -98,6 +98,14 @@ bool HelloWorld::init()
         this->addChild(menuBg);
     }
     
+    auto labelOwner = Label::create();
+    labelOwner->setString("微信公众号:新语相声俱乐部");
+    labelOwner->setSystemFontSize(30);
+    labelOwner->setColor(R::COLOR_TEXT_VERSION);
+    labelOwner->setPosition(Vec2(origin.x + visibleSize.width / 2, 50));
+    this->addChild(labelOwner);
+    
+    
     std::cout << this->getChildrenCount() << std::endl;
     return true;
 }

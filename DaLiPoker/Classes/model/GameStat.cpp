@@ -25,6 +25,8 @@ GameStat::GameStat(){
 void GameStat::reset(){
     totalGameCount = 0;
     totalWinCount = 0;
+    totalDrawCount = 0;
+    totalLoseCount = 0;
     
     winRatio = 0;
     
@@ -71,6 +73,11 @@ void GameStat::calcStat(vector<GameResult *>* resultList){
             
         }else{
             currentWinCombo = 0;
+            if (gameResult->result == GAME_RESULT::DRAW) {
+                this->totalDrawCount++;
+            }else{
+                this->totalLoseCount++;
+            }
         }
         
         if (gameResult->myPoints > this->topPoints) {
@@ -90,6 +97,8 @@ void GameStat::calcStat(vector<GameResult *>* resultList){
     
     if (this->totalGameCount > 0) {
         this->winRatio = (float)this->totalWinCount / this->totalGameCount;
+        this->drawRatio = (float)this->totalDrawCount / this->totalGameCount;
+        this->loseRatio = (float)this->totalLoseCount / this->totalGameCount;
     }
     
     if (this->totalGameCount >= 10) {

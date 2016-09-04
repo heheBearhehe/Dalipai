@@ -76,6 +76,7 @@ private:
     cocos2d::Rect mMyNextCardRect;
     cocos2d::Rect mOpponentNextCardRect;
     cocos2d::Rect mDiscardNextCardRect;
+    bool mTouchPause;
 };
 
 #endif /* defined(__DaLiPoker__UserChoiceLayer__) */

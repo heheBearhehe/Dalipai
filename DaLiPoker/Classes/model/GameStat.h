@@ -41,8 +41,12 @@ public:
     
     int totalGameCount;
     int totalWinCount;
+    int totalDrawCount;
+    int totalLoseCount;
     
     float winRatio;
+    float drawRatio;
+    float loseRatio;
     
     float winRatio10;
     float winRatio20;

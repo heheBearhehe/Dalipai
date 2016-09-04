@@ -11,6 +11,7 @@
 #include "Settings.h"
 #include "GameManager.h"
 #include "../model/def.h"
+#include "DLUtils.h"
 
 using namespace std;
 using namespace cocos2d::ui;
@@ -86,6 +87,14 @@ bool SettingsScene::init(){
 
     mDialog = createPlayerDialog();
     this->addChild(mDialog);
+    
+    
+    auto labelVersion = Label::create();
+    labelVersion->setString("版本: " + DL_APP_VERSION);
+    labelVersion->setSystemFontSize(30);
+    labelVersion->setColor(R::COLOR_TEXT_VERSION);
+    labelVersion->setPosition(Vec2(origin.x + visibleSize.width / 2, 50));
+    this->addChild(labelVersion);
     
     return true;
 }
@@ -430,6 +439,10 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
                 Settings::getInstance()->soundEffect = !Settings::getInstance()->soundEffect;
                 Settings::getInstance()->save();
                 invalidate();
+            }else if(btn->getTag() == TAG_ACTION_CONTACT_US){
+                DLUtils::sendEmail();
+            }else if(btn->getTag() == TAG_ACTION_ABOUT){
+                
             }else{
                 int charactor = btn->getTag() - TAG_ACTION_AVATAR_BASE;
                 if (charactor >= 0 && charactor <= CHARACTOR_COUNT) {

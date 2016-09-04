@@ -19,7 +19,7 @@ USING_NS_CC;
 
 
 static const int HEADER_HEIGHT = 120;
-static const int ITEM_HEIGHT   = 700;
+static const int ITEM_HEIGHT   = 780;
 
 
 
@@ -117,7 +117,32 @@ Node* StatisticScene::getStatNode(int character, const GameStat& stat){
         posX += label3->getContentSize().width;
         
         os.str("");
-        os << (int)(stat.winRatio * 100) << "%";
+        os << (int)(stat.winRatio * 100 + 0.5) << "%";
+        Node* label4 = createLabel(os.str(), fontSizeNormal, colorHighlight, Size(200, 50), Vec2(posX, posY));
+        
+        root->addChild(label);
+        root->addChild(label2);
+        root->addChild(label3);
+        root->addChild(label4);
+    }
+    
+    // draw
+    {
+        posX = 0;
+        posY -= lineHeight;
+        Node* label = createLabel("打平", fontSizeNormal, colorNormal, Size(50, 50), Vec2(posX, posY));
+        posX += label->getContentSize().width;
+        
+        os.str("");
+        os << stat.totalDrawCount << "局";
+        Node* label2 = createLabel(os.str(), fontSizeNormal, colorHighlight, Size(100, 50), Vec2(posX, posY));
+        posX += label2->getContentSize().width;
+        
+        Node* label3 = createLabel("，平率", fontSizeNormal, colorNormal, Size(150, 50), Vec2(posX, posY));
+        posX += label3->getContentSize().width;
+        
+        os.str("");
+        os << (int)(stat.drawRatio * 100 + 0.5) << "%";
         Node* label4 = createLabel(os.str(), fontSizeNormal, colorHighlight, Size(200, 50), Vec2(posX, posY));
         
         root->addChild(label);

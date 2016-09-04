@@ -68,6 +68,7 @@ static string sCardImagesFileName[] = {
     "草13-望子成凤.png",
 };
 
+static const int TAG_USER_CHOICE_VIEW_BASE = 1000;
 static const int TAG_OPPENENT_CARD_1     = 1000;
 static const int TAG_OPPENENT_CARD_2     = 1001;
 static const int TAG_LARGE_CARD          = 1002;
@@ -81,6 +82,7 @@ bool UserChoiceLayer::init(){
     }
     
     mCardIndex = 0;
+    mTouchPause = false;
 //    test();
     
     return true;
@@ -99,6 +101,8 @@ void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCal
         return;
     }
     
+    mTouchPause = false;
+    this->setTouchEnabled(true);
     mPlayerActionCallBack = callback;
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -132,6 +136,7 @@ void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCal
         if (options == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE && card2 != NULL) {
             auto largeImg2 = createPokerFront(card2, posY);
             largeImg2->setTag(TAG_LARGE_CARD_2);
+            largeImg2->setTouchEnabled(false);
             cocos2d::Vec2 oldPos = largeImg->getPosition();
             cocos2d::Size oldSize = largeImg->getContentSize();
             float scale = 0.7;
@@ -229,9 +234,14 @@ cocos2d::ui::Button* UserChoiceLayer::addButton(const std::string& text, const S
 
 void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     cocos2d::ui::Button* btn = (cocos2d::ui::Button*)ref;
-    LOGI("UI. touchEvent  tag=[%d]", btn->getTag());
+    LOGI("UI. touchEvent  tag=[%d] type=[%d]", btn->getTag(), type);
     
-    if (btn->getTag() <= 0 || mPaused) {
+    if (btn->getTag() <= 0 || mPaused || btn->getTag() >= TAG_USER_CHOICE_VIEW_BASE) {
+        return;
+    }
+    
+    if (mTouchPause) {
+        LOGI("UI. touchEvent PAUSE!!");
         return;
     }
     
@@ -249,6 +259,7 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
                 }
                 mAction = btn->getTag();
                 this->scheduleOnce(schedule_selector(UserChoiceLayer::onAction), delayTime);
+                mTouchPause = true;
             }
             break;
         case cocos2d::ui::Widget::TouchEventType::CANCELED:
@@ -261,6 +272,7 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
 
 void UserChoiceLayer::onAction(float dt){
     this->setVisible(false);
+    this->setTouchEnabled(false);
     if (mAction > 0) {
         mPlayerActionCallBack->onPlayerAction(mPlayer, mAction);
         mPlayerActionCallBack->execute();
