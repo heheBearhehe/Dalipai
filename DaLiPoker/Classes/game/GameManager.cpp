@@ -10,6 +10,12 @@
 #include <CocosGUI.h>
 #include "Settings.h"
 #include "../model/def.h"
+#include <sys/stat.h>
+#include "dirent.h"
+#include "unistd.h"
+#include "Utils.h"
+#include "SimpleAudioEngine.h"
+using namespace CocosDenshion;
 
 using namespace std;
 using namespace cocos2d::ui;
@@ -67,6 +73,25 @@ static string sCharactorDescription[] = {
 };
 
 
+static string sCharactorSoundFolder[] = {
+    "",
+    "guolaoshi",
+    "dami",
+    "daxiong",
+    "dali",
+    "yujie",
+};
+
+static string sSoundEffectName[] = {
+    "胜利",
+    "平局",
+    "失败",
+    "弃牌",
+    "留牌",
+    "给牌",
+    "被给牌",
+};
+
 GameManager* GameManager::sInstance = NULL;
 
 GameManager* GameManager::getInstance(){
@@ -84,7 +109,7 @@ void GameManager::destroy(){
 GameManager::GameManager(){
     mCurrentGameCharactor = 0;
     mCurrentMyAvatar = 0;
-
+    initSoundEffect();
 }
 
 void GameManager::initAvatar(){
@@ -92,7 +117,7 @@ void GameManager::initAvatar(){
     mCurrentMyAvatar = Settings::getInstance()->myAvatar;
     
     if (mCurrentGameCharactor == CHARACTOR_RANDOM) {
-        mCurrentGameCharactor = rand() % CHARACTOR_COUNT + 1;
+        mCurrentGameCharactor = rand() % (CHARACTOR_COUNT - 1) + 1;
     }
     
     if (mCurrentMyAvatar == MY_AVATAR_TYPE_RANDOM) {
@@ -257,4 +282,65 @@ void GameManager::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type)
     }
 }
 
+void GameManager::initSoundEffect(){
+    for (int charactor = 1; charactor < CHARACTOR_COUNT; charactor++) {
+        for (int j = 0; j < SOUND_EFFECT_COUNT; j++) {
+            mSoundEffect[charactor][j] = new vector<std::string>;
+        }
+        
+        std::string searchPath = "sound/" + sCharactorSoundFolder[charactor];
+        std::string filePath = FileUtils::getInstance()->fullPathForFilename(searchPath);
+        LOGI("%s",filePath.c_str());
+        
+        DIR *dp;
+        struct dirent *entry;
+        struct stat statbuf;
+        int count = 0;
+        
+        dp = opendir(filePath.c_str());
+        chdir(filePath.c_str());
+        while((entry = readdir(dp)) != NULL && count < 255)
+        {
+            stat(entry->d_name,&statbuf);
+            if(!S_ISREG(statbuf.st_mode))
+                continue;
+            
+            for (int j = 0; j < SOUND_EFFECT_COUNT; j++) {
+                int index = (int)(string(entry->d_name)).find(sSoundEffectName[j]);
+                if(index == 0){
+                    mSoundEffect[charactor][j]->push_back(entry->d_name);
+                    LOGI("c=[%d] type=[%d] file=[%s]", charactor, j, entry->d_name);
+                }
+            }
+        }
+    }
+}
+
+void GameManager::playSound(int charactor, int soundEffect){
+    if (!Settings::getInstance()->soundEffect) {
+        return;
+    }
+    
+    if (charactor < 0 || charactor >= CHARACTOR_COUNT) {
+        return;
+    }
+    if (soundEffect < 0 || soundEffect >= SOUND_EFFECT_COUNT) {
+        return;
+    }
+    
+    std::vector<std::string>* soundList = mSoundEffect[charactor][soundEffect];
+    int size = (int)soundList->size();
+    if (size > 0) {
+        
+        int index = getRandom(size);
+        std::string soundName = soundList->at(index);
+        
+        std::string searchPath = "sound/" + sCharactorSoundFolder[charactor];
+        std::string filename = searchPath + "/" + soundName;
+        LOGI("playSound c=[%d] s=[%d] index=[%d/%d] name=[%s] filename=[%s]",charactor, soundEffect, index, size, soundName.c_str(), filename.c_str());
+        SimpleAudioEngine::getInstance()->playEffect(filename.c_str());
+    }
+    
+//    SimpleAudioEngine::getInstance()->playEffect("sound/大米/失败-大米-算你厉害.mp3");
+}
 

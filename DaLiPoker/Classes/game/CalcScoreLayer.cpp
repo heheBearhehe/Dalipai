@@ -277,20 +277,26 @@ void CalcScoreLayer::updateResult(){
     
     int resultMe = 0;
     int resultOppo = 0;
+    int soundEffect;
     if (myPts < oppPts) {
         msg = "落败";
         resultMe = 2;
         resultOppo = 1;
+        soundEffect = SOUND_EFFECT_WIN;
     }else if (myPts > oppPts) {
         msg = "胜利";
         resultMe = 1;
         resultOppo = 2;
+        soundEffect = SOUND_EFFECT_LOSE;
     }else{
         msg = "平局";
+        soundEffect = SOUND_EFFECT_DRAW;
     }
     label->setString(msg);
     
     updateAvatar(resultMe, resultOppo);
+    
+    GameManager::getInstance()->playSound(GameManager::getInstance()->getCurrentCharacter(), soundEffect);
 }
 
 int CalcScoreLayer::calcPoints(vector<Card *>* cardsList, int calcSize){

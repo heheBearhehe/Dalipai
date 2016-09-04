@@ -445,7 +445,7 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
                 
             }else{
                 int charactor = btn->getTag() - TAG_ACTION_AVATAR_BASE;
-                if (charactor >= 0 && charactor <= CHARACTOR_COUNT) {
+                if (charactor >= 0 && charactor < CHARACTOR_COUNT) {
                     Settings::getInstance()->opponentCharacter = charactor;
                     Settings::getInstance()->save();
                     invalidate();

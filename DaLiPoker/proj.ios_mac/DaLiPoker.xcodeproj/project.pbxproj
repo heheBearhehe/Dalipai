@@ -55,6 +55,7 @@
 		4132CFA31B6FA07900F42F1A /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CF991B6FA07900F42F1A /* Utils.cpp */; };
 		4132CFA61B6FA22000F42F1A /* UserChoiceLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4132CFA41B6FA22000F42F1A /* UserChoiceLayer.cpp */; };
 		4139C6501D7BF149004EE25D /* DLUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4139C64F1D7BF149004EE25D /* DLUtils.mm */; };
+		4139C74F1D7C0F89004EE25D /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 4139C74E1D7C0F89004EE25D /* sound */; };
 		4169E6741B8876CA00331C75 /* StateInit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6721B8876CA00331C75 /* StateInit.cpp */; };
 		4169E6771B8876D800331C75 /* StateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6751B8876D800331C75 /* StateBase.cpp */; };
 		4169E67A1B8876EF00331C75 /* StateDeal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4169E6781B8876EF00331C75 /* StateDeal.cpp */; };
@@ -252,6 +253,7 @@
 		4132CFA51B6FA22000F42F1A /* UserChoiceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserChoiceLayer.h; sourceTree = "<group>"; };
 		4139C64E1D7BF149004EE25D /* DLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLUtils.h; sourceTree = "<group>"; };
 		4139C64F1D7BF149004EE25D /* DLUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DLUtils.mm; sourceTree = "<group>"; };
+		4139C74E1D7C0F89004EE25D /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
 		4169E6721B8876CA00331C75 /* StateInit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateInit.cpp; sourceTree = "<group>"; };
 		4169E6731B8876CA00331C75 /* StateInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateInit.h; sourceTree = "<group>"; };
 		4169E6751B8876D800331C75 /* StateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateBase.cpp; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4139C74E1D7C0F89004EE25D /* sound */,
 				4125510B1D5F5FEF00198470 /* settings_avatar_bg_n.png */,
 				4125510C1D5F5FEF00198470 /* settings_avatar_bg_s.png */,
 				412551091D5F0ED500198470 /* settings_random.png */,
@@ -850,6 +853,7 @@
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				4125510D1D5F5FEF00198470 /* settings_avatar_bg_n.png in Resources */,
 				41DD75B01D0BF4D4008781B5 /* menu_rule.png in Resources */,
+				4139C74F1D7C0F89004EE25D /* sound in Resources */,
 				41E9416A1B7F399400A98625 /* poker_discard.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				41E941871B7F4E8E00A98625 /* btn_choice.png in Resources */,
