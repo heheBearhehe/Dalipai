@@ -105,6 +105,7 @@ bool HelloWorld::init()
     labelOwner->setPosition(Vec2(origin.x + visibleSize.width / 2, 50));
     this->addChild(labelOwner);
     
+    showMenu(true);
     
     std::cout << this->getChildrenCount() << std::endl;
     return true;
@@ -173,33 +174,10 @@ void HelloWorld::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
         case cocos2d::ui::Widget::TouchEventType::ENDED:
             switch (btn->getTag()) {
                 case MAIN_BUTTONS::OPEN:
-                {
-                    auto menuBg = this->getChildByTag(MAIN_BUTTONS::MENU_BG);
-                    auto menuBgOpened = this->getChildByTag(MAIN_BUTTONS::MENU_BG_OPENED);
-                    
-                    Size visibleSize = Director::getInstance()->getVisibleSize();
-                    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-                    MoveTo * moveTo = MoveTo::create(0.1,
-                                                     Vec2(menuBgOpened->getContentSize().width / 2,
-                                                          origin.y + visibleSize.height - menuBgOpened->getContentSize().height / 2 + 200));
-                    menuBgOpened->runAction(moveTo);
-                    
-                    menuBg->setVisible(false);
-                }
+                    showMenu(true);
                     break;
                 case MAIN_BUTTONS::CLOSE:
-                {
-                    auto menuBg = this->getChildByTag(MAIN_BUTTONS::MENU_BG);
-                    auto menuBgOpened = this->getChildByTag(MAIN_BUTTONS::MENU_BG_OPENED);
-                    
-                    Size visibleSize = Director::getInstance()->getVisibleSize();
-                    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-                    MoveTo * moveTo = MoveTo::create(0.1,
-                                                     Vec2(menuBgOpened->getContentSize().width / 2,
-                                                          origin.y + visibleSize.height + menuBgOpened->getContentSize().height / 2));
-                    menuBgOpened->runAction(moveTo);
-                    menuBg->setVisible(true);
-                }
+                    showMenu(false);
                     break;
                 case MAIN_BUTTONS::PLAY:
                     Director::getInstance()->pushScene(PlayScene::create());
@@ -225,4 +203,18 @@ void HelloWorld::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
         default:
             break;
     }
+}
+
+void HelloWorld::showMenu(bool show){
+    auto menuBg = this->getChildByTag(MAIN_BUTTONS::MENU_BG);
+    auto menuBgOpened = this->getChildByTag(MAIN_BUTTONS::MENU_BG_OPENED);
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    int moveToY = show? origin.y + visibleSize.height - menuBgOpened->getContentSize().height / 2 + 200 : origin.y + visibleSize.height + menuBgOpened->getContentSize().height / 2;
+    MoveTo * moveTo = MoveTo::create(0.1,
+                                     Vec2(menuBgOpened->getContentSize().width / 2,
+                                          moveToY));
+    menuBgOpened->runAction(moveTo);
+    menuBg->setVisible(!show);
 }
