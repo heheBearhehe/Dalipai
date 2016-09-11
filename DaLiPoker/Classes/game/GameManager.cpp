@@ -171,30 +171,30 @@ AIPlayer* GameManager::createOppenentAIPlayer(Game* game){
 AIPlayer* GameManager::createOppenentAIPlayer(Game* game, int charactor){
     AIPlayer* player = new AIPlayer(game->getMinRank(), game->getMaxRank());
     
-    int s0[3]={100, 200, 100};
-    int s1[3]={1, 4, 10};
-    int s2[3]={3, 9, 12};
     switch (charactor) {
         case CHARACTOR_GUO:
-            player->setStrategy(2);
-            player->setGiveStrategy(0);
-            player->setGiveProb(0);
+            player->setKeepOnceScored(true);
+            player->setKeepMistakeProb(33);
+            player->setGiveStrategy(1);
+            player->setGiveProb(5);
             player->setName(" GUO ");
             break;
             
         case CHARACTOR_DAMI:
+            player->setKeepOnceScored(true);
+            player->setKeepMistakeProb(20);
             player->setGiveStrategy(1);
-            player->setGiveProb(5);
-            player->setKeepStrategyWeight(s1);
+            player->setGiveProb(20);
             player->setNeverGiveMid(true);
             player->setName("DAMI ");
             break;
             
         case CHARACTOR_DAXIONG:
+            player->setKeepOnceScored(true);
             player->setGiveStrategy(3);
+            player->setKeepMistakeProb(5);
             player->setGiveProb(10);
             player->setName("BEAR ");
-            player->setKeepStrategyWeight(s2);
             player->setDetect(false);
             player->setAttack(false, 0, 0);
             break;
@@ -210,6 +210,12 @@ AIPlayer* GameManager::createOppenentAIPlayer(Game* game, int charactor){
             player->setGiveStrategy(4);
             player->setGiveProb(0);
             player->setName("YUJIE");
+            break;
+            
+        case 6:
+            player->setGiveStrategy(0);
+            player->setGiveProb(0);
+            player->setName("KEEP");
             break;
             
         default:
@@ -331,16 +337,13 @@ void GameManager::playSound(int charactor, int soundEffect){
     std::vector<std::string>* soundList = mSoundEffect[charactor][soundEffect];
     int size = (int)soundList->size();
     if (size > 0) {
-        
         int index = getRandom(size);
         std::string soundName = soundList->at(index);
-        
         std::string searchPath = "sound/" + sCharactorSoundFolder[charactor];
         std::string filename = searchPath + "/" + soundName;
+        
         LOGI("playSound c=[%d] s=[%d] index=[%d/%d] name=[%s] filename=[%s]",charactor, soundEffect, index, size, soundName.c_str(), filename.c_str());
         SimpleAudioEngine::getInstance()->playEffect(filename.c_str());
     }
-    
-//    SimpleAudioEngine::getInstance()->playEffect("sound/大米/失败-大米-算你厉害.mp3");
 }
 

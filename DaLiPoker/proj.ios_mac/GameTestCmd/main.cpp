@@ -35,9 +35,9 @@ int main(int argc, const char * argv[]) {
     enableLog(false);
     
     int count = 10000;
-//    testGameForAllCharactor(count);
+    testGameForAllCharactor(count);
     
-    testGameForCharactor(1, 5, 10000);
+//    testGameForCharactor(1, 5, 10000);
 //    int testCharactor = 3;
 //    for (int i = testCharactor; i <= 6; i++) {
 //        if (testCharactor == i) {
@@ -230,11 +230,16 @@ void testGame(int p1Strategy, int p2Strategy){
 
 
 void testGameForAllCharactor(int gameCount){
-    for (int i = 1; i <= 5; i++) {
-        for (int j = i + 1; j <= 5; j++) {
-            testGameForCharactor(i, j, gameCount);
-        }
-    }
+//    for (int i = 1; i <= 5; i++) {
+//        for (int j = i + 1; j <= 5; j++) {
+//            testGameForCharactor(i, j, gameCount);
+//        }
+//    }
+    
+    
+    testGameForCharactor(1, 2, gameCount);
+    testGameForCharactor(1, 6, gameCount);
+    testGameForCharactor(2, 6, gameCount);
     
 //    for (int i = 1; i <= 6; i++) {
 //        for (int j = 1; j <= 6; j++) {
@@ -261,30 +266,30 @@ void testGameForCharactor(int p1, int p2, int gameCount){
 AIPlayer* createOppenentAIPlayer(int charactor){
     AIPlayer* player = new AIPlayer();
     
-    int s0[3]={100, 200, 100};
-    int s1[3]={1, 4, 10};
-    int s2[3]={3, 9, 12};
     switch (charactor) {
         case CHARACTOR_GUO:
-            player->setStrategy(2);
-            player->setGiveStrategy(0);
-            player->setGiveProb(0);
+            player->setKeepOnceScored(true);
+            player->setKeepMistakeProb(33);
+            player->setGiveStrategy(1);
+            player->setGiveProb(5);
             player->setName(" GUO ");
             break;
             
         case CHARACTOR_DAMI:
+            player->setKeepOnceScored(true);
+            player->setKeepMistakeProb(20);
             player->setGiveStrategy(1);
-            player->setGiveProb(5);
-            player->setKeepStrategyWeight(s1);
+            player->setGiveProb(20);
             player->setNeverGiveMid(true);
             player->setName("DAMI ");
             break;
             
         case CHARACTOR_DAXIONG:
+            player->setKeepOnceScored(true);
             player->setGiveStrategy(3);
+            player->setKeepMistakeProb(5);
             player->setGiveProb(10);
             player->setName("BEAR ");
-            player->setKeepStrategyWeight(s2);
             player->setDetect(false);
             player->setAttack(false, 0, 0);
             break;
@@ -306,7 +311,6 @@ AIPlayer* createOppenentAIPlayer(int charactor){
             player->setGiveStrategy(0);
             player->setGiveProb(0);
             player->setName("KEEP");
-            player->setKeepStrategyWeight(s0);
             break;
             
         default:

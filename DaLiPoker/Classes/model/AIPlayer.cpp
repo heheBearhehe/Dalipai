@@ -16,14 +16,15 @@ AIPlayer::AIPlayer(int rankMin, int rankMax):mCardRandMin(rankMin),mCardRandMax(
     mGiveStrategy = 4;
     mGiveProb = 100;
     mGiveStrategyOffset = 3;
+    mKeepMistakeProb = 0;
     mDetect = true;
     mAttack = true;
     mAttackM = 50;
     mAttackL = 90;
     mGiveMid = false;
     mNeverGiveMid = false;
+    mKeepOnceScored = false;
     
-    mKeepStrategyWeight = NULL;
     mKeepStrategyWeight = new int[3] {100, 200, 100};
     mGiveCount = 0;
     mTag = 0;
@@ -134,14 +135,20 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
 //                if (last->getRank() == 0) {
 //                    LOGI("** last=[%d] current=[%d]", last->getRank(), card->getRank());
 //                }
-                if (shouldKeepCard(card, last, last2)) {
+                
+                bool shouldKeep = shouldKeepCard(card, last, last2);
+                
+                if (mKeepMistakeProb > 0 && getRandomSelect(mKeepMistakeProb)) {
+                    shouldKeep = !shouldKeep;
+                }
+                if (shouldKeep) {
                     mStatKeep[index]++;
                     return Player::PLAYER_CHOICE_KEEP;
                 }
             }
             
             if (mGiveStrategy > 0 && mStrategy > 0 && (availableChoice & Player::PLAYER_CHOICE_GIVE) > 0
-                && !(mNeverGiveMid && card->getIndex() >= 5 && card->getIndex() <= 7 )){
+                && !(mNeverGiveMid && card->getRank() >= 5 && card->getRank() <= 7 )){
                 if (shouldGiveCard(card)) {
                     mGiveCount++;
                     return Player::PLAYER_CHOICE_GIVE;
@@ -247,16 +254,9 @@ bool AIPlayer::shouldKeepCard(Card* card, Card* last, Card* last2){
     }
     
     int weight[3];
-    if (mKeepStrategyWeight == NULL) {
-        weight[0] = 10;
-        weight[1] = 6;
-        weight[2] = 3;
-    }else{
-        weight[0] = mKeepStrategyWeight[0];
-        weight[1] = mKeepStrategyWeight[1];
-        weight[2] = mKeepStrategyWeight[2];
-    }
-    
+    weight[0] = mKeepStrategyWeight[0];
+    weight[1] = mKeepStrategyWeight[1];
+    weight[2] = mKeepStrategyWeight[2];
     
     int currentRank = card->getRank();
     int lastRank = last->getRank();
@@ -265,6 +265,17 @@ bool AIPlayer::shouldKeepCard(Card* card, Card* last, Card* last2){
     int maxRank = mCardRandMax;
     int rankCount = maxRank - minRank + 1;
     int* totalScore = new int[rankCount];
+    bool scoreIfKeep = false;
+    
+    
+    if ((currentRank < lastRank && lastRank < last2Rank)
+        || (currentRank > lastRank && lastRank > last2Rank)) {
+        scoreIfKeep = true;
+    }
+    
+    if (mKeepOnceScored && scoreIfKeep) {
+        return true;
+    }
     
     for(int rank = minRank; rank <= maxRank; rank++){
         float score[3] = {0};
@@ -311,6 +322,13 @@ bool AIPlayer::shouldKeepCard(Card* card, Card* last, Card* last2){
     
     LOGI("card=[%d %d %d] curScore=[%d] topRank=[%d]", last2Rank, lastRank, currentRank, currentScore, topRank);
     delete[] totalScore;
+    
+    if (scoreIfKeep) {
+        if (topRank > (rankCount - 3) / 2) {
+            LOGI("discard scored card!!!");
+        }
+    }
+    
     if (topRank <= (rankCount - 3) / 2) {
         return true;
     }
@@ -458,7 +476,7 @@ bool AIPlayer::shouldGiveCard(Card* card){
         }
     }
     
-    if (lastOpponentDiscardCard != NULL && lastOpponentDiscardCard->getSeq() == curSeq - 1) {
+    if (mGiveStrategy >= 2 && lastOpponentDiscardCard != NULL && lastOpponentDiscardCard->getSeq() == curSeq - 1) {
         if (abs(card->getRank() - lastOpponentDiscardCard->getRank()) <= 2) {
             return true;
         }

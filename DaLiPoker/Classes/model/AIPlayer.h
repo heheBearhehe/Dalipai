@@ -44,6 +44,11 @@ public:
     int getGiveStrategy() { return mGiveStrategy; }
     void setGiveStrategyOffset(int offset){ mGiveStrategyOffset = offset; }
     int getGiveStrategyOffset() { return mGiveStrategyOffset; }
+    void setKeepMistakeProb(int prob) { mKeepMistakeProb = prob; }
+    int getKeepMistakeProb() { return mKeepMistakeProb; }
+    void setKeepOnceScored(bool keep) { mKeepOnceScored = keep; }
+    int getKeepOnceScored() { return mKeepOnceScored; }
+    
     int getGiveCount() { return mGiveCount; }
     void setTag(int tag) { mTag = tag; };
     int getTag() { return mTag; }
@@ -87,6 +92,8 @@ private:
     int mGiveStrategyOffset;
     int mGiveCount;
     int mGiveProb;
+    int mKeepMistakeProb;
+    bool mKeepOnceScored;
     int mTag;
     std::string mName;
     bool mDetect;
