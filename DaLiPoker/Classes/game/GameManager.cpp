@@ -14,9 +14,11 @@
 #include "dirent.h"
 #include "unistd.h"
 #include "Utils.h"
+#include "AudioEngine.h"
 #include "SimpleAudioEngine.h"
-using namespace CocosDenshion;
+#include "DLUtils.h"
 
+using namespace CocosDenshion;
 using namespace std;
 using namespace cocos2d::ui;
 USING_NS_CC;
@@ -89,9 +91,9 @@ static string sSoundEffectName[] = {
     "弃牌",
     "留牌",
     "给牌",
+    "击落对方牌",
     "被给牌",
     "被击落牌",
-    "击落对方牌",
     "开场",
 };
 
@@ -112,7 +114,10 @@ void GameManager::destroy(){
 GameManager::GameManager(){
     mCurrentGameCharactor = 0;
     mCurrentMyAvatar = 0;
+    mLastPlaySoundTime = 0;
+    mLastPlaySoundDuration = 0;
     initSoundEffect();
+    mSoundToPlay = "";
 }
 
 void GameManager::initAvatar(){
@@ -325,16 +330,22 @@ void GameManager::initSoundEffect(){
     }
 }
 
-void GameManager::playSound(int charactor, int soundEffect){
+void GameManager::resetSound(){
+    mLastPlaySoundTime = 0;
+    mLastPlaySoundDuration = 0;
+    mSoundToPlay = "";
+}
+
+double GameManager::playSound(int charactor, int soundEffect){
     if (!Settings::getInstance()->soundEffect) {
-        return;
+        return 0;
     }
     
     if (charactor < 0 || charactor >= CHARACTOR_COUNT) {
-        return;
+        return 0;
     }
     if (soundEffect < 0 || soundEffect >= SOUND_EFFECT_COUNT) {
-        return;
+        return 0;
     }
     
     std::vector<std::string>* soundList = mSoundEffect[charactor][soundEffect];
@@ -345,11 +356,58 @@ void GameManager::playSound(int charactor, int soundEffect){
         std::string searchPath = "sound/" + sCharactorSoundFolder[charactor];
         std::string filename = searchPath + "/" + soundName;
         
-        LOGI("playSound c=[%d] s=[%d] index=[%d/%d] name=[%s] filename=[%s]",charactor, soundEffect, index, size, soundName.c_str(), filename.c_str());
-        SimpleAudioEngine::getInstance()->playEffect(filename.c_str());
+        size_t e = filename.rfind(".");
+        size_t b = filename.rfind("-");
+        size_t contentLength = e - b;
+        
+        double ret = MIN(3, contentLength * 0.15);
+        LOGI("playSound c=[%d] s=[%d] index=[%d/%d] name=[%s] filename=[%s] length=[%d] toPlay=[%s] ret=[%f]",charactor, soundEffect, index, size, soundName.c_str(), filename.c_str(), contentLength, mSoundToPlay.c_str(), ret);
+        if (mSoundToPlay.length() > 0) {
+            LOGI("### SKIP.soundToPlay=[%s]", mSoundToPlay.c_str());
+        }
+        mSoundToPlay = filename;
+        doPlaySound();
+        mLastPlaySoundDuration = ret * 1000;
+        return MAX(mLastPlaySoundDuration - (DLUtils::getCurrentTime() - mLastPlaySoundTime), 0) / 1000;
+    }
+    
+    return 0;
+}
+
+void GameManager::doPlaySound(){
+    if (mSoundToPlay.empty() || isPlayingSound()) {
+        return;
+    }
+    
+    std::string filename = mSoundToPlay;
+//    int id = cocos2d::experimental::AudioEngine::play2d(filename.c_str(), false, 1.0);
+    
+    SimpleAudioEngine::getInstance()->stopAllEffects();
+    int id = SimpleAudioEngine::getInstance()->playEffect(filename.c_str());
+    LOGI("************** do play soundfilename=[%s]", filename.c_str());
+    
+    mLastPlaySoundTime = DLUtils::getCurrentTime();
+    if (id > 0) {
+        mSoundToPlay = "";
+        
+//        cocos2d::experimental::AudioEngine::setFinishCallback(mSoundIdPlaying, [&](int id, const std::string &filePath){
+//            mSoundIdPlaying = cocos2d::experimental::AudioEngine::INVALID_AUDIO_ID;
+//            doPlaySound();
+//        });
     }
 }
 
+bool GameManager::isPlayingSound(){
+    double duration = DLUtils::getCurrentTime() - mLastPlaySoundTime;
+    bool ret = duration < mLastPlaySoundDuration;
+    LOGI("isPlayingSound ret=[%d]  duration=[%f] lastDuration=[%f]", ret, duration, mLastPlaySoundDuration);
+    return ret;
+}
+
+void GameManager::playPendingSound(){
+    LOGI("playPendingSound mSoundToPlay=[%s]", mSoundToPlay.c_str());
+    doPlaySound();
+}
 
 
 

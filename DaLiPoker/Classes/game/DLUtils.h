@@ -19,4 +19,5 @@ class DLUtils
 public:
     static void sendEmail();
     
+    static double getCurrentTime();
 };

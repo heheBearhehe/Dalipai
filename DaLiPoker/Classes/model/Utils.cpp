@@ -7,6 +7,7 @@
 //
 
 #include "Utils.h"
+#include <sys/time.h>
 
 static bool sEnableLog = true;
 
@@ -16,6 +17,18 @@ void initUtils(){
 
 void enableLog(bool enable){
     sEnableLog = enable;
+}
+
+static double START_TIME = 0;
+double getTimestamp(){
+    struct timeval tv;
+    gettimeofday(&tv, nullptr);
+    double cur = (long)((double)tv.tv_sec * 1000 + (double)tv.tv_usec / 1000);
+    if (START_TIME == 0) {
+        START_TIME = cur;
+    }
+    
+    return (cur - START_TIME) / 1000.0;
 }
 
 void LOGI (const char* msg, ...) {
@@ -28,7 +41,8 @@ void LOGI (const char* msg, ...) {
     va_start(args, msg);
     vsprintf(buffer,msg,args);
     va_end(args);
-    cout << "dali:" << buffer << std::endl;
+    
+    cout << "dali:" << "#" << getTimestamp() << "#  " << buffer << std::endl;
 }
 
 void LOGF (const char* msg, ...) {
@@ -37,7 +51,8 @@ void LOGF (const char* msg, ...) {
     va_start(args, msg);
     vsprintf(buffer,msg,args);
     va_end(args);
-    cout << buffer << std::endl;
+    
+    cout << "#" << getTimestamp() << "#  " << buffer << std::endl;
 }
 
 bool getRandomSelect(int prob){

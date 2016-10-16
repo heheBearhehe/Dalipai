@@ -17,3 +17,9 @@ void DLUtils::sendEmail(){
     NSString * encodingString = [mailUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:encodingString]];
 }
+
+double DLUtils::getCurrentTime(){
+    struct timeval tv;
+    gettimeofday(&tv, nullptr);
+    return (double)tv.tv_sec * 1000 + (double)tv.tv_usec / 1000;
+}

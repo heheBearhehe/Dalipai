@@ -74,7 +74,10 @@ public:
     void touchEvent(cocos2d::Ref* ref, cocos2d::ui::Widget::TouchEventType type);
     
     void initSoundEffect();
-    void playSound(int charactor, int soundEffect);
+    void resetSound();
+    double playSound(int charactor, int soundEffect);
+    void playPendingSound();
+    bool isPlayingSound();
     
 private:
     GameManager();
@@ -83,9 +86,14 @@ private:
 private:
     cocos2d::ui::ImageView* getAvatar(std::string path);
     
+    void doPlaySound();
+    
     int  mCurrentGameCharactor;
     int  mCurrentMyAvatar;
     
+    double  mLastPlaySoundDuration;
+    double  mLastPlaySoundTime;
+    std::string mSoundToPlay;
     
     std::vector<std::string>* mSoundEffect[CHARACTOR_COUNT][SOUND_EFFECT_COUNT];
 };

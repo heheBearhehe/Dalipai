@@ -143,6 +143,7 @@ void PlayScene::startGame(){
     
     mGame = new Game(GAME_MODE::NORMAL, mReplayMode ? PLAY_MODE::REPLAY : PLAY_MODE::AUTO, Settings::getInstance()->firstPlayer);
     GameManager::getInstance()->initAvatar();
+    GameManager::getInstance()->resetSound();
     
     mPlayer1 = new Player();
     mPlayer1->setTag(1);
@@ -436,6 +437,7 @@ void PlayScene::menuRestart(Ref* pSender){
 void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* card2){
     LOGI("*****  PlayScene.onActionExecuted  action=[%x] player=[%d] c1=[%s] c2=[%s]", action, player->getTag(), card1 == NULL? "" : card1->getDisplay().c_str(), card2 == NULL? "" : card2->getDisplay().c_str());
     
+    double soundDuration = 0;
     if (!mReplayMode && action < ACTION_START_GAME_STATE) {
         int soundEffect = -1;
         if (player->getTag() == 1) {
@@ -462,7 +464,19 @@ void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* 
             }
         }
         if (soundEffect >= 0) {
-            GameManager::getInstance()->playSound(GameManager::getInstance()->getCurrentCharacter(), soundEffect);
+            bool isPlaying = GameManager::getInstance()->isPlayingSound();
+            soundDuration = GameManager::getInstance()->playSound(GameManager::getInstance()->getCurrentCharacter(), soundEffect);
+            if (soundDuration > 0) {
+                LOGI("soundDuration=[%f]", soundDuration);
+                if (isPlaying) {
+                    LOGI("playSoundDelay=[%f]", soundDuration);
+                    DelayTime * delayAction = DelayTime::create(soundDuration);
+                    CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::playPendingSound, this));
+                    this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
+                }else{
+                    soundDuration = 0;
+                }
+            }
         }
     }
     
@@ -493,15 +507,19 @@ void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* 
             && (action == Player::PLAYER_CHOICE_DISCARD || action == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE)) {
             mUserChoiceLayer->showOppenentCard(card1, card2);
             mUserChoiceLayer->setVisible(true);
-            DelayTime * delayAction = DelayTime::create(2.0);
+            DelayTime * delayAction = DelayTime::create(MAX(2.0, soundDuration));
             CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::hideOppenentCardAndOnAction, this));
             this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
         }else{
-            DelayTime * delayAction = DelayTime::create(delayTime);
+            DelayTime * delayAction = DelayTime::create(MAX(delayTime, soundDuration));
             CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(PlayScene::onAction, this));
             this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
         }
     }
+}
+
+void PlayScene::playPendingSound(){
+    GameManager::getInstance()->playPendingSound();
 }
 
 void PlayScene::hideOppenentCardAndOnAction(){
