@@ -38,8 +38,11 @@ static const int SOUND_EFFECT_LOSE   = 2;
 static const int SOUND_EFFECT_CARD_DISCARD = 3;
 static const int SOUND_EFFECT_CARD_KEEP    = 4;
 static const int SOUND_EFFECT_CARD_GIVE    = 5;
-static const int SOUND_EFFECT_CARD_GIVEN   = 6;
-static const int SOUND_EFFECT_COUNT        = 7;
+static const int SOUND_EFFECT_CARD_GIVE_DISCARD = 6;
+static const int SOUND_EFFECT_CARD_GIVEN   = 7;
+static const int SOUND_EFFECT_CARD_GIVEN_DISCARD = 8;
+static const int SOUND_EFFECT_GAME_START   = 9;
+static const int SOUND_EFFECT_COUNT        = 10;
 
 class AIPlayer;
 class Game;

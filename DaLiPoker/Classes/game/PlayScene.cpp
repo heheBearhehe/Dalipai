@@ -436,16 +436,30 @@ void PlayScene::menuRestart(Ref* pSender){
 void PlayScene::onActionExecuted(int action, Player* player, Card* card1, Card* card2){
     LOGI("*****  PlayScene.onActionExecuted  action=[%x] player=[%d] c1=[%s] c2=[%s]", action, player->getTag(), card1 == NULL? "" : card1->getDisplay().c_str(), card2 == NULL? "" : card2->getDisplay().c_str());
     
-    if (!mReplayMode && action < ACTION_START_GAME_STATE && mGame->getCurrentCardIndex() > 1 && player->getTag() == 2) {
+    if (!mReplayMode && action < ACTION_START_GAME_STATE) {
         int soundEffect = -1;
-        if (action == Player::PLAYER_CHOICE_KEEP) {
-            soundEffect = SOUND_EFFECT_CARD_KEEP;
-        }else if (action == Player::PLAYER_CHOICE_DISCARD) {
-            soundEffect = SOUND_EFFECT_CARD_DISCARD;
-        }else if (action == Player::PLAYER_CHOICE_GIVE) {
-            soundEffect = SOUND_EFFECT_CARD_GIVE;
-        }else if(action == Player::PLAYER_CHOICE_KEEP_FOR_GIVE){
-            soundEffect = SOUND_EFFECT_CARD_GIVEN;
+        if (player->getTag() == 1) {
+            if (action == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE) {
+                soundEffect = SOUND_EFFECT_CARD_GIVE_DISCARD;
+            }
+        }else{
+            if (mGame->getCurrentCardIndex() <= 1) {
+                if (action == Player::PLAYER_CHOICE_KEEP) {
+                    soundEffect = SOUND_EFFECT_GAME_START;
+                }
+            }else{
+                if (action == Player::PLAYER_CHOICE_KEEP) {
+                    soundEffect = SOUND_EFFECT_CARD_KEEP;
+                }else if (action == Player::PLAYER_CHOICE_DISCARD) {
+                    soundEffect = SOUND_EFFECT_CARD_DISCARD;
+                }else if (action == Player::PLAYER_CHOICE_GIVE) {
+                    soundEffect = SOUND_EFFECT_CARD_GIVE;
+                }else if(action == Player::PLAYER_CHOICE_KEEP_FOR_GIVE){
+                    soundEffect = SOUND_EFFECT_CARD_GIVEN;
+                }else if(action == Player::PLAYER_CHOICE_REMOVE_FOR_GIVE){
+                    soundEffect = SOUND_EFFECT_CARD_GIVEN_DISCARD;
+                }
+            }
         }
         if (soundEffect >= 0) {
             GameManager::getInstance()->playSound(GameManager::getInstance()->getCurrentCharacter(), soundEffect);

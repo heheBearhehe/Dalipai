@@ -90,6 +90,9 @@ static string sSoundEffectName[] = {
     "留牌",
     "给牌",
     "被给牌",
+    "被击落牌",
+    "击落对方牌",
+    "开场",
 };
 
 GameManager* GameManager::sInstance = NULL;
@@ -346,4 +349,7 @@ void GameManager::playSound(int charactor, int soundEffect){
         SimpleAudioEngine::getInstance()->playEffect(filename.c_str());
     }
 }
+
+
+
 
