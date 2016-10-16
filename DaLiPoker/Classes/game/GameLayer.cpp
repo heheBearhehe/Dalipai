@@ -161,7 +161,7 @@ void GameLayer::updateMyCard(vector<Card*>* cards){
     float cardHeight = 167;
     float delta = 15;
     int posX = origin.x + 20 + cardWidth / 2 + 100;
-    int posY = origin.y + 20 + cardHeight / 2 + 100;
+    int posY = origin.y + 20 + cardHeight / 2 + 90;
     int visibleCardCount = 3 + 1;
     int size = (int)cards->size();
     
@@ -271,7 +271,7 @@ void GameLayer::updateResetCard(int count){
         this->addChild(card);
         
         posY -= delta;
-        if (i >= 20) {
+        if (i >= 20 || posY < 400) {
             break;
         }
     }

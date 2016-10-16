@@ -48,13 +48,13 @@ bool HelloWorld::init()
 
     auto btnStart = createButton("开始游戏",
               Size(visibleSize.width/2 + 100, 120),
-              Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height / 2 - 250),
+              Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height / 2 - 230),
                                  MAIN_BUTTONS::PLAY);
     this->addChild(btnStart);
     
     auto btnHelp = createButton("规则介绍",
                                  Size(visibleSize.width/2 + 100, 120),
-                                 Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height / 2 - 380),
+                                 Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height / 2 - 360),
                                  MAIN_BUTTONS::HELP);
     this->addChild(btnHelp);
     

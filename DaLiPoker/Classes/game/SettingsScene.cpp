@@ -18,8 +18,8 @@ using namespace cocos2d::ui;
 using namespace cocos2d::extension;
 USING_NS_CC;
 
-static const int HEADER_HEIGHT = 120;
-static const int ITEM_HEIGHT   = 120;
+static const int HEADER_HEIGHT = 110;
+static const int ITEM_HEIGHT   = 110;
 
 static const int TAG_BUTTON_BACK        = 1000;
 static const int TAG_DIALOG_PLAYER      = 1001;
