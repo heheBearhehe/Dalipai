@@ -48,6 +48,7 @@ protected:
 private:
     GameActionCallBack* mGameActionCallBack;
     int                 mCurrentCardIndex;
+    float               mCalDuration;
     
 };
 

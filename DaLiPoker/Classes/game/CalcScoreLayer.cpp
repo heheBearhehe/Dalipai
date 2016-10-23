@@ -25,6 +25,10 @@ static const int TAG_CALC_CARD_LAST_OFFSET = 999;
 
 static const int TAG_AVATAR_OPPONENT = 10001;
 static const int TAG_AVATAR_ME       = 10002;
+static const int TAG_FRAME           = 10003;
+
+
+static const float CAL_DURATION_DEFAULT = 0.4;
 
 bool CalcScoreLayer::init(){
     if (!GameLayer::init()){
@@ -63,6 +67,16 @@ void CalcScoreLayer::invalidate(){
     float buttonHeight = 86;
     float posY = origin.y + 240;
     
+    Widget* frame = Widget::create();
+    frame->ignoreContentAdaptWithSize(true);
+    frame->setPosition(Vec2(0, 0));
+    frame->setAnchorPoint(Vec2(0, 0));
+    frame->setContentSize(visibleSize);
+    frame->setTag(TAG_FRAME);
+    frame->setTouchEnabled(true);
+    frame->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(CalcScoreLayer::touchEvent,this)));
+    this->addChild(frame);
+    
     {
         auto btn = addButton("重数", Size(buttonWidth,buttonHeight), Vec2(origin.x + visibleSize.width / 2 - 160, posY), GAME_ACTION::GAME_ACTION_RECALC_SCORE);
         btn->setPosition(Vec2(origin.x + visibleSize.width / 2 - btn->getContentSize().width - 30, posY));
@@ -81,11 +95,12 @@ void CalcScoreLayer::invalidate(){
     }
     
     mCurrentCardIndex = 0;
+    mCalDuration = CAL_DURATION_DEFAULT;
     calcNextCard();
 }
 
 void CalcScoreLayer::scheduleNextCard(){
-    DelayTime * delayAction = DelayTime::create(0.4);
+    DelayTime * delayAction = DelayTime::create(mCalDuration);
     CallFunc * callFunc = CallFunc::create(CC_CALLBACK_0(CalcScoreLayer::calcNextCard, this));
     this->runAction(CCSequence::createWithTwoActions(delayAction, callFunc));
 }
@@ -365,7 +380,15 @@ void CalcScoreLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType ty
         case cocos2d::ui::Widget::TouchEventType::MOVED:
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
-            if (mGameActionCallBack != NULL && !isCalculating()) {
+            if (btn->getTag() == TAG_FRAME) {
+                if (isCalculating()) {
+                    LOGI("UI.calc.SKIP");
+                    mCalDuration = 0;
+                }
+            }else if (mGameActionCallBack != NULL) {
+                if (isCalculating()) {
+                    this->stopAllActions();
+                }
                 mGameActionCallBack->onGameAction(btn->getTag());
             }
             break;
