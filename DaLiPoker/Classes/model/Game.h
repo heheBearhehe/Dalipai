@@ -70,7 +70,7 @@ typedef enum firstPlayer{
 
 class GameActionCallBack{
 public:
-    virtual void onGameAction(int action) = 0;
+    virtual bool onGameAction(int action) = 0;
 };
 
 class PlayerActionCallBack{

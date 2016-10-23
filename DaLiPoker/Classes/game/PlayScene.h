@@ -40,7 +40,8 @@ public:
     virtual void onActionExecuted(int action, Player* player, Card* card1, Card* card2);
     void onAction();
     void onMakeChoice();
-    virtual void onGameAction(int action);
+    virtual bool onGameAction(int action);
+    virtual cocos2d::Action* runAction(cocos2d::Action* action);
 private:
     virtual void reset() {};
     virtual int makeChoice(Player* player, Card* card, int availableChoice, PlayerActionCallBack* callback);
@@ -85,7 +86,7 @@ private:
     PlayerActionCallBack* mReplayCallback;
     Player*               mCurrentReplayPlayer;
     int                   mCurrentReplayAction;
-
+    bool                  mHasActionPending;
     
 };
 

@@ -157,7 +157,9 @@ void ReplayLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type)
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
             if (mGameActionCallBack != NULL) {
-                mGameActionCallBack->onGameAction(btn->getTag());
+                if(!mGameActionCallBack->onGameAction(btn->getTag())){
+                    return;
+                }
             }
             
             if (btn->getTag() == GAME_ACTION_REPLAY_PAUSE) {
