@@ -23,3 +23,11 @@ double DLUtils::getCurrentTime(){
     gettimeofday(&tv, nullptr);
     return (double)tv.tv_sec * 1000 + (double)tv.tv_usec / 1000;
 }
+
+
+void DLUtils::openVideoUrl(const std::string& url){
+    if (url.length() == 0) {
+        return;
+    }
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithUTF8String:url.c_str()]]];
+}

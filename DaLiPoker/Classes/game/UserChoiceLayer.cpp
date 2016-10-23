@@ -8,6 +8,7 @@
 
 #include "UserChoiceLayer.h"
 #include "../model/def.h"
+#include "DLUtils.h"
 
 using namespace std;
 using namespace cocos2d::ui;
@@ -21,7 +22,7 @@ static string sCardImagesFileName[] = {
     "黑05-乌鸦喝水.png",
     "黑06-换位教学.png",
     "黑07-深不见底.png",
-    "黑08-我要当学霸.png",
+    "黑08-大学生创业歌.png",
     "黑09-盛宣怀办学.png",
     "黑10-反正也是挣.png",
     "黑11-智能制造.png",
@@ -53,7 +54,7 @@ static string sCardImagesFileName[] = {
     "方11-碰碰车.png",
     "方12-朝三暮四.png",
     "方13-感动.png",
-    "草01-大学生创业歌.png",
+    "草01-创新不止于受嘲.png",
     "草02-催命.png",
     "草03-台球.png",
     "草04-谈面子.png",
@@ -68,11 +69,68 @@ static string sCardImagesFileName[] = {
     "草13-望子成凤.png",
 };
 
+
+static string sCardVideoUrl[] = {
+    "http://www.bilibili.com/video/av5262326",
+    "http://www.bilibili.com/video/av6529494",
+    "http://www.bilibili.com/video/av6699322",
+    "http://www.bilibili.com/video/av6709811",
+    "http://www.bilibili.com/video/av6709155",
+    "http://www.bilibili.com/video/av6708893",
+    "http://www.bilibili.com/video/av6710271",
+    "http://www.bilibili.com/video/av6710035",
+    "http://www.bilibili.com/video/av6710254",
+    "http://www.bilibili.com/video/av6760491/",
+    "http://www.bilibili.com/video/av3711692/",
+    "http://www.bilibili.com/video/av6709147",
+    "http://www.bilibili.com/video/av6710169",
+    "http://www.bilibili.com/video/av4888013/",
+    "http://www.bilibili.com/video/av6698811",
+    "http://www.bilibili.com/video/av6709317",
+    "http://www.bilibili.com/video/av6529381",
+    "http://www.bilibili.com/video/av6699243",
+    "http://www.bilibili.com/video/av6710195",
+    "http://www.bilibili.com/video/av6710236",
+    "http://www.bilibili.com/video/av5426711/",
+    "http://www.bilibili.com/video/av6709400",
+    "http://www.bilibili.com/video/av6708963",
+    "http://www.bilibili.com/video/av3709663/",
+    "http://www.bilibili.com/video/av6709224",
+    "http://www.bilibili.com/video/av6714050",
+    "http://www.bilibili.com/video/av4383191",
+    "http://www.bilibili.com/video/av6529423",
+    "http://www.bilibili.com/video/av3709812/",
+    "http://www.bilibili.com/video/av6697519",
+    "http://www.bilibili.com/video/av6354578",
+    "http://www.bilibili.com/video/av3707791/",
+    "http://www.bilibili.com/video/av3711098/",
+    "http://www.bilibili.com/video/av3711253/",
+    "http://www.bilibili.com/video/av6713828",
+    "http://www.bilibili.com/video/av6710218",
+    "http://www.bilibili.com/video/av3709421/",
+    "http://www.bilibili.com/video/av6416422",
+    "http://www.bilibili.com/video/av3746837",
+    "http://www.bilibili.com/video/av6760867/",
+    "http://www.bilibili.com/video/av4737234",
+    "http://www.bilibili.com/video/av3711494",
+    "http://www.bilibili.com/video/av6697367",
+    "http://www.bilibili.com/video/av6700257",
+    "http://www.bilibili.com/video/av6708884/",
+    "http://www.bilibili.com/video/av6709905",
+    "http://www.bilibili.com/video/av6710234",
+    "http://www.bilibili.com/video/av6409708",
+    "http://www.bilibili.com/video/av6710250",
+    "http://www.bilibili.com/video/av6430072",
+    "http://www.bilibili.com/video/av6713691",
+    "http://www.bilibili.com/video/av6710269",
+};
+
 static const int TAG_USER_CHOICE_VIEW_BASE = 1000;
 static const int TAG_OPPENENT_CARD_1     = 1000;
 static const int TAG_OPPENENT_CARD_2     = 1001;
 static const int TAG_LARGE_CARD          = 1002;
 static const int TAG_LARGE_CARD_2        = 1003;
+static const int TAG_CARD_BASE           = 2000;
 
 static const float CARD_ANIMATION_DURATION = 0.15;
 
@@ -112,6 +170,15 @@ void UserChoiceLayer::show(Card* card, Card* card2, int options, PlayerActionCal
     auto largeImg = createPokerFront(card, posY);
     largeImg->setTouchEnabled(false);
     largeImg->setTag(TAG_LARGE_CARD);
+    
+    Widget* cardFrame = Widget::create();
+    cardFrame->setTouchEnabled(true);
+    cardFrame->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(UserChoiceLayer::touchEvent,this)));
+    cardFrame->setTag(TAG_CARD_BASE + card->getIndex());
+    cardFrame->setAnchorPoint(Vec2(0,0));
+    cardFrame->setPosition(Vec2(0,0));
+    cardFrame->setContentSize(largeImg->getContentSize());
+    largeImg->addChild(cardFrame);
     
     posY -= 10;
     
@@ -236,7 +303,8 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
     cocos2d::ui::Button* btn = (cocos2d::ui::Button*)ref;
     LOGI("UI. touchEvent  tag=[%d] type=[%d]", btn->getTag(), type);
     
-    if (btn->getTag() <= 0 || mPaused || btn->getTag() >= TAG_USER_CHOICE_VIEW_BASE) {
+    int tag = btn->getTag();
+    if (tag <= 0 || mPaused || (tag >= TAG_USER_CHOICE_VIEW_BASE && tag < TAG_CARD_BASE)) {
         return;
     }
     
@@ -252,7 +320,9 @@ void UserChoiceLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType t
         case cocos2d::ui::Widget::TouchEventType::MOVED:
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
-            if (mPlayerActionCallBack != NULL) {
+            if (tag >= TAG_CARD_BASE) {
+                DLUtils::openVideoUrl(getCardVideoUrl(tag - TAG_CARD_BASE));
+            }else if (mPlayerActionCallBack != NULL) {
                 float delayTime = 0.01;
                 if(animationForAction(btn->getTag())){
                     delayTime = CARD_ANIMATION_DURATION;
@@ -353,6 +423,16 @@ std::string UserChoiceLayer::getCardImageTitle(std::string imageName){
     return imageName.substr(prefixLength, imageName.length() - prefixLength - suffixLength);
 }
 
+std::string UserChoiceLayer::getCardVideoUrl(int cardIndex){
+    int imageCount = sizeof(sCardVideoUrl)/sizeof(sCardVideoUrl[0]);
+    int suit = cardIndex % SUIT::COUNT;
+    int rank = cardIndex / SUIT::COUNT;
+    int index = sizeof(RANK_DISPLAY_LIST)/sizeof(RANK_DISPLAY_LIST[0]) * suit + rank;
+    if (index < 0 || index >= imageCount) {
+        return "";
+    }
+    return sCardVideoUrl[index];
+}
 
 bool UserChoiceLayer::animationForAction(int action){
     bool ret = false;

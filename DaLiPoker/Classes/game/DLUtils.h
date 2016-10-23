@@ -20,4 +20,6 @@ public:
     static void sendEmail();
     
     static double getCurrentTime();
+    
+    static void openVideoUrl(const std::string& url);
 };

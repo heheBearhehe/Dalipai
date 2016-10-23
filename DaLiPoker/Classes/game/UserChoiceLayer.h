@@ -62,6 +62,8 @@ protected:
     std::string getCardImageName(Card* card);
     std::string getCardImageTitle(std::string imageName);
     
+    std::string getCardVideoUrl(int cardIndex);
+    
     bool animationForAction(int action);
     void animationForLargeCard(cocos2d::ui::Widget* card, cocos2d::Rect toRect);
     
