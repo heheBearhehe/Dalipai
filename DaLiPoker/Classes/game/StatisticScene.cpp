@@ -46,7 +46,7 @@ bool StatisticScene::init(){
     int posX = 0;
     int posY = totalHeight - ITEM_HEIGHT;
     
-    for (int i = 1; i <= 5; i++) {
+    for (int i = 0; i <= 5; i++) {
         GameStat stat = Settings::getInstance()->getGameStat(i);
         Node* node = getStatNode(i, stat);
         node->setAnchorPoint(Vec2(0, 0));
@@ -84,7 +84,8 @@ Node* StatisticScene::getStatNode(int character, const GameStat& stat){
     
     std::ostringstream os;
     // title
-    Node* title = createLabel("对战-" + GameManager::getInstance()->getOppnentCharactorName(character), fontSizeTitle, colorHighlight, Size(300, 50), Vec2(posX, posY));
+    string charactorName = character == 0? "总共" : GameManager::getInstance()->getOppnentCharactorName(character);
+    Node* title = createLabel("对战-" + charactorName, fontSizeTitle, colorHighlight, Size(300, 50), Vec2(posX, posY));
     root->addChild(title);
     
     // total

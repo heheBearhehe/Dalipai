@@ -17,6 +17,7 @@
 static const std::string SETTINGS_FILENAME  = "settings.json";
 static const std::string STATISTIC_FILENAME  = "stat.json";
 
+static const int CHARACTOR_TOTAL         = 0;
 static const int CHARACTOR_TOTAL_COUNT   = CHARACTOR_COUNT;
 
 class Settings

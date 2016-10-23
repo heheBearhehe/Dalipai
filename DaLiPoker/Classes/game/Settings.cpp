@@ -145,6 +145,9 @@ void Settings::save(){
 void Settings::addResult(int charactor, GameResult* gameResult){
     totalResultList[charactor]->push_back(gameResult);
     saveStat(charactor);
+    
+    totalResultList[CHARACTOR_TOTAL]->push_back(gameResult);
+    saveStat(CHARACTOR_TOTAL);
 }
 
 void Settings::loadAllStat(){
