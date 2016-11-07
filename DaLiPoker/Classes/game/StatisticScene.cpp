@@ -40,7 +40,7 @@ bool StatisticScene::init(){
     contentView->setAnchorPoint(Vec2(0, 1));
     contentView->setContentSize(Size(width, visibleSize.height - HEADER_HEIGHT));
     contentView->setInnerContainerSize(Size(width, totalHeight));
-    contentView->setPosition(Vec2(padding, visibleSize.height - HEADER_HEIGHT - padding));
+    contentView->setPosition(Vec2(padding, visibleSize.height - HEADER_HEIGHT));
     this->addChild(contentView);
     
     int posX = 0;
@@ -84,7 +84,7 @@ Node* StatisticScene::getStatNode(int character, const GameStat& stat){
     
     std::ostringstream os;
     // title
-    string charactorName = character == 0? "总共" : GameManager::getInstance()->getOppnentCharactorName(character);
+    string charactorName = character == 0? "所有对手" : GameManager::getInstance()->getOppnentCharactorName(character);
     Node* title = createLabel("对战-" + charactorName, fontSizeTitle, colorHighlight, Size(300, 50), Vec2(posX, posY));
     root->addChild(title);
     
