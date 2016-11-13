@@ -137,10 +137,6 @@ int AIPlayer::makeChoice(Player* player, Card* card, int availableChoice, Player
 //                }
                 
                 bool shouldKeep = shouldKeepCard(card, last, last2);
-                
-                if (mKeepMistakeProb > 0 && getRandomSelect(mKeepMistakeProb)) {
-                    shouldKeep = !shouldKeep;
-                }
                 if (shouldKeep) {
                     mStatKeep[index]++;
                     return Player::PLAYER_CHOICE_KEEP;
@@ -329,11 +325,16 @@ bool AIPlayer::shouldKeepCard(Card* card, Card* last, Card* last2){
         }
     }
     
+    bool shouldKeep = false;
     if (topRank <= (rankCount - 3) / 2) {
-        return true;
+        shouldKeep = true;
+    }
+    
+    if (mKeepMistakeProb > 0 && getRandomSelect(mKeepMistakeProb)) {
+        shouldKeep = !shouldKeep;
     }
 
-    return false;
+    return shouldKeep;
 }
 
 bool AIPlayer::shouldGiveCard(Card* card){
