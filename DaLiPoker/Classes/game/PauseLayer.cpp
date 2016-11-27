@@ -14,6 +14,8 @@ using namespace cocos2d::ui;
 USING_NS_CC;
 
 static const int TAG_MENU     = 1000;
+static const int TAG_FRAME    = 1001;
+
 
 LayerColor * LayerColor::create(const cocos2d::Color4B& color){
     return cocos2d::LayerColor::create(color);
@@ -49,6 +51,15 @@ void PauseLayer::invalidate(){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
+    Widget* frame = Widget::create();
+    frame->ignoreContentAdaptWithSize(true);
+    frame->setPosition(Vec2(0, 0));
+    frame->setAnchorPoint(Vec2(0, 0));
+    frame->setContentSize(visibleSize);
+    frame->setTag(TAG_FRAME);
+    frame->setTouchEnabled(true);
+    frame->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(PauseLayer::touchEvent,this)));
+    this->addChild(frame);
     
     float buttonWidth = 74;
     float buttonHeight = 74;
@@ -57,6 +68,8 @@ void PauseLayer::invalidate(){
     menuBg->setPosition(Vec2(origin.x + menuBg->getContentSize().width / 2, origin.y + visibleSize.height + menuBg->getContentSize().height / 2));
     this->addChild(menuBg);
     menuBg->setTag(TAG_MENU);
+    menuBg->setTouchEnabled(true);
+    menuBg->addTouchEventListener(cocos2d::ui::Widget::ccWidgetTouchCallback(CC_CALLBACK_2(PauseLayer::touchEvent,this)));
     
     float contentHeight = menuBg->getContentSize().height;
     float menuHeight = 400;
@@ -122,7 +135,7 @@ void PauseLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
         {
-            if (btn->getTag() == GAME_ACTION::GAME_ACTION_RESUME) {
+            if (btn->getTag() == GAME_ACTION::GAME_ACTION_RESUME || btn->getTag() == TAG_FRAME) {
                 auto menuBg = this->getChildByTag(TAG_MENU);
                 if (menuBg != NULL) {
                     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -137,7 +150,7 @@ void PauseLayer::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
                     onMenuExit();
                 }
                 
-            }else{
+            }else if(btn->getTag() != TAG_MENU){
                 if (mGameActionCallBack != NULL) {
                     mGameActionCallBack->onGameAction(btn->getTag());
                 }
