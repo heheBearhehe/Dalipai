@@ -435,6 +435,7 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
                 Settings::getInstance()->backgroundMusic = !Settings::getInstance()->backgroundMusic;
                 Settings::getInstance()->save();
                 invalidate();
+                GameManager::getInstance()->playBackgroudMusic();
             }else if(btn->getTag() == TAG_ACTION_SOUND_EFFECT){
                 Settings::getInstance()->soundEffect = !Settings::getInstance()->soundEffect;
                 Settings::getInstance()->save();
@@ -450,6 +451,8 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
                     Settings::getInstance()->save();
                     invalidate();
                     mDialog->setVisible(true);
+                    
+                    GameManager::getInstance()->playBackgroudMusic();
                 }
             }
             

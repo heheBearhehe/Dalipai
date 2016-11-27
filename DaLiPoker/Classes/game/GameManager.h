@@ -79,6 +79,8 @@ public:
     void playPendingSound();
     bool isPlayingSound();
     
+    void playBackgroudMusic();
+    
 private:
     GameManager();
     static GameManager* sInstance;

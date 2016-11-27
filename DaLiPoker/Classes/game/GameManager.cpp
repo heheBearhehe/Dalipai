@@ -97,6 +97,17 @@ static string sSoundEffectName[] = {
     "开场",
 };
 
+
+static string sCharactorBGM[] = {
+    "",
+    "郭老师-大学生创业歌bgm",
+    "大米-回答bgm",
+    "大雄-锄禾日当午bgm",
+    "大李-下雨的夜bgm",
+    "钰姐-静悄悄bgm",
+};
+
+
 GameManager* GameManager::sInstance = NULL;
 
 GameManager* GameManager::getInstance(){
@@ -410,4 +421,23 @@ void GameManager::playPendingSound(){
 }
 
 
+void GameManager::playBackgroudMusic(){
+    SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    if (!Settings::getInstance()->backgroundMusic) {
+        return;
+    }
+    
+    int charactor = Settings::getInstance()->opponentCharacter;
+    if (charactor == CHARACTOR_RANDOM) {
+        charactor = mCurrentGameCharactor;
+        if (charactor == CHARACTOR_RANDOM) {
+            charactor = rand() % (CHARACTOR_COUNT - 1) + 1;
+        }
+    }
+    
+    LOGI("playBackgroudMusic bgm=[%d] setting=[%d] cur=[%d]", charactor, Settings::getInstance()->opponentCharacter, mCurrentGameCharactor);
+    
+    std::string filename = "sound/bgm/" + sCharactorBGM[charactor] + ".mp3";
+    SimpleAudioEngine::getInstance()->playBackgroundMusic(filename.c_str(), true);
+}
 

@@ -145,6 +145,7 @@ void PlayScene::startGame(){
     mGame = new Game(GAME_MODE::NORMAL, mReplayMode ? PLAY_MODE::REPLAY : PLAY_MODE::AUTO, Settings::getInstance()->firstPlayer);
     GameManager::getInstance()->initAvatar();
     GameManager::getInstance()->resetSound();
+    GameManager::getInstance()->playBackgroudMusic();
     
     mPlayer1 = new Player();
     mPlayer1->setTag(1);

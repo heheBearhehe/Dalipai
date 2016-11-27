@@ -3,6 +3,7 @@
 #include "SettingsScene.h"
 #include "HelpScene.h"
 #include "StatisticScene.h"
+#include "GameManager.h"
 #include <iostream>
 using namespace std;
 
@@ -37,6 +38,8 @@ bool HelloWorld::init()
     {
         return false;
     }
+    
+    GameManager::getInstance()->playBackgroudMusic();
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
