@@ -6,7 +6,7 @@
 USING_NS_CC;
 
 AppDelegate::AppDelegate() {
-
+    enableLog(true);
 }
 
 AppDelegate::~AppDelegate() 

@@ -8,6 +8,7 @@
 
 #include "Utils.h"
 #include <sys/time.h>
+#include <iomanip>
 
 static bool sEnableLog = true;
 
@@ -42,7 +43,8 @@ void LOGI (const char* msg, ...) {
     vsprintf(buffer,msg,args);
     va_end(args);
     
-    cout << "dali:" << "#" << getTimestamp() << "#  " << buffer << std::endl;
+    cout.setf(std::ios::fixed);
+    cout << "dali:" << "#" << std::setprecision(3) << getTimestamp() << "#  " << buffer << std::endl;
 }
 
 void LOGF (const char* msg, ...) {
@@ -52,7 +54,8 @@ void LOGF (const char* msg, ...) {
     vsprintf(buffer,msg,args);
     va_end(args);
     
-    cout << "#" << getTimestamp() << "#  " << buffer << std::endl;
+    cout.setf(std::ios::fixed);
+    cout << "#" << std::setprecision(3) << getTimestamp() << "#  " << buffer << std::endl;
 }
 
 bool getRandomSelect(int prob){
