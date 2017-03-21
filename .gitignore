@@ -1,3 +1,19 @@
 *.DS_Store
 testpoker/dalipoker.xcodeproj/xcuserdata
 testpoker/dalipoker.xcodeproj/project.xcworkspace
+
+DaLiPoker/proj.ios_mac/DaLiPoker.xcodeproj/xcuserdata/TreeBear.xcuserdatad/xcschemes/xcschememanagement.plist
+
+DaLiPoker/cocos2d/build/cocos2d_libs.xcodeproj/xcuserdata/TreeBear.xcuserdatad/xcschemes/libcocos2d iOS.xcscheme
+
+DaLiPoker/cocos2d/build/cocos2d_libs.xcodeproj/xcuserdata/TreeBear.xcuserdatad/xcschemes/libcocos2d Mac.xcscheme
+
+DaLiPoker/cocos2d/build/cocos2d_libs.xcodeproj/xcuserdata/TreeBear.xcuserdatad/xcschemes/xcschememanagement.plist
+
+DaLiPoker/proj.ios_mac/DaLiPoker.xcodeproj/xcuserdata/TreeBear.xcuserdatad/xcschemes/GameTestCmd.xcscheme
+
+DaLiPoker/proj.ios_mac/DaLiPoker.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+
+DaLiPoker/proj.ios_mac/DaLiPoker.xcodeproj/project.xcworkspace/xcuserdata/TreeBear.xcuserdatad/UserInterfaceState.xcuserstate
+
+DaLiPoker/proj.ios_mac/DaLiPoker.xcodeproj/xcuserdata/TreeBear.xcuserdatad/xcschemes/DaLiPoker iOS.xcscheme
