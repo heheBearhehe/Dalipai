@@ -35,7 +35,7 @@ bool StatisticScene::init(){
     
     int padding = 20;
     int width = visibleSize.width - 2 * padding;
-    int totalHeight = ITEM_HEIGHT * 5;
+    int totalHeight = ITEM_HEIGHT * 6;
     auto contentView = ScrollView::create();
     contentView->setAnchorPoint(Vec2(0, 1));
     contentView->setContentSize(Size(width, visibleSize.height - HEADER_HEIGHT));
