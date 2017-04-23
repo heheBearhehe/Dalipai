@@ -125,6 +125,7 @@
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
+		B3512C501EACA841005F6141 /* Icon-167.png in Resources */ = {isa = PBXBuildFile; fileRef = B3512C4F1EACA841005F6141 /* Icon-167.png */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -352,6 +353,7 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B3512C4F1EACA841005F6141 /* Icon-167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-167.png"; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -699,6 +701,7 @@
 				5087E77917EB970100C73F5D /* Icon-57.png */,
 				5087E77A17EB970100C73F5D /* Icon-72.png */,
 				5087E77B17EB970100C73F5D /* Icon-76.png */,
+				B3512C4F1EACA841005F6141 /* Icon-167.png */,
 				5087E77C17EB970100C73F5D /* Info.plist */,
 			);
 			name = Icons;
@@ -812,6 +815,7 @@
 				41DA47F11D0AFD8B00012DFF /* bg_corner.png in Resources */,
 				4125510A1D5F0ED500198470 /* settings_random.png in Resources */,
 				4120A3971D1E819400928C8C /* menu_replay_slow.png in Resources */,
+				B3512C501EACA841005F6141 /* Icon-167.png in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				41E941691B7F399400A98625 /* poker_back.png in Resources */,
 				41DA48001D0B0E3100012DFF /* menu_bg.png in Resources */,
