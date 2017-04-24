@@ -435,6 +435,8 @@ void GameManager::playBackgroudMusic(){
         }
     }
     
+    SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.4);
+    
     LOGI("playBackgroudMusic bgm=[%d] setting=[%d] cur=[%d]", charactor, Settings::getInstance()->opponentCharacter, mCurrentGameCharactor);
     
     std::string filename = "sound/bgm/" + sCharactorBGM[charactor] + ".mp3";
