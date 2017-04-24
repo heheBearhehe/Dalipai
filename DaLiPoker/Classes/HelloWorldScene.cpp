@@ -102,7 +102,7 @@ bool HelloWorld::init()
     }
     
     auto labelOwner = Label::create();
-    labelOwner->setString("微信公众号:新语相声俱乐部");
+    labelOwner->setString("微信公众号：新语相声");
     labelOwner->setSystemFontSize(30);
     labelOwner->setColor(R::COLOR_TEXT_VERSION);
     labelOwner->setPosition(Vec2(origin.x + visibleSize.width / 2, 50));
