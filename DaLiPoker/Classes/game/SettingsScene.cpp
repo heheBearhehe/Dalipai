@@ -12,6 +12,7 @@
 #include "GameManager.h"
 #include "../model/def.h"
 #include "DLUtils.h"
+#include "AboutScene.h"
 
 using namespace std;
 using namespace cocos2d::ui;
@@ -443,7 +444,7 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
             }else if(btn->getTag() == TAG_ACTION_CONTACT_US){
                 DLUtils::sendEmail();
             }else if(btn->getTag() == TAG_ACTION_ABOUT){
-                
+                Director::getInstance()->pushScene(AboutScene::create());
             }else{
                 int charactor = btn->getTag() - TAG_ACTION_AVATAR_BASE;
                 if (charactor >= 0 && charactor < CHARACTOR_COUNT) {
