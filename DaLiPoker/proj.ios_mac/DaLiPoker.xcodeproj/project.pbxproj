@@ -126,6 +126,7 @@
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		B3368EDD1EB4F19100E4828C /* AboutScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3368EDB1EB4F19100E4828C /* AboutScene.cpp */; };
+		B3368EE01EB5FEBC00E4828C /* logo_xinyu.png in Resources */ = {isa = PBXBuildFile; fileRef = B3368EDF1EB5FEBC00E4828C /* logo_xinyu.png */; };
 		B3512C501EACA841005F6141 /* Icon-167.png in Resources */ = {isa = PBXBuildFile; fileRef = B3512C4F1EACA841005F6141 /* Icon-167.png */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -356,6 +357,7 @@
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		B3368EDB1EB4F19100E4828C /* AboutScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AboutScene.cpp; sourceTree = "<group>"; };
 		B3368EDC1EB4F19100E4828C /* AboutScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutScene.h; sourceTree = "<group>"; };
+		B3368EDF1EB5FEBC00E4828C /* logo_xinyu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_xinyu.png; sourceTree = "<group>"; };
 		B3512C4F1EACA841005F6141 /* Icon-167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-167.png"; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -600,6 +602,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B3368EDF1EB5FEBC00E4828C /* logo_xinyu.png */,
 				4139C74E1D7C0F89004EE25D /* sound */,
 				4125510B1D5F5FEF00198470 /* settings_avatar_bg_n.png */,
 				4125510C1D5F5FEF00198470 /* settings_avatar_bg_s.png */,
@@ -881,6 +884,7 @@
 				41DA47F21D0AFD8B00012DFF /* bg_bottom.png in Resources */,
 				41DD75AD1D0BE3D3008781B5 /* bg_top_right.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
+				B3368EE01EB5FEBC00E4828C /* logo_xinyu.png in Resources */,
 				41DA47F91D0B0CDD00012DFF /* menu_close.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
