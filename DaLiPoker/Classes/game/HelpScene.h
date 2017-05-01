@@ -20,6 +20,8 @@ public:
     
     CREATE_FUNC(HelpScene);
     
+    void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
+    
 private:
     
 };
