@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "cocos2d.h"
-#include <CocosGUI.h>
+#include <ui/CocosGUI.h>
 #include "GameStat.h"
 
 class StatisticScene : public cocos2d::Scene

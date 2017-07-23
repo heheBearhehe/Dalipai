@@ -2,6 +2,14 @@
 testpoker/dalipoker.xcodeproj/xcuserdata
 testpoker/dalipoker.xcodeproj/project.xcworkspace
 
+DaLiPoker/bin
+DaLiPoker/*/build/*
+DaLiPoker/proj.android/.idea/
+DaLiPoker/proj.android/libs/
+DaLiPoker/proj.android/local.properties
+DaLiPoker/proj.android/obj/
+DaLiPoker/cocos2d/cocos/platform/android/java/local.properties
+
 DaLiPoker/proj.ios_mac/DaLiPoker.xcodeproj/xcuserdata/TreeBear.xcuserdatad/xcschemes/xcschememanagement.plist
 
 DaLiPoker/cocos2d/build/cocos2d_libs.xcodeproj/xcuserdata/TreeBear.xcuserdatad/xcschemes/libcocos2d iOS.xcscheme

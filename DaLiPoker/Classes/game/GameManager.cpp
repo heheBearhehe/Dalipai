@@ -7,7 +7,7 @@
 //
 
 #include "GameManager.h"
-#include <CocosGUI.h>
+#include <ui/CocosGUI.h>
 #include "Settings.h"
 #include "../model/def.h"
 #include <sys/stat.h>
@@ -17,6 +17,7 @@
 #include "AudioEngine.h"
 #include "SimpleAudioEngine.h"
 #include "DLUtils.h"
+#include "R.h"
 
 using namespace CocosDenshion;
 using namespace std;

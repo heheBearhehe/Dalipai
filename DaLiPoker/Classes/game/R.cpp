@@ -7,7 +7,7 @@
 //
 
 #include "R.h"
-#include <CocosGUI.h>
+#include <ui/CocosGUI.h>
 
 using namespace cocos2d::ui;
 USING_NS_CC;

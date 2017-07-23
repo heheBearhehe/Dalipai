@@ -9,6 +9,7 @@
 #include "CalcScoreLayer.h"
 #include "../model/def.h"
 #include "GameManager.h"
+#include "R.h"
 
 using namespace std;
 using namespace cocos2d::ui;

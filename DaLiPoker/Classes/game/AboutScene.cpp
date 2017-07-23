@@ -10,6 +10,7 @@
 #include "Utils.h"
 #include "../model/def.h"
 #include "GameManager.h"
+#include "R.h"
 
 
 using namespace std;

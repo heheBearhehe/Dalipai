@@ -2,7 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
-#include <CocosGUI.h>
+#include <ui/CocosGUI.h>
 
 
 typedef enum buttons{

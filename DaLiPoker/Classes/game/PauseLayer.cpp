@@ -8,6 +8,7 @@
 
 #include "PauseLayer.h"
 #include "../model/def.h"
+#include "R.h"
 
 using namespace std;
 using namespace cocos2d::ui;

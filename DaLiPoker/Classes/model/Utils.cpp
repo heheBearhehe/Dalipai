@@ -9,6 +9,7 @@
 #include "Utils.h"
 #include <sys/time.h>
 #include <iomanip>
+#include <stdlib.h> 
 
 static bool sEnableLog = true;
 

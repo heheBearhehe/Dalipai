@@ -198,7 +198,7 @@ void Settings::loadStat(int charactor){
         const rapidjson::Value& jsonResult = jsonResultList[i];
         if(jsonResult.IsArray() && jsonResult.Size() >= 5){
             GameResult* result = new GameResult();
-            result->result = jsonResult[(int)0].GetInt();
+//            result->result = jsonResult[(int)0].GetInt();
             result->myMaxCombo = jsonResult[1].GetInt();
             result->myPoints = jsonResult[2].GetInt();
             result->oppoMaxCombo = jsonResult[3].GetInt();
