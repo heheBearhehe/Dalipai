@@ -32,7 +32,7 @@ public:
     cocos2d::ui::Widget* getSwitcher(bool selected, int tag);
     void onClickSwitcher(cocos2d::ui::Widget* switcher);
     
-    cocos2d::ui::Widget* addItem(const std::string& title, int actionTag, cocos2d::Node* rightItem);
+    cocos2d::ui::Widget* createSettingItem(const std::string& title, int actionTag, cocos2d::Node* rightItem);
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
     
     std::string getFirstPlayerDesc(int firstPlayer);

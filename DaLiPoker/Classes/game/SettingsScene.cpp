@@ -19,7 +19,7 @@ using namespace cocos2d::ui;
 using namespace cocos2d::extension;
 USING_NS_CC;
 
-static const int HEADER_HEIGHT = 110;
+static const int HEADER_HEIGHT = 120;
 static const int ITEM_HEIGHT   = 110;
 
 static const int TAG_BUTTON_BACK        = 1000;
@@ -69,8 +69,6 @@ bool SettingsScene::init(){
     
     GameManager::getInstance()->initTopBar(this, "设置");
     
-    int posY = origin.y + visibleSize.height - HEADER_HEIGHT / 2;
-    
     auto oppentAvatar = createAvatar(Settings::getInstance()->opponentCharacter, true);
     auto myAvatar = createAvatar(Settings::getInstance()->myAvatar, false);
     
@@ -80,26 +78,67 @@ bool SettingsScene::init(){
     auto musicSwitcher = getSwitcher(Settings::getInstance()->backgroundMusic, TAG_ACTION_MUSIC);
     auto soundSwitcher = getSwitcher(Settings::getInstance()->soundEffect, TAG_ACTION_SOUND_EFFECT);
     
-    int itemNum = 1;
-    this->addItem("对手", TAG_ACTION_CHOOSE_OPPNENT, oppentAvatar)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
-    this->addItem("自己", TAG_ACTION_CHOOSE_MY_AVATAR, myAvatar)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
-    this->addItem("先手", TAG_ACTION_CHOOSE_WHO_IS_FIRST, whoIsFirst)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
-    this->addItem("牌局规模", TAG_ACTION_CHOOSE_GAME_MODE, gameMode)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
-    this->addItem("背景音乐", 0, musicSwitcher)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
-    this->addItem("音效", 0, soundSwitcher)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
-    this->addItem("联系我们", TAG_ACTION_CONTACT_US, NULL)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
-    this->addItem("关于", TAG_ACTION_ABOUT, NULL)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
-
-    mDialog = createPlayerDialog();
-    this->addChild(mDialog);
+    auto contentScrollView = cocos2d::ui::ScrollView::create();
+    contentScrollView->setAnchorPoint(Vec2(0, 0));
+    contentScrollView->setContentSize(Size(visibleSize.width, visibleSize.height - HEADER_HEIGHT));
+    contentScrollView->setPosition(Vec2(0, 0));
     
+    int itemNum = 1;
+    cocos2d::ui::Widget* item = NULL;
+    item = this->createSettingItem("对手", TAG_ACTION_CHOOSE_OPPNENT, oppentAvatar);
+    item->setName(StringUtils::format("%i", itemNum++));
+    contentScrollView->addChild(item);
+    item = this->createSettingItem("自己", TAG_ACTION_CHOOSE_MY_AVATAR, myAvatar);
+    item->setName(StringUtils::format("%i", itemNum++));
+    contentScrollView->addChild(item);
+    item = this->createSettingItem("先手", TAG_ACTION_CHOOSE_WHO_IS_FIRST, whoIsFirst);
+    item->setName(StringUtils::format("%i", itemNum++));
+    contentScrollView->addChild(item);
+    item = this->createSettingItem("牌局规模", TAG_ACTION_CHOOSE_GAME_MODE, gameMode);
+    item->setName(StringUtils::format("%i", itemNum++));
+    contentScrollView->addChild(item);
+    item = this->createSettingItem("背景音乐", 0, musicSwitcher);
+    item->setName(StringUtils::format("%i", itemNum++));
+    contentScrollView->addChild(item);
+    item = this->createSettingItem("音效", 0, soundSwitcher);
+    item->setName(StringUtils::format("%i", itemNum++));
+    contentScrollView->addChild(item);
+    item = this->createSettingItem("联系我们", TAG_ACTION_CONTACT_US, NULL);
+    item->setName(StringUtils::format("%i", itemNum++));
+    contentScrollView->addChild(item);
+    item = this->createSettingItem("关于", TAG_ACTION_ABOUT, NULL);
+    item->setName(StringUtils::format("%i", itemNum++));
+    contentScrollView->addChild(item);
+
+    float settingItemHeight = (itemNum - 1) * ITEM_HEIGHT;
     
     auto labelVersion = Label::create();
-    labelVersion->setString("版本: " + DL_APP_VERSION);
+    labelVersion->setString("\n\n版本: " + DL_APP_VERSION + "\n\n");
     labelVersion->setSystemFontSize(30);
     labelVersion->setColor(R::COLOR_TEXT_VERSION);
-    labelVersion->setPosition(Vec2(origin.x + visibleSize.width / 2, 50));
-    this->addChild(labelVersion);
+    labelVersion->setDimensions(visibleSize.width, 0);
+    labelVersion->setHorizontalAlignment(TextHAlignment::CENTER);
+    labelVersion->setAnchorPoint(Vec2(0.5, 1));
+    contentScrollView->addChild(labelVersion);
+    float labelVersionHeight = labelVersion->getContentSize().height;
+    
+    float contentHeight = settingItemHeight + labelVersionHeight;
+    float scrollInnerHeight = contentHeight > (visibleSize.height - HEADER_HEIGHT) ? contentHeight : (visibleSize.height - HEADER_HEIGHT);
+    
+    for (int i = 1; i <= itemNum; i++) {
+        Node* child = contentScrollView->getChildByName(StringUtils::format("%i", i));
+        if (child != NULL) {
+            child->setPosition(Vec2(origin.x, origin.y + scrollInnerHeight - ITEM_HEIGHT * i));
+        }
+    }
+    labelVersion->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + scrollInnerHeight - ITEM_HEIGHT * (itemNum - 1)));
+    
+    contentScrollView->setInnerContainerSize(Size(visibleSize.width, scrollInnerHeight));
+    
+    this->addChild(contentScrollView);
+    
+    mDialog = createPlayerDialog();
+    this->addChild(mDialog);
     
     return true;
 }
@@ -211,7 +250,7 @@ void SettingsScene::onClickSwitcher(cocos2d::ui::Widget* switcher){
     switcher->setEnabled(!switcher->isEnabled());
 }
 
-cocos2d::ui::Widget* SettingsScene::addItem(const std::string& title, int actionTag, cocos2d::Node* rightItem){
+cocos2d::ui::Widget* SettingsScene::createSettingItem(const std::string& title, int actionTag, cocos2d::Node* rightItem){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::ui::Widget* item = Widget::create();
     item->setContentSize(Size(visibleSize.width, ITEM_HEIGHT));
@@ -254,8 +293,8 @@ cocos2d::ui::Widget* SettingsScene::addItem(const std::string& title, int action
     
     
     item->addChild(dividerLine);
+    item->setAnchorPoint(Vec2(0, 0));
     
-    this->addChild(item);
     return item;
 }
 
