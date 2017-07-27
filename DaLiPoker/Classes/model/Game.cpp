@@ -145,10 +145,11 @@ void Game::initCards(){
     int numMin = 0;
     int numMax = 12;
     int suitNum = SUIT::COUNT;
+    
     if (mGameMode == GAME_MODE::SMALL) {
-        numMin = 2;
-        numMax = 10;
-        suitNum = 1;
+        numMin = 0;
+        numMax = 12;
+        suitNum = 2;
     }
 
     int numCount = numMax - numMin + 1;
@@ -184,7 +185,6 @@ void Game::initCards(){
     mMaxRank = numMax;
     mCardCountToPlay = (int)mCardList->size();
     
-//    mCardCountToPlay = 12;
 }
 
 void Game::dumpCards(){

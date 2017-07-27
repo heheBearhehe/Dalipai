@@ -45,6 +45,7 @@ public:
     int opponentCharacter;
     int myAvatar;
     int firstPlayer;
+    int gameMode;
     bool backgroundMusic;
     bool soundEffect;
     

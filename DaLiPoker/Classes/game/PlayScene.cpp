@@ -142,7 +142,17 @@ void PlayScene::startGame(){
     delete mPlayer2;
     delete mAi2;
     
-    mGame = new Game(GAME_MODE::NORMAL, mReplayMode ? PLAY_MODE::REPLAY : PLAY_MODE::AUTO, Settings::getInstance()->firstPlayer);
+    GAME_MODE gameMode = GAME_MODE::NORMAL;
+    switch(Settings::getInstance()->gameMode) {
+        case GAME_MODE::NORMAL:
+            gameMode = GAME_MODE::NORMAL;
+            break;
+        case GAME_MODE::SMALL:
+            gameMode = GAME_MODE::SMALL;
+            break;
+    }
+    
+    mGame = new Game(gameMode , mReplayMode ? PLAY_MODE::REPLAY : PLAY_MODE::AUTO, Settings::getInstance()->firstPlayer);
     GameManager::getInstance()->initAvatar();
     GameManager::getInstance()->resetSound();
     GameManager::getInstance()->playBackgroudMusic();

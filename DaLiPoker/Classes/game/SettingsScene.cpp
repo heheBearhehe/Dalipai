@@ -37,6 +37,7 @@ static const int TAG_ACTION_CONTACT_US           = 2005;
 static const int TAG_ACTION_ABOUT                = 2006;
 static const int TAG_ACTION_PLAYER_SAVE          = 2007;
 static const int TAG_ACTION_DIALOG_BG            = 2008;
+static const int TAG_ACTION_CHOOSE_GAME_MODE     = 2009;
 
 static const int TAG_ACTION_AVATAR_BASE          = 3000;
 
@@ -74,17 +75,20 @@ bool SettingsScene::init(){
     auto myAvatar = createAvatar(Settings::getInstance()->myAvatar, false);
     
     auto whoIsFirst = createLabel(getFirstPlayerDesc(Settings::getInstance()->firstPlayer));
+    auto gameMode = createLabel(getGameModeDesc(Settings::getInstance()->gameMode));
     
     auto musicSwitcher = getSwitcher(Settings::getInstance()->backgroundMusic, TAG_ACTION_MUSIC);
     auto soundSwitcher = getSwitcher(Settings::getInstance()->soundEffect, TAG_ACTION_SOUND_EFFECT);
     
-    this->addItem("对手", TAG_ACTION_CHOOSE_OPPNENT, oppentAvatar)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT));
-    this->addItem("自己", TAG_ACTION_CHOOSE_MY_AVATAR, myAvatar)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * 2));
-    this->addItem("先手", TAG_ACTION_CHOOSE_WHO_IS_FIRST, whoIsFirst)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * 3));
-    this->addItem("背景音乐", 0, musicSwitcher)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * 4));
-    this->addItem("音效", 0, soundSwitcher)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * 5));
-    this->addItem("联系我们", TAG_ACTION_CONTACT_US, NULL)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * 6));
-    this->addItem("关于", TAG_ACTION_ABOUT, NULL)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * 7));
+    int itemNum = 1;
+    this->addItem("对手", TAG_ACTION_CHOOSE_OPPNENT, oppentAvatar)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
+    this->addItem("自己", TAG_ACTION_CHOOSE_MY_AVATAR, myAvatar)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
+    this->addItem("先手", TAG_ACTION_CHOOSE_WHO_IS_FIRST, whoIsFirst)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
+    this->addItem("牌局规模", TAG_ACTION_CHOOSE_GAME_MODE, gameMode)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
+    this->addItem("背景音乐", 0, musicSwitcher)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
+    this->addItem("音效", 0, soundSwitcher)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
+    this->addItem("联系我们", TAG_ACTION_CONTACT_US, NULL)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
+    this->addItem("关于", TAG_ACTION_ABOUT, NULL)->setPosition(Vec2(origin.x + visibleSize.width / 2, posY - ITEM_HEIGHT * itemNum++));
 
     mDialog = createPlayerDialog();
     this->addChild(mDialog);
@@ -109,6 +113,18 @@ std::string SettingsScene::getFirstPlayerDesc(int firstPlayer){
         case GAME_FIRST_PLAYER::PLAYER_2:
             return "对方";
             
+        default:
+            break;
+    }
+    return "";
+}
+
+std::string SettingsScene::getGameModeDesc(int cardsNum){
+    switch (cardsNum) {
+        case GAME_MODE::NORMAL:
+            return "一副牌";
+        case GAME_MODE::SMALL:
+            return "半副牌";
         default:
             break;
     }
@@ -426,6 +442,15 @@ void SettingsScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType typ
                     firstPlayer = 0;
                 }
                 Settings::getInstance()->firstPlayer = firstPlayer;
+                Settings::getInstance()->save();
+                
+                invalidate();
+            }else if (btn->getTag() == TAG_ACTION_CHOOSE_GAME_MODE){
+                int gameMode = Settings::getInstance()->gameMode;
+                if (++gameMode > 1) {
+                    gameMode = 0;
+                }
+                Settings::getInstance()->gameMode = gameMode;
                 Settings::getInstance()->save();
                 
                 invalidate();

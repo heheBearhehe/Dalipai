@@ -36,6 +36,7 @@ public:
     void touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type);
     
     std::string getFirstPlayerDesc(int firstPlayer);
+    std::string getGameModeDesc(int gameMode);
     
     void invalidate();
 private:
