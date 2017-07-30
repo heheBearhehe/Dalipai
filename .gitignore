@@ -25,3 +25,5 @@ DaLiPoker/proj.ios_mac/DaLiPoker.xcodeproj/project.xcworkspace/contents.xcworksp
 DaLiPoker/proj.ios_mac/DaLiPoker.xcodeproj/project.xcworkspace/xcuserdata/TreeBear.xcuserdatad/UserInterfaceState.xcuserstate
 
 DaLiPoker/proj.ios_mac/DaLiPoker.xcodeproj/xcuserdata/TreeBear.xcuserdatad/xcschemes/DaLiPoker iOS.xcscheme
+
+DaLiPoker/proj.android-studio/daLiPoker/src/main/jniLibs/armeabi/libcocos2dcpp.so
