@@ -29,6 +29,8 @@ void GameStat::reset(){
     totalLoseCount = 0;
     
     winRatio = 0;
+    drawRatio = 0;
+    loseRatio = 0;
     
     winRatio10 = -1;
     winRatio20 = -1;

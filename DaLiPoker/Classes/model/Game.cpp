@@ -145,14 +145,28 @@ bool Game::init(){
 void Game::initCards(){
     int numMin = 0;
     int numMax = 12;
-    if (mGameMode == GAME_MODE::SMALL) {
-        numMin = 2;
-        numMax = 10;
-    }
+    int suitNum = SUIT::COUNT;
     
+    if (mGameMode == GAME_MODE::SMALL) {
+        numMin = 0;
+        numMax = 12;
+        suitNum = 2;
+    }
+
     int numCount = numMax - numMin + 1;
     for (int i = 0; i < numCount * SUIT::COUNT; i++) {
-        Card* card = new Card(i / SUIT::COUNT + numMin, i % SUIT::COUNT);
+        int suit = i % SUIT::COUNT;
+        
+        //如果设置了花色限制，删除顺序是club、dimaond、heart、spade
+        if ((suit == SUIT::CLUB && suitNum < SUIT::COUNT)
+            || (suit == SUIT::DIAMOND && suitNum < SUIT::COUNT - 1)
+            || (suit == SUIT::HEART && suitNum < SUIT::COUNT - 2)
+            || (suit == SUIT::SPADE && suitNum < SUIT::COUNT - 3)) {
+            continue;
+        }
+        
+        Card* card = new Card(i / SUIT::COUNT + numMin, suit);
+        
         
 //        // for test
 //        if (card->getSuit() == SUIT::DIAMOND || card->getSuit() == SUIT::CLUB || card->getSuit() == SUIT::HEART) {
@@ -170,9 +184,8 @@ void Game::initCards(){
     
     mMinRank = numMin;
     mMaxRank = numMax;
-    mCardCountToPlay = mCardList->size();
+    mCardCountToPlay = (int)mCardList->size();
     
-//    mCardCountToPlay = 12;
 }
 
 void Game::dumpCards(){

@@ -31,6 +31,7 @@ Settings::Settings(){
     opponentCharacter = 0;
     myAvatar = 0;
     firstPlayer = 0;
+    gameMode = 0;
     backgroundMusic = true;
     soundEffect = true;
     
@@ -111,6 +112,11 @@ void Settings::load(){
     this->opponentCharacter = readdoc["opponentCharacter"].GetInt();
     this->myAvatar = readdoc["myAvatar"].GetInt();
     this->firstPlayer = readdoc["firstPlayer"].GetInt();
+    if (readdoc.HasMember("gameMode")) {
+        this->gameMode = readdoc["gameMode"].GetInt();
+    } else {
+        this->gameMode = GAME_MODE::NORMAL;
+    }
     this->backgroundMusic = readdoc["backgroundMusic"].GetBool();
     this->soundEffect = readdoc["soundEffect"].GetBool();
     
@@ -125,6 +131,7 @@ void Settings::save(){
     writedoc.AddMember("opponentCharacter", this->opponentCharacter, allocator);
     writedoc.AddMember("myAvatar", this->myAvatar, allocator);
     writedoc.AddMember("firstPlayer", this->firstPlayer, allocator);
+    writedoc.AddMember("gameMode", this->gameMode, allocator);
     writedoc.AddMember("backgroundMusic", this->backgroundMusic, allocator);
     writedoc.AddMember("soundEffect", this->soundEffect, allocator);
     
