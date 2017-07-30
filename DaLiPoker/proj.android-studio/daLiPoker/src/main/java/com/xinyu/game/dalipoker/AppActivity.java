@@ -27,11 +27,29 @@
 package com.xinyu.game.dalipoker;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 public class AppActivity extends Cocos2dxActivity {
+
+    private static final int CHECK_EXIT_DELAY_MILLS = 2000;
+
+    private boolean mExitInNextPressBack;
+    private Toast mToast;
+    private Handler mHandler = new Handler();
+
+    private Runnable mCheckExitRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mExitInNextPressBack) {
+                mExitInNextPressBack = false;
+                mToast.cancel();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +59,25 @@ public class AppActivity extends Cocos2dxActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            this.finish();
+            if (mExitInNextPressBack) {
+                mHandler.removeCallbacks(mCheckExitRunnable);
+                exitGame();
+            } else {
+                mExitInNextPressBack = true;
+                mToast = Toast.makeText(this, R.string.toast_exit, Toast.LENGTH_LONG);
+                mToast.show();
+                mHandler.postDelayed(mCheckExitRunnable, CHECK_EXIT_DELAY_MILLS);
+            }
             return true;
         }
 
         return super.onKeyUp(keyCode, event);
+    }
+
+    private void exitGame() {
+        mToast.cancel();
+        mExitInNextPressBack = false;
+
+        finish();
     }
 }
