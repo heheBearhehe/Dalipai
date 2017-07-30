@@ -27,6 +27,7 @@
 package com.xinyu.game.dalipoker;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
@@ -35,5 +36,15 @@ public class AppActivity extends Cocos2dxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            this.finish();
+            return true;
+        }
+
+        return super.onKeyUp(keyCode, event);
     }
 }
