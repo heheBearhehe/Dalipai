@@ -9,6 +9,7 @@
 #include "AIPlayer.h"
 #include "Player.h"
 #include "Card.h"
+#include <stdlib.h>
 
 
 AIPlayer::AIPlayer(int rankMin, int rankMax):mCardRandMin(rankMin),mCardRandMax(rankMax){

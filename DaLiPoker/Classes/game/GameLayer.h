@@ -9,6 +9,7 @@
 #ifndef __DaLiPoker__GameLayer__
 #define __DaLiPoker__GameLayer__
 
+#include "cocos2d.h"
 #include <stdio.h>
 #include <vector>
 

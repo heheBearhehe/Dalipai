@@ -11,6 +11,7 @@
 #include "../model/def.h"
 #include "GameManager.h"
 #include "DLUtils.h"
+#include "R.h"
 
 using namespace std;
 using namespace cocos2d::ui;
@@ -46,7 +47,7 @@ bool HelpScene::init(){
     Button* videoBtn = Button::create();
     videoBtn->setAnchorPoint(Vec2(0.5, 0));
     videoBtn->setTag(0);
-    videoBtn->setTitleText("\n   ->点击观看视频教程<-   \n");
+    videoBtn->setTitleText("\n   ->点击观看视频教程<-   \n  ");
     videoBtn->setTouchEnabled(true);
     videoBtn->setTitleColor(R::COLOR_TEXT);
     videoBtn->setTitleFontSize(40);
@@ -86,11 +87,11 @@ void HelpScene::touchEvent(Ref* ref, cocos2d::ui::Widget::TouchEventType type){
     }
     switch (type) {
         case cocos2d::ui::Widget::TouchEventType::BEGAN:
+            DLUtils::openVideoUrl("http://www.bilibili.com/video/av10232497/");
             break;
         case cocos2d::ui::Widget::TouchEventType::MOVED:
             break;
         case cocos2d::ui::Widget::TouchEventType::ENDED:
-            DLUtils::openVideoUrl("http://www.bilibili.com/video/av10232497/");
             break;
         case cocos2d::ui::Widget::TouchEventType::CANCELED:
             break;

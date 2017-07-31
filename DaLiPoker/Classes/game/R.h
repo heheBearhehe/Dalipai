@@ -9,6 +9,7 @@
 #ifndef R_hpp
 #define R_hpp
 
+#include "cocos2d.h"
 
 class R{
 public:

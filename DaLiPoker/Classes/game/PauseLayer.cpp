@@ -8,6 +8,7 @@
 
 #include "PauseLayer.h"
 #include "../model/def.h"
+#include "R.h"
 
 using namespace std;
 using namespace cocos2d::ui;
@@ -17,9 +18,9 @@ static const int TAG_MENU     = 1000;
 static const int TAG_FRAME    = 1001;
 
 
-LayerColor * LayerColor::create(const cocos2d::Color4B& color){
-    return cocos2d::LayerColor::create(color);
-}
+// LayerColor * LayerColor::create(const cocos2d::Color4B& color){
+//     return cocos2d::LayerColor::create(color);
+// }
 
 bool PauseLayer::init(){
     if (!LayerColor::initWithColor(cocos2d::Color4B(0,0,0,128))){

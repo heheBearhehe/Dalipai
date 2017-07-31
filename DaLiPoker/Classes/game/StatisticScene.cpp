@@ -12,6 +12,7 @@
 #include "GameManager.h"
 #include "GameStat.h"
 #include "Settings.h"
+#include "R.h"
 
 using namespace std;
 using namespace cocos2d::ui;

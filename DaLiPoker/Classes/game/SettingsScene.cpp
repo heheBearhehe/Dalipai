@@ -13,6 +13,7 @@
 #include "../model/def.h"
 #include "DLUtils.h"
 #include "AboutScene.h"
+#include "R.h"
 
 using namespace std;
 using namespace cocos2d::ui;

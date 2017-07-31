@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include <string>
 
 
 static const std::string  DL_APP_VERSION = "0.8.0";

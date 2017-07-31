@@ -7,7 +7,7 @@
 //
 
 #include "GameManager.h"
-#include <CocosGUI.h>
+#include <ui/CocosGUI.h>
 #include "Settings.h"
 #include "../model/def.h"
 #include <sys/stat.h>
@@ -17,6 +17,8 @@
 #include "AudioEngine.h"
 #include "SimpleAudioEngine.h"
 #include "DLUtils.h"
+#include "R.h"
+#include "EffectSoundFileConfig.h"
 
 using namespace CocosDenshion;
 using namespace std;
@@ -312,32 +314,25 @@ void GameManager::initSoundEffect(){
         for (int j = 0; j < SOUND_EFFECT_COUNT; j++) {
             mSoundEffect[charactor][j] = new vector<std::string>;
         }
-        
-        std::string searchPath = "sound/" + sCharactorSoundFolder[charactor];
-        std::string filePath = FileUtils::getInstance()->fullPathForFilename(searchPath);
-        LOGI("%s",filePath.c_str());
-        
-        DIR *dp;
-        struct dirent *entry;
-        struct stat statbuf;
-        int count = 0;
-        
-        dp = opendir(filePath.c_str());
-        chdir(filePath.c_str());
-        while((entry = readdir(dp)) != NULL && count < 255)
-        {
-            stat(entry->d_name,&statbuf);
-            if(!S_ISREG(statbuf.st_mode))
-                continue;
-            
-            for (int j = 0; j < SOUND_EFFECT_COUNT; j++) {
-                int index = (int)(string(entry->d_name)).find(sSoundEffectName[j]);
-                if(index == 0){
-                    mSoundEffect[charactor][j]->push_back(entry->d_name);
-                    LOGI("c=[%d] type=[%d] file=[%s]", charactor, j, entry->d_name);
+    }
+
+    int count = sizeof(EFFECT_SOUND) / sizeof(EFFECT_SOUND[0]);
+    for (int i = 0; i < count; ++i) {
+        std::string filename = EFFECT_SOUND[i];
+        int firstPos = filename.find("-", 0);
+        int secondPos = filename.find("-", firstPos + 1);
+        for (int j = 0; j < SOUND_EFFECT_COUNT; ++j){
+            int index = (int)filename.find(sSoundEffectName[j]);
+            if(index == 0){
+                std::string charactor = filename.substr(firstPos + 1, secondPos - firstPos - 1);
+                for (int k = 0; k < CHARACTOR_COUNT; ++k){
+                    if (sCharactorName[k] == charactor){
+                        mSoundEffect[k][j]->push_back(filename);
+                    }
                 }
             }
         }
+        
     }
 }
 

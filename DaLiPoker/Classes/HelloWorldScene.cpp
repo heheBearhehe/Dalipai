@@ -4,6 +4,7 @@
 #include "HelpScene.h"
 #include "StatisticScene.h"
 #include "GameManager.h"
+#include "R.h"
 #include <iostream>
 using namespace std;
 

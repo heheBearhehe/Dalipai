@@ -7,6 +7,8 @@
 //
 
 #import "DLUtils.h"
+
+#ifdef __APPLE__
 #import <UIKit/UIKit.h>
 
 void DLUtils::sendEmail(){
@@ -31,3 +33,25 @@ void DLUtils::openVideoUrl(const std::string& url){
     }
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithUTF8String:url.c_str()]]];
 }
+
+#else
+
+void DLUtils::sendEmail(){
+    
+}
+
+double DLUtils::getCurrentTime(){
+    struct timeval tv;
+    gettimeofday(&tv, nullptr);
+    return (double)tv.tv_sec * 1000 + (double)tv.tv_usec / 1000;
+}
+
+
+void DLUtils::openVideoUrl(const std::string& url){
+    if (url.length() == 0) {
+        return;
+    }
+    
+}
+
+#endif
